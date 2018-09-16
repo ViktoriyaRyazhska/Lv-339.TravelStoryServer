@@ -12,6 +12,7 @@ public class Like {
     @NotBlank
     @ManyToOne
     private TravelStory travelStory;
+
     @NotBlank
     @ManyToOne
     private User user;
