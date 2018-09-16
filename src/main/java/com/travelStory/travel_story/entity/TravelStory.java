@@ -2,19 +2,31 @@ package com.travelStory.travel_story.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class TravelStory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToMany
-    private User userOwner;
+
     private String description;
+
     private LocalDate createdDate;
+
     private LocalDate updatedDate;
+
     @Enumerated(EnumType.STRING)
     private TravelStoryStatus travelStoryStatus;
+
+    @ManyToOne
+    private User userOwner;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
+    private List<Comment> comments;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
+    private List<Like> likes;
 
     public TravelStory() {
     }
@@ -29,7 +41,7 @@ public class TravelStory {
 
     private enum TravelStoryStatus {
         STATUS_ACTIVE,
-        STATUS_INECTIVE;
+        STATUS_INACTIVE;
 
         TravelStoryStatus() {
 
