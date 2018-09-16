@@ -8,29 +8,23 @@ plugin location: maven projects - plugins - liquibase
     databasechangeloglock table ensure only one instance of Liquibase
      is running at one time
 
+-generate changelog (generates only columns)
 
--generate changelog first time(generates only columns)
+	* change entities
+
+	* change property file name outputChangeLog in application.properties
+	(e.g. from 1.0 to 1.1)
 
 	* run application
 
 	* run liquibase:generateChangeLog
 
 
--generate changelog (generates only columns)
 
-	* change entities
 
-	* change property file name outputChangeLog in application.properties (e.g. from 1.0 to 1.1)
 
-	* run application, wait while new tables will have created
 
-	* run liquibase:generateChangeLog
 
--update db of latest changelog
-
-    * run liquibase: update
-
-    (liquibase:migrate is deprecated)
 
 
 
@@ -41,7 +35,7 @@ _______________
 configuration
 
 
-liquibase.properties (example):
+liquibase.properties:
 
 url=jdbc:mysql://localhost/travelstory?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false
 username=root
