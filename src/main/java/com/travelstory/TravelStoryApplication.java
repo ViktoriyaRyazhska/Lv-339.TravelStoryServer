@@ -1,4 +1,4 @@
-package com.travelStory.travel_story;
+package com.travelstory;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

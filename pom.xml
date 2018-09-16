@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.travelStory</groupId>
-    <artifactId>travel_story</artifactId>
+    <groupId>com.travelstory</groupId>
+    <artifactId>travelstory</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>travel_story</name>
-    <description>Demo project for Spring Boot</description>
+    <name>Travel Story</name>
+    <description>Travel Story project for Softserve IT academy</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
