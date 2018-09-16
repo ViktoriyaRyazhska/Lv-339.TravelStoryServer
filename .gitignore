@@ -1,8 +1,14 @@
 # Compiled class file
 *.class
 
+#compiled files
+target
+
 # Log file
 *.log
+
+#idea
+.idea
 
 # BlueJ files
 *.ctxt
@@ -21,8 +27,17 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+
+#I don't know what is it
+mvnw
+mvnw.cmd
+*.iml
+.mvn
+
 *.iml
 .idea/misc.xml
 .idea/modules.xml
 .idea/vcs.xml
 .idea/workspace.xml
+
