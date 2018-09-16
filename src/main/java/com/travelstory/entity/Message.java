@@ -1,7 +1,4 @@
-package com.travelStory.travel_story.entity;
-
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
+package com.travelstory.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -32,7 +29,8 @@ public class Message {
     public Message() {
     }
 
-    public Message(@NotBlank String messageContent, @NotNull Chat chat, @NotNull User user, @NotNull LocalDateTime createdDateTime) {
+    public Message(@NotBlank String messageContent, @NotNull Chat chat, @NotNull User user,
+            @NotNull LocalDateTime createdDateTime) {
         this.messageContent = messageContent;
         this.chat = chat;
         this.user = user;

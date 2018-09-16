@@ -1,4 +1,4 @@
-package com.travelStory.travel_story.entity;
+package com.travelstory.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -19,6 +19,5 @@ public class Chat {
 
     @NotBlank
     private String chatName;
-
 
 }

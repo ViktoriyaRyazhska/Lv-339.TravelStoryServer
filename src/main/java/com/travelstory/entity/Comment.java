@@ -1,4 +1,4 @@
-package com.travelStory.travel_story.entity;
+package com.travelstory.entity;
 
 import org.springframework.data.annotation.CreatedDate;
 

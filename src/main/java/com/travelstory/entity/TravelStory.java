@@ -1,4 +1,4 @@
-package com.travelStory.travel_story.entity;
+package com.travelstory.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -22,16 +22,17 @@ public class TravelStory {
     @ManyToOne
     private User userOwner;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Comment> comments;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Like> likes;
 
     public TravelStory() {
     }
 
-    public TravelStory(User userOwner, String description, LocalDate createdDate, LocalDate updatedDate, TravelStoryStatus travelStoryStatus) {
+    public TravelStory(User userOwner, String description, LocalDate createdDate, LocalDate updatedDate,
+            TravelStoryStatus travelStoryStatus) {
         this.userOwner = userOwner;
         this.description = description;
         this.createdDate = createdDate;
@@ -40,8 +41,7 @@ public class TravelStory {
     }
 
     private enum TravelStoryStatus {
-        STATUS_ACTIVE,
-        STATUS_INACTIVE;
+        STATUS_ACTIVE, STATUS_INACTIVE;
 
         TravelStoryStatus() {
 

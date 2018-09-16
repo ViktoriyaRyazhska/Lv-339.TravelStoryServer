@@ -1,4 +1,4 @@
-package com.travelStory.travel_story.entity;
+package com.travelstory.entity;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -57,7 +57,6 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private List<Like> likes;
-
 
     public User() {
     }
@@ -144,17 +143,9 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", userRole=" + userRole +
-                ", userStatus=" + userStatus +
-                ", registrationDate=" + registrationDate +
-                ", lastUpdateDate=" + lastUpdateDate +
-                '}';
+        return "User{" + "id=" + id + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\''
+                + ", email='" + email + '\'' + ", password='" + password + '\'' + ", dateOfBirth=" + dateOfBirth
+                + ", userRole=" + userRole + ", userStatus=" + userStatus + ", registrationDate=" + registrationDate
+                + ", lastUpdateDate=" + lastUpdateDate + '}';
     }
 }
