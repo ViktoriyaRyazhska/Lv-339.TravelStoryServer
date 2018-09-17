@@ -1,6 +1,7 @@
 package com.travelstory.controllers;
 
 import com.travelstory.dao.UserDAO;
+import com.travelstory.dto.RegistrationDTO;
 import com.travelstory.entity.User;
 import com.travelstory.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,10 @@ public class UserController {
     @PostMapping("/avatar/{id}")
     User updateAvatar(@PathVariable(value = "id") Long userId, @RequestBody User userDetails) {
         return userService.updateAvatar(userId, userDetails);
+    }
+
+    @PostMapping("/registrate")
+    public void registrateUser(@RequestBody RegistrationDTO registrationDTO){
+        userService.registrateUser(registrationDTO);
     }
 }
