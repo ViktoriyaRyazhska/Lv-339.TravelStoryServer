@@ -6,6 +6,7 @@ import com.travelstory.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,9 +27,8 @@ public class UserController {
         return userDao.findAll();
     }
 
-
     @PostMapping("/avatar/{id}")
-    User updateAvatar(@PathVariable(value = "id") Long userId, @RequestBody User userDetails) {
+    User updateAvatar(@PathVariable(value = "id") Long userId, @Valid @RequestBody User userDetails) {
         return userService.updateAvatar(userId, userDetails);
     }
 }
