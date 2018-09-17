@@ -1,7 +1,10 @@
 package com.travelstory.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "likes")
@@ -18,12 +21,16 @@ public class Like {
     @ManyToOne
     private User user;
 
+    @CreatedDate
+    private LocalDateTime createdAt;
+
     public Like() {
     }
 
-    public Like(TravelStory travelStory, User user) {
+    public Like(TravelStory travelStory, User user, LocalDateTime createdAt) {
         this.travelStory = travelStory;
         this.user = user;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -38,6 +45,10 @@ public class Like {
         return user;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -48,5 +59,9 @@ public class Like {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
