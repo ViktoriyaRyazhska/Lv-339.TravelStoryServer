@@ -156,6 +156,14 @@ public class User {
         this.lastUpdateDate = lastUpdateDate;
     }
 
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\''
