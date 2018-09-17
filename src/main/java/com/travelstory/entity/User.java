@@ -1,5 +1,6 @@
 package com.travelstory.entity;
 
+import org.hibernate.validator.constraints.URL;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -57,6 +58,20 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private List<Like> likes;
+
+    @URL
+    private String avatar;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
 
     public User() {
     }
