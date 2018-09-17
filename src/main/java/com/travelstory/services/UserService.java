@@ -1,4 +1,7 @@
 package com.travelstory.services;
 
-public class UserService {
+import com.travelstory.dto.RegistrationDTO;
+
+public interface UserService {
+    public void registrateUser(RegistrationDTO registrationDTO);
 }
