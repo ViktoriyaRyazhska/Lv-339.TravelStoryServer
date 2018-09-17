@@ -20,10 +20,8 @@ public class UserController {
     }
 
     @PostMapping("/avatar/{id}")
-    User updateAvatar(@PathVariable(value = "id") Long userId,
-                      @Valid @RequestBody User userDetails) {
-        User user = userDAO.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+    User updateAvatar(@PathVariable(value = "id") Long userId, @Valid @RequestBody User userDetails) {
+        User user = userDAO.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
         user.setAvatar(userDetails.getAvatar());
 
