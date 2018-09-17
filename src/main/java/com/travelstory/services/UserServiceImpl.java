@@ -16,14 +16,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void registrateUser(RegistrationDTO registrationDTO) {
-        User user = new User();
-        user.setEmail(registrationDTO.getEmail());
-        user.setFirstName(registrationDTO.getFirstName());
-        user.setLastName(registrationDTO.getLastName());
-        user.setPassword(registrationDTO.getPassword());
-        user.setGender(registrationDTO.getGender());
-        user.setUserRole(UserRole.ROLE_USER);
-        userDAO.save(user);
+        if (userDAO.existsByEmail(registrationDTO.getEmail())) {
+
+        } else {
+            User user = new User();
+            user.setEmail(registrationDTO.getEmail());
+            user.setFirstName(registrationDTO.getFirstName());
+            user.setLastName(registrationDTO.getLastName());
+            user.setPassword(registrationDTO.getPassword());
+            user.setGender(registrationDTO.getGender());
+            user.setUserRole(UserRole.ROLE_USER);
+            userDAO.save(user);
+        }
     }
 
     @Override

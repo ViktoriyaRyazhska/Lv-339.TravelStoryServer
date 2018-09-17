@@ -26,6 +26,7 @@ public class UserController {
         return userDao.findAll();
     }
 
+
     @PostMapping("/avatar/{id}")
     User updateAvatar(@PathVariable(value = "id") Long userId, @RequestBody User userDetails) {
         return userService.updateAvatar(userId, userDetails);
