@@ -2,31 +2,32 @@ package com.travelstory.controllers;
 
 import com.travelstory.dao.UserDAO;
 import com.travelstory.entity.User;
-import com.travelstory.exceptions.ResourceNotFoundException;
+import com.travelstory.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class UserController {
 
-    private final UserDAO userDAO;
+    private final UserService userService;
+    private final UserDAO userDao;
 
     @Autowired
-    public UserController(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public UserController(UserService userService, UserDAO userDao) {
+        this.userService = userService;
+        this.userDao = userDao;
+    }
+
+    @GetMapping("/users")
+    List<User> getAllUsers() {
+        return userDao.findAll();
     }
 
     @PostMapping("/avatar/{id}")
-    User updateAvatar(@PathVariable(value = "id") Long userId,
-                      @Valid @RequestBody User userDetails) {
-        User user = userDAO.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-
-        user.setAvatar(userDetails.getAvatar());
-
-        return userDAO.save(user);
+    User updateAvatar(@PathVariable(value = "id") Long userId, @RequestBody User userDetails) {
+        return userService.updateAvatar(userId, userDetails);
     }
 }

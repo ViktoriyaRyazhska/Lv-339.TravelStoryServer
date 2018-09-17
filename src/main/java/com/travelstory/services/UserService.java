@@ -1,7 +1,10 @@
 package com.travelstory.services;
 
 import com.travelstory.dto.RegistrationDTO;
+import com.travelstory.entity.User;
 
 public interface UserService {
-    public void registrateUser(RegistrationDTO registrationDTO);
+    void registrateUser(RegistrationDTO registrationDTO);
+
+    User updateAvatar(Long userId, User userDetails);
 }
