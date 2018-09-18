@@ -1,4 +1,4 @@
-package com.travelstory.exceptions;
+package com.travelstory.exceptions.api;
 
 import java.util.Objects;
 

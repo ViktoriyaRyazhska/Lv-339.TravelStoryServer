@@ -1,4 +1,4 @@
-package com.travelstory.exceptions;
+package com.travelstory.exceptions.api;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

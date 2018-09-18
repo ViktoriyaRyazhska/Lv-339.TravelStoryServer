@@ -1,4 +1,4 @@
-package com.travelstory.exceptions;
+package com.travelstory.exceptions.api;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.jsontype.impl.TypeIdResolverBase;

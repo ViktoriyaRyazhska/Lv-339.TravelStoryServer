@@ -1,4 +1,4 @@
-package com.travelstory.exceptions;
+package com.travelstory.exceptions.api;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.Ordered;
@@ -108,23 +108,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         apiError.addValidationErrors(ex.getConstraintViolations());
         return buildResponseEntity(apiError);
     }
-
-    // /**
-    // * Handles EntityNotFoundException. Created to encapsulate errors with more detail than
-    // * javax.persistence.EntityNotFoundException.
-    // *
-    // * @param ex
-    // * the EntityNotFoundException
-    // * @param param
-    // * to overload this method
-    // * @return the ApiError object
-    // */
-    // @ExceptionHandler(EntityNotFoundException.class)
-    // protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex, String param) {
-    // ApiError apiError = new ApiError(NOT_FOUND);
-    // apiError.setMessage(ex.getMessage());
-    // return buildResponseEntity(apiError);
-    // }
 
     /**
      * Handle HttpMessageNotReadableException. Happens when request JSON is malformed.
