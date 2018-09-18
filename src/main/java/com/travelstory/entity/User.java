@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
-public class User {
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
