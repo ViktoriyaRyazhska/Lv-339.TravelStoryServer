@@ -1,17 +1,19 @@
 package com.travelstory.entity;
 
+import org.hibernate.validator.constraints.URL;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 public class User extends BaseEntity {
     @Id
@@ -25,7 +27,6 @@ public class User extends BaseEntity {
     @Email
     private String email;
 
-    @NotNull
     @Size(min = 1, max = 25)
     private String password;
 
@@ -57,6 +58,20 @@ public class User extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private List<Like> likes;
+
+    @URL
+    private String avatar;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
 
     public User() {
     }
@@ -139,6 +154,14 @@ public class User extends BaseEntity {
 
     public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     @Override
