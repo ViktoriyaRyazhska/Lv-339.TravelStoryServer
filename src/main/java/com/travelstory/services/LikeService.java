@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface LikeService {
     public List<Like> getAllLikes();
 
-    public List<Like> getLikesByTravelStoryId(Long id);
+    public List<Like> getLikesByContentId(Long id);
 
     public Optional<Like> getLike(Long id);
 

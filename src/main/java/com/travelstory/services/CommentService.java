@@ -11,7 +11,7 @@ public interface CommentService {
 
     public List<Comment> getAllComments();
 
-    public List<Comment> getCommentsByTravelStoryId(Long id);
+    public List<Comment> getCommentsByContentId(Long id);
 
     public Comment getComment(Long id);
 

@@ -21,7 +21,7 @@ public class Like extends BaseEntity {
 
     @NotBlank
     @ManyToOne
-    private TravelStory travelStory;
+    private Content content;
 
     @NotBlank
     @ManyToOne

@@ -1,8 +1,8 @@
 package com.travelstory.services;
 
-import com.travelstory.exceptions.ResourceNotFoundException;
 import com.travelstory.dao.CommentRepository;
 import com.travelstory.entity.Comment;
+import com.travelstory.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +29,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getCommentsByTravelStoryId(Long id) {
-        return commentRepository.findAllByTravelStoryId(id);
+    public List<Comment> getCommentsByContentId(Long id) {
+        return commentRepository.findAllByContentId(id);
     }
 
     @Override

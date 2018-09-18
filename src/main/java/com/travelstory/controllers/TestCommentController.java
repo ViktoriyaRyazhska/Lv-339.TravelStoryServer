@@ -19,7 +19,7 @@ public class TestCommentController {
         return commentService.getAllComments();
     }
 
-    @GetMapping(value = "{id}")
+    @GetMapping("{id}")
     public Comment showComments(@RequestParam("id") Long id) {
         return commentService.getComment(id);
     }

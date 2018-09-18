@@ -6,7 +6,6 @@ import com.travelstory.entity.Like;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,8 +23,8 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public List<Like> getLikesByTravelStoryId(Long id) {
-        return (List<Like>) likeRepository.findAllByTravelStoryId(id);
+    public List<Like> getLikesByContentId(Long id) {
+        return (List<Like>) likeRepository.findAllByContentId(id);
     }
 
     @Override
@@ -48,7 +47,6 @@ public class LikeServiceImpl implements LikeService {
         Optional<Like> likeOptional = likeRepository.findById(id);
         if (likeOptional.isPresent()) {
             Like like = likeOptional.get();
-            like.setCreatedAt(LocalDateTime.now());
             likeRepository.save(like);
         } else {
             throw new ResourceNotFoundException("Like", "id", id);

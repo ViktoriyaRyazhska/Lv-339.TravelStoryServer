@@ -23,9 +23,9 @@ public class Comment extends BaseEntity {
     @NotBlank
     private String commentMassage;
 
-    @NotBlank
+    @NotNull
     @ManyToOne
-    private TravelStory travelStory;
+    private Content content;
 
     @NotNull
     @ManyToOne
