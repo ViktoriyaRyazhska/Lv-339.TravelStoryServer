@@ -1,4 +1,4 @@
 package com.travelstory.dto;
 
-public class CommentDTOImpl {
+public class CommentDTOImpl extends BaseDTO {
 }
