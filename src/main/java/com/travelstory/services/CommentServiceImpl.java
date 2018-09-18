@@ -1,6 +1,6 @@
 package com.travelstory.services;
 
-import com.travelstory.Exceptions.ResourceNotFoundException;
+import com.travelstory.exceptions.ResourceNotFoundException;
 import com.travelstory.dao.CommentRepository;
 import com.travelstory.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;

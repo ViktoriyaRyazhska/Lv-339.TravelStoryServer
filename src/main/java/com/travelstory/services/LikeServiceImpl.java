@@ -1,6 +1,6 @@
 package com.travelstory.services;
 
-import com.travelstory.Exceptions.ResourceNotFoundException;
+import com.travelstory.exceptions.ResourceNotFoundException;
 import com.travelstory.dao.LikeRepository;
 import com.travelstory.entity.Like;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import java.util.Optional;
 public class LikeServiceImpl implements LikeService {
     @Autowired
     LikeRepository likeRepository;
-
 
     public LikeServiceImpl() {
     }
