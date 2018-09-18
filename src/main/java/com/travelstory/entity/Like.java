@@ -24,44 +24,4 @@ public class Like {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public Like() {
-    }
-
-    public Like(TravelStory travelStory, User user, LocalDateTime createdAt) {
-        this.travelStory = travelStory;
-        this.user = user;
-        this.createdAt = createdAt;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public TravelStory getTravelStory() {
-        return travelStory;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setTravelStory(TravelStory travelStory) {
-        this.travelStory = travelStory;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 }
