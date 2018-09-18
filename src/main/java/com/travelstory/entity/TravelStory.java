@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-public class TravelStory extends BaseEntity {
+public class TravelStory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
