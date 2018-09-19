@@ -3,16 +3,16 @@ package com.travelstory.controllers;
 import com.travelstory.dao.UserDAO;
 import com.travelstory.dto.LoginDTO;
 import com.travelstory.dto.RegistrationDTO;
+import com.travelstory.dto.UserDto;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
-import com.travelstory.exceptions.validation.ValidationException;
 import com.travelstory.security.TokenProvider;
 import com.travelstory.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -35,9 +35,9 @@ public class UserController {
         return userDao.findAll();
     }
 
-    @PostMapping("/avatar/{id}")
-    User updateAvatar(@PathVariable(value = "id") Long userId, @Valid @RequestBody User userDetails) {
-        return userService.updateAvatar(userId, userDetails);
+    @PutMapping("/updateProfilePic")
+    User uploadProfilePicture(@RequestBody UserDto userDetails) throws IOException {
+        return userService.uploadProfilePicture(userDetails.getId(), userDetails);
     }
 
     @PostMapping("/registrate")

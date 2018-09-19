@@ -1,5 +1,6 @@
 package com.travelstory.entity;
 
+import lombok.extern.slf4j.Slf4j;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
+@Slf4j
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,4 +29,7 @@ public class Chat {
     @NotBlank
     private String chatName;
 
+    public Chat(List<User> connectedUsers) {
+        this.connectedUsers = connectedUsers;
+    }
 }
