@@ -3,11 +3,11 @@ package com.travelstory.services;
 import com.travelstory.dao.TravelStoryDAO;
 import com.travelstory.entity.TravelStory;
 import com.travelstory.entity.User;
-import com.travelstory.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class TravelStoryServiceImpl implements TravelStoryService {
     @Autowired
@@ -38,12 +38,16 @@ public class TravelStoryServiceImpl implements TravelStoryService {
     public List<TravelStory> getAll() {
         return travelStoryDAO.findAll();
     }
+
     @Override
-    public TravelStory getById(long id){
-        return travelStoryDAO.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("TravelStory with id '%s' not found", id)));
+    public TravelStory getById(long id) {
+        return null;
+        // return travelStoryDAO.findById(id).orElseThrow(() ->
+        // new EntityNotFoundException(String.format("TravelStory with id '%s' not found", id,"sdknfiosdv")));
     }
+
     @Override
-    public List<TravelStory> getByUserOwner(User userOwner){
+    public List<TravelStory> getByUserOwner(User userOwner) {
         return (List<TravelStory>) travelStoryDAO.findByUserOwner(userOwner);
     }
 }

@@ -1,5 +1,7 @@
 package com.travelstory.exceptions.api;
 
+import com.travelstory.exceptions.RuntimeException;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -20,9 +22,12 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.time.LocalDateTime;
+
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+@Slf4j
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -208,6 +213,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         apiError.setMessage(String.format("The parameter '%s' of value '%s' could not be converted to type '%s'",
                 ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName()));
         apiError.setDebugMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    protected ResponseEntity<Object> handleCustomRuntimeException(RuntimeException ex, WebRequest request) {
+        ApiError apiError = new ApiError(BAD_REQUEST);
+
+        log.error(ex.getMessage(), ex);
+        apiError.setMessage(ex.getMessageForUser());
+        apiError.setDebugMessage(ex.getMessage());
+        apiError.setTimestamp(LocalDateTime.now());
+
         return buildResponseEntity(apiError);
     }
 

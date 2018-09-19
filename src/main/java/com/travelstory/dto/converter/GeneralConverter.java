@@ -1,12 +1,11 @@
 package com.travelstory.dto.converter;
 
 import com.travelstory.dto.BaseDTO;
-import com.travelstory.entity.BaseEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public interface GeneralConverter<D extends BaseDTO, E extends BaseEntity> {
+public interface GeneralConverter<D extends BaseDTO, E> {
     E convertToEntity(D dto);
 
     D convertToDto(E entity);

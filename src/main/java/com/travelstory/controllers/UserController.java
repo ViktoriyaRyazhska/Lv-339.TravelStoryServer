@@ -5,7 +5,8 @@ import com.travelstory.dto.LoginDTO;
 import com.travelstory.dto.RegistrationDTO;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
-import com.travelstory.sequrity.TokenProvider;
+import com.travelstory.exceptions.validation.ValidationException;
+import com.travelstory.security.TokenProvider;
 import com.travelstory.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +53,7 @@ public class UserController {
         } else {
 
         }
-        
+
         return ResponseEntity.ok(new TokenModel(token));
     }
 }
