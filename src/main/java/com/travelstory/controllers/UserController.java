@@ -3,6 +3,7 @@ package com.travelstory.controllers;
 import com.travelstory.dao.UserDAO;
 import com.travelstory.dto.LoginDTO;
 import com.travelstory.dto.RegistrationDTO;
+import com.travelstory.dto.UserDto;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
 import com.travelstory.security.TokenProvider;
@@ -34,11 +35,10 @@ public class UserController {
         return userDao.findAll();
     }
 
-    @PutMapping("/avatar/{id}")
-    User updateAvatar(@PathVariable(value = "id") Long userId, @RequestBody User userDetails) throws IOException {
-        return userService.updateAvatarUrl(userId, userDetails);
+    @PutMapping("/updateProfilePic")
+    User uploadProfilePicture(@RequestBody UserDto userDetails) throws IOException {
+        return userService.uploadProfilePicture(userDetails.getId(), userDetails);
     }
-
 
     @PostMapping("/registrate")
     public void registrateUser(@RequestBody RegistrationDTO registrationDTO) {
