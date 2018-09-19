@@ -1,5 +1,6 @@
 package com.travelstory.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "comments")
-public class Comment extends BaseEntity {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,6 +26,7 @@ public class Comment extends BaseEntity {
 
     @NotNull
     @ManyToOne
+    @JsonManagedReference
     private Content content;
 
     @NotNull

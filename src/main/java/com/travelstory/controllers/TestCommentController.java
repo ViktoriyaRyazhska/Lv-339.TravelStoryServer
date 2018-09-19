@@ -25,7 +25,7 @@ public class TestCommentController {
     }
 
     @PostMapping
-    public void saveComment(@RequestParam Comment comment) {
+    public void saveComment(@RequestBody Comment comment) {
         commentService.saveComment(comment);
     }
 

@@ -2,13 +2,15 @@ package com.travelstory.services;
 
 import com.travelstory.dao.CommentRepository;
 import com.travelstory.entity.Comment;
-import com.travelstory.exceptions.ResourceNotFoundException;
+import com.travelstory.exceptions.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class CommentServiceImpl implements CommentService {
     @Autowired
@@ -25,7 +27,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getAllComments() {
-        return (List<Comment>) commentRepository.findAll();
+        return commentRepository.findAll();
     }
 
     @Override
@@ -40,7 +42,8 @@ public class CommentServiceImpl implements CommentService {
             Comment comment = commentOptional.get();
             return comment;
         } else {
-            throw new ResourceNotFoundException("Comment", "id", id);
+            throw new EntityNotFoundException("Comment with that id is not present in database",
+                    "Resource 'comment' not found", Comment.class);
         }
     }
 
@@ -53,6 +56,6 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComment(Long id) {
         commentRepository.deleteById(id);
-
     }
+
 }
