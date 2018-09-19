@@ -17,5 +17,5 @@ public interface TravelStoryService {
     List<TravelStory> getAll();
 
     TravelStory getById(long id);
-    List<TravelStory> getByUserOwner(User userOwner);
+    List<TravelStory> getByUserOwner(long id);
 }

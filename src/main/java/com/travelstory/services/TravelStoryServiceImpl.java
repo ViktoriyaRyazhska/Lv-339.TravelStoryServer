@@ -43,7 +43,7 @@ public class TravelStoryServiceImpl implements TravelStoryService {
         return travelStoryDAO.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("TravelStory with id '%s' not found", id)));
     }
     @Override
-    public List<TravelStory> getByUserOwner(User userOwner){
-        return (List<TravelStory>) travelStoryDAO.findByUserOwner(userOwner);
+    public List<TravelStory> getByUserOwner(long id){
+        return (List<TravelStory>) travelStoryDAO.findByUserOwnerId(id);
     }
 }
