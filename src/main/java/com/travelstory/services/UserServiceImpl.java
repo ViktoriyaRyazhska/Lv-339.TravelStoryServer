@@ -3,11 +3,13 @@ package com.travelstory.services;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.travelstory.dao.UserDAO;
+import com.travelstory.dto.LoginDTO;
 import com.travelstory.dto.RegistrationDTO;
 import com.travelstory.entity.User;
 import com.travelstory.entity.UserRole;
-import com.travelstory.exceptions.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import com.travelstory.exceptions.EntityNotFoundException;
+import com.travelstory.security.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserDAO userDAO;
 
+    @Autowired
+    TokenProvider tokenProvider;
+
     @Override
     public void registrateUser(RegistrationDTO registrationDTO) {
         if (userDAO.existsByEmail(registrationDTO.getEmail())) {
@@ -42,12 +47,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public User updateAvatarUrl(Long userId, User userDetails) throws IOException {
 
+    public User updateAvatarUrl(Long userId, User userDetails) throws IOException {
+        User user = userDAO.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found",
+                "Dear customer, no such user in the database", UserServiceImpl.class));
         String avatarInBase64 = userDetails.getProfilePictureUrl();
         byte[] decodedImg = Base64.getDecoder().decode(avatarInBase64);
-        User user = userDAO.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
         String avatarUrl = uploadImageOnCloud(decodedImg);
         user.setProfilePictureUrl(avatarUrl);
         return userDAO.save(user);
@@ -60,4 +65,20 @@ public class UserServiceImpl implements UserService {
         return uploadResult.get("url").toString();
     }
 
+    @Override
+    public boolean checkCredentials(LoginDTO loginDTO) {
+        return userDAO.existsByEmailAndPassword(loginDTO.getEmail(), loginDTO.getPassword());
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userDAO.findByEmail(email);
+    }
+
+    @Override
+    public String signIn(LoginDTO loginDTO) {
+        String email = loginDTO.getEmail();
+        return tokenProvider.createToken(email, userDAO.findByEmail(email).getUserRole(),
+                userDAO.findByEmail(email).getId());
+    }
 }
