@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateAvatar(Long userId, User userDetails) {
-        User user = userDAO.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        User user = userDAO.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User"));
 
         user.setAvatar(userDetails.getAvatar());
 
