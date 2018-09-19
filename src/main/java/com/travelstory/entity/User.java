@@ -1,6 +1,5 @@
 package com.travelstory.entity;
 
-import org.hibernate.validator.constraints.URL;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -61,14 +60,15 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private List<Like> likes;
 
-    @URL
-    private String avatar;
+    // TODO add @URL after creating dto
+    private String profilePictureUrl;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    public String getAvatar() {
-        return avatar;
+
+    public String getProfilePictureUrl() {
+        return profilePictureUrl;
     }
 
     public Gender getGender() {
@@ -158,8 +158,8 @@ public class User {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setProfilePictureUrl(String profilePictureUrl) {
+        this.profilePictureUrl = profilePictureUrl;
     }
 
     public void setGender(Gender gender) {

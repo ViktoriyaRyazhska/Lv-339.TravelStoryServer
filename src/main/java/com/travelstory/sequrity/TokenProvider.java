@@ -16,7 +16,7 @@ public class TokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(LoginDTO loginDTO){
+    public String createToken(LoginDTO loginDTO) {
 
         return null;
     }
