@@ -1,6 +1,7 @@
 package com.travelstory.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -10,6 +11,9 @@ public class TravelStory extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank
+    private String head;
+    @NotBlank
     private String description;
 
     private LocalDate createdDate;
@@ -32,7 +36,7 @@ public class TravelStory extends BaseEntity {
     }
 
     public TravelStory(User userOwner, String description, LocalDate createdDate, LocalDate updatedDate,
-            TravelStoryStatus travelStoryStatus) {
+                       TravelStoryStatus travelStoryStatus) {
         this.userOwner = userOwner;
         this.description = description;
         this.createdDate = createdDate;
@@ -95,4 +99,13 @@ public class TravelStory extends BaseEntity {
     public void setTravelStoryStatus(TravelStoryStatus travelStoryStatus) {
         this.travelStoryStatus = travelStoryStatus;
     }
+
+    public String getHead() {
+        return head;
+    }
+
+    public void setHead(String head) {
+        this.head = head;
+    }
+
 }
