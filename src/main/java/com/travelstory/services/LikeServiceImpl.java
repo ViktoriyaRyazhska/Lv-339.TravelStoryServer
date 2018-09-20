@@ -1,8 +1,10 @@
 package com.travelstory.services;
 
+import com.travelstory.entity.Media;
 import com.travelstory.exceptions.EntityNotFoundException;
 import com.travelstory.dao.LikeRepository;
 import com.travelstory.entity.Like;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,21 +12,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+
 public class LikeServiceImpl implements LikeService {
     @Autowired
     LikeRepository likeRepository;
 
-    public LikeServiceImpl() {
-    }
-
     @Override
     public List<Like> getAllLikes() {
-        return (List<Like>) likeRepository.findAll();
+        return likeRepository.findAll();
     }
 
     @Override
-    public List<Like> getLikesByContentId(Long id) {
-        return (List<Like>) likeRepository.findAllByContentId(id);
+    public List<Like> getLikesByMedia(Media media) {
+        return likeRepository.findAllByMedia(media);
     }
 
     @Override
@@ -38,8 +38,8 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public void deleteLike(Long id) {
-        likeRepository.deleteById(id);
+    public void deleteLike(Like like) {
+        likeRepository.delete(like);
     }
 
     @Override

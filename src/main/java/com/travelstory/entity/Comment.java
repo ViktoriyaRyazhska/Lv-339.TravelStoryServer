@@ -13,18 +13,20 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "comments")
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank
     private Long parentId;
+
     @NotBlank
     private String commentMassage;
-
 
     @ManyToOne
     @JsonManagedReference

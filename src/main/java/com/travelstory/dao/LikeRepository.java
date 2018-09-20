@@ -2,6 +2,7 @@ package com.travelstory.dao;
 
 import com.travelstory.entity.Like;
 import com.travelstory.entity.Media;
+import com.travelstory.entity.TravelStory;
 import com.travelstory.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,15 +13,21 @@ import java.util.List;
 public interface LikeRepository extends JpaRepository<Like, Long> {
     /**
      * @param id
-     * @return
-     */
-    public List<Like> findAllByContentId(Long id);
-
-    /**
-     * @param content
      * @return List<Like>
      */
-    public List<Like> findAllByContent(Media content);
+    public List<Like> findAllByTravelStoryIdOrderByCreatedAt(Long id);
+
+    /**
+     * @param travelStory
+     * @return List<Like>
+     */
+    public List<Like> findAllByTravelStory(TravelStory travelStory);
+
+    /**
+     * @param media
+     * @return List<Like>
+     */
+    public List<Like> findAllByMedia(Media media);
 
     /**
      * @param user
@@ -29,23 +36,19 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     public List<Like> findAllByUser(User user);
 
     /**
-     * @param id
+     * @param user
+     * @param media
      * @return List<Like>
      */
-    public List<Like> findAllByUserId(Long id);
-
+    public List<Like> findAllByUserAndMedia(User user, Media media);
     /**
      * @param user
-     * @param content
+     * @param travelStory
      * @return List<Like>
      */
-    public List<Like> findAllByUserAndContent(User user, Media content);
+    public List<Like> findAllByUserAndTravelStory(User user, TravelStory travelStory);
 
-    /**
-     * @param userId
-     * @param contentId
-     * @return List<Like>
-     */
-    public List<Like> findAllByUserIdAndContentId(Long userId, Long contentId);
+
+
 
 }

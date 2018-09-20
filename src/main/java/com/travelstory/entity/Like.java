@@ -20,7 +20,6 @@ public class Like {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @ManyToOne
     @JsonManagedReference
     private Media media;

@@ -2,6 +2,9 @@ package com.travelstory.services;
 
 import com.travelstory.dao.CommentRepository;
 import com.travelstory.entity.Comment;
+import com.travelstory.entity.Media;
+import com.travelstory.entity.TravelStory;
+import com.travelstory.entity.User;
 import com.travelstory.exceptions.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +33,6 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findAll();
     }
 
-    @Override
-    public List<Comment> getCommentsByContentId(Long id) {
-        return commentRepository.findAllByContentId(id);
-    }
 
     @Override
     public Comment getComment(Long id) {
@@ -48,14 +47,43 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public List<Comment> getCommentsByMedia(Media media) {
+
+        return commentRepository.findAllByMedia(media);
+    }
+
+    @Override
+    public List<Comment> getCommentsByMediaAndParentId(Media media, Long parentId) {
+        return commentRepository.findAllByMediaAndParentId(media, parentId);
+    }
+
+    @Override
+    public List<Comment> getCommentsByUserAndMedia(User user, Media media) {
+        return commentRepository.findAllByUserAndMedia(user, media);
+    }
+
+    @Override
+    public List<Comment> getCommentsByUserAndTravelStory(User user, TravelStory travelStory) {
+        return commentRepository.findAllByUserAndTravelStory(user, travelStory);
+    }
+
+    @Override
+    public List<Comment> getCommentsByTravelStory(TravelStory travelStory) {
+        return commentRepository.findAllByTravelStory(travelStory);
+    }
+
+    @Override
+    public void deleteComment(Comment comment) {
+        commentRepository.delete(comment);
+
+    }
+
+    @Override
     public void addComment(Comment comment) {
         commentRepository.save(comment);
 
     }
 
-    @Override
-    public void deleteComment(Long id) {
-        commentRepository.deleteById(id);
-    }
+
 
 }

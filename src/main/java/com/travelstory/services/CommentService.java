@@ -1,22 +1,34 @@
 package com.travelstory.services;
 
 import com.travelstory.entity.Comment;
+import com.travelstory.entity.Media;
+import com.travelstory.entity.TravelStory;
+import com.travelstory.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public interface CommentService {
-    public Comment saveComment(Comment comment);
+    Comment saveComment(Comment comment);
 
-    public List<Comment> getAllComments();
+    List<Comment> getAllComments();
 
-    public List<Comment> getCommentsByContentId(Long id);
+    List<Comment> getCommentsByMedia(Media media);
 
-    public Comment getComment(Long id);
+    List<Comment> getCommentsByMediaAndParentId(Media media, Long parentId);
 
-    public void addComment(Comment like);
+    List<Comment> getCommentsByUserAndMedia(User user, Media media);
 
-    public void deleteComment(Long id);
+    List<Comment> getCommentsByUserAndTravelStory(User user, TravelStory travelStory);
+
+    List<Comment> getCommentsByTravelStory(TravelStory travelStory);
+
+    Comment getComment(Long id);
+
+    void addComment(Comment comment);
+
+    void deleteComment(Comment comment);
+
 
 }

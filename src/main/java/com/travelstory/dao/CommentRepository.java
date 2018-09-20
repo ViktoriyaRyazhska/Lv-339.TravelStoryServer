@@ -2,6 +2,7 @@ package com.travelstory.dao;
 
 import com.travelstory.entity.Comment;
 import com.travelstory.entity.Media;
+import com.travelstory.entity.TravelStory;
 import com.travelstory.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,17 +12,23 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     /**
-     *
      * @param id
-     * @return
-     */
-    public List<Comment> findAllByContentId(Long id);
-
-    /**
-     * @param content
      * @return List<Comment>
      */
-    public List<Comment> findAllByContent(Media content);
+    public List<Comment> findAllByTravelStoryIdOrderByCreatedAt(Long id);
+
+    /**
+     * @param travelStory
+     * @return List<Comment>
+     */
+    public List<Comment> findAllByTravelStory(TravelStory travelStory);
+
+
+    /**
+     * @param media
+     * @return List<Comment>
+     */
+    public List<Comment> findAllByMedia(Media media);
 
     /**
      * @param user
@@ -30,23 +37,23 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     public List<Comment> findAllByUser(User user);
 
     /**
-     * @param id
+     * @param user
+     * @param media
      * @return List<Comment>
      */
-    public List<Comment> findAllByUserId(Long id);
+    public List<Comment> findAllByUserAndMedia(User user, Media media);
 
     /**
      * @param user
-     * @param content
+     * @param travelStory
      * @return List<Comment>
      */
-    public List<Comment> findAllByUserAndContent(User user, Media content);
+    public List<Comment> findAllByUserAndTravelStory(User user, TravelStory travelStory);
 
     /**
-     * @param userId
-     * @param contentId
+     * @param media
+     * @param parentId
      * @return List<Comment>
      */
-    public List<Comment> findAllByUserIdAndContentId(Long userId, Long contentId);
-
+    List<Comment> findAllByMediaAndParentId(Media media, Long parentId);
 }

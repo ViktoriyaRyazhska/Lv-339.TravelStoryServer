@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TravelStoryDAO extends JpaRepository<TravelStory, Long> {
     TravelStory findByHead(String head);
-
     TravelStory findByUserOwner(User userOwner);
 }
