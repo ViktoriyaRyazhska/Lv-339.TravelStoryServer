@@ -3,22 +3,23 @@ package com.travelstory.services;
 import com.travelstory.dao.UserDAO;
 import com.travelstory.entity.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserDetailServiceImplementation implements UserDetailsService {
 
-    private final UserDAO userDAO;
+    private UserDAO userDAO;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
-        final User user = userDAO.findByEmail(email);
-
+        log.info("in loadUserByUsername method");
+        User user = userDAO.findByEmail(email);
+        log.error("user found");
         if (user == null) {
             throw new UsernameNotFoundException("User '" + email + "' not found");
         }

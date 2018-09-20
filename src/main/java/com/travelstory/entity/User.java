@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,7 +33,7 @@ public class User extends BaseEntity {
 
     private LocalDate dateOfBirth;
 
-    @Enumerated(EnumType.STRING)
+    @NotNull
     private UserRole userRole;
 
     @Enumerated(EnumType.STRING)
