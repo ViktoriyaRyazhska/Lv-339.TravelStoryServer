@@ -1,4 +1,4 @@
-package com.travelstory.sequrity;
+package com.travelstory.security;
 
 import com.travelstory.entity.UserRole;
 import com.travelstory.services.UserDetailServiceImplementation;
