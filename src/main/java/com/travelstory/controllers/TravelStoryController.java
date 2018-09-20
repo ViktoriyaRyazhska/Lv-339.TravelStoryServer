@@ -4,7 +4,6 @@ import com.travelstory.services.TravelStoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.travelstory.entity.TravelStory;
-import com.travelstory.entity.User;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -48,5 +47,6 @@ public class TravelStoryController {
     @GetMapping("/byOwner/{id}")
     public List<TravelStory> getUserStories(@PathVariable long id) {
         return (tss.getByUserOwner(id));
+
     }
 }
