@@ -1,7 +1,7 @@
 package com.travelstory.dao;
 
 import com.travelstory.entity.Comment;
-import com.travelstory.entity.Content;
+import com.travelstory.entity.Media;
 import com.travelstory.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -21,7 +21,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
      * @param content
      * @return List<Comment>
      */
-    public List<Comment> findAllByContent(Content content);
+    public List<Comment> findAllByContent(Media content);
 
     /**
      * @param user
@@ -40,7 +40,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
      * @param content
      * @return List<Comment>
      */
-    public List<Comment> findAllByUserAndContent(User user, Content content);
+    public List<Comment> findAllByUserAndContent(User user, Media content);
 
     /**
      * @param userId

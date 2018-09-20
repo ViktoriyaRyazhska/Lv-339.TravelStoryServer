@@ -20,10 +20,14 @@ public class Like {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+
     @ManyToOne
     @JsonManagedReference
-    private Content content;
+    private Media media;
+
+    @ManyToOne
+    @JsonManagedReference
+    private TravelStory travelStory;
 
     @NotBlank
     @ManyToOne

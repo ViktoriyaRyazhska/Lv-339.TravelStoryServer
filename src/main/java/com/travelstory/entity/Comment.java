@@ -20,14 +20,19 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @NotBlank
+    private Long parentId;
     @NotBlank
     private String commentMassage;
 
-    @NotNull
+
     @ManyToOne
     @JsonManagedReference
-    private Content content;
+    private Media media;
+
+    @ManyToOne
+    @JsonManagedReference
+    private TravelStory travelStory;
 
     @NotNull
     @ManyToOne

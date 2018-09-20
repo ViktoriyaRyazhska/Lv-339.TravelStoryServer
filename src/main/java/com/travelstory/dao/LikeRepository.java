@@ -1,7 +1,7 @@
 package com.travelstory.dao;
 
 import com.travelstory.entity.Like;
-import com.travelstory.entity.Content;
+import com.travelstory.entity.Media;
 import com.travelstory.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -20,7 +20,7 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
      * @param content
      * @return List<Like>
      */
-    public List<Like> findAllByContent(Content content);
+    public List<Like> findAllByContent(Media content);
 
     /**
      * @param user
@@ -39,7 +39,7 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
      * @param content
      * @return List<Like>
      */
-    public List<Like> findAllByUserAndContent(User user, Content content);
+    public List<Like> findAllByUserAndContent(User user, Media content);
 
     /**
      * @param userId
