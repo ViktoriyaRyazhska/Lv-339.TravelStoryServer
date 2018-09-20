@@ -6,17 +6,17 @@ import org.springframework.web.bind.annotation.*;
 import com.travelstory.entity.TravelStory;
 import com.travelstory.entity.User;
 
-
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(name = "travelStory")
+@RequestMapping(name = "/travelStory")
 public class TravelStoryController {
     @Autowired
     TravelStoryService tss;
 
     @PutMapping("/add")
-    public TravelStory addTravelStory(@RequestBody TravelStory travelStory) {
+    public TravelStory addTravelStory(@Valid @RequestBody TravelStory travelStory) {
         return (tss.addTravelStory(travelStory));
     }
 
@@ -30,8 +30,8 @@ public class TravelStoryController {
         return (tss.getByHead(head));
     }
 
-    @PutMapping("/edit")
-    public TravelStory edit(@RequestBody TravelStory travelStory) {
+    @PutMapping("/edit/{id}")
+    public TravelStory edit(@PathVariable long id, @RequestBody TravelStory travelStory) {
         return (tss.editTravelStory(travelStory));
     }
 
