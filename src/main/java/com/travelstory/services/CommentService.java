@@ -26,7 +26,7 @@ public interface CommentService {
 
     Comment getComment(Long id);
 
-    void addComment(Comment comment);
+    void addComment(Comment comment,Long userId, Long travelStoryId,Long mediaId);
 
     void deleteComment(Comment comment);
 

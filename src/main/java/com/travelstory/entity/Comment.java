@@ -22,8 +22,6 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    private Long parentId;
 
     @NotBlank
     private String commentMassage;

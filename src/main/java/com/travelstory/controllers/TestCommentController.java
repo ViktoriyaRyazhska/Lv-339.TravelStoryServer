@@ -31,7 +31,7 @@ public class TestCommentController {
                                               @RequestParam(value = "transitId") Integer transitId, @RequestParam(value = "userId") Integer userId,
                                               @RequestParam(value = "parentId", required = false) Integer parentId) {
         Comment addedComment = commentService.add(comment, transitId, userId, parentId);
-        return new ResponseEntity<>(modelMapper.map(addedComment, Comment.class), HttpStatus.CREATED);
+        return new ResponseEntity<>(addedComment,HttpStatus.CREATED);
     }
 
 }
