@@ -3,6 +3,7 @@ package com.travelstory.security;
 import com.travelstory.entity.UserRole;
 import com.travelstory.services.UserDetailServiceImplementation;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Base64;
 import java.util.Date;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -46,9 +48,7 @@ public class TokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        log.info("");
         UserDetails userDetail = userDetails.loadUserByUsername(getEmail(token));
-        log.debug("In auth method 2");
         Authentication auth = new UsernamePasswordAuthenticationToken(userDetail, "", userDetail.getAuthorities());
         return auth;
 
@@ -56,6 +56,16 @@ public class TokenProvider {
 
     public String getEmail(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            log.error("Problem with validating token");
+            return false;
+        }
     }
 
 }
