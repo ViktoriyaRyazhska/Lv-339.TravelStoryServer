@@ -1,4 +1,4 @@
-package com.travelstory.dao;
+package com.travelstory.repositories;
 
 import com.travelstory.entity.Comment;
 import com.travelstory.entity.Media;
@@ -22,7 +22,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
      * @return List<Comment>
      */
     public List<Comment> findAllByTravelStory(TravelStory travelStory);
-
 
     /**
      * @param media
@@ -50,10 +49,4 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
      */
     public List<Comment> findAllByUserAndTravelStory(User user, TravelStory travelStory);
 
-    /**
-     * @param media
-     * @param parentId
-     * @return List<Comment>
-     */
-    List<Comment> findAllByMediaAndParentId(Media media, Long parentId);
 }

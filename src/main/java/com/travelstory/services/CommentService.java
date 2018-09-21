@@ -14,9 +14,9 @@ public interface CommentService {
 
     List<Comment> getAllComments();
 
-    List<Comment> getCommentsByMedia(Media media);
+    Comment add(Comment comment, Long userId, Long travelStoryId, Long mediaId);
 
-    List<Comment> getCommentsByMediaAndParentId(Media media, Long parentId);
+    List<Comment> getCommentsByMedia(Media media);
 
     List<Comment> getCommentsByUserAndMedia(User user, Media media);
 
@@ -26,9 +26,6 @@ public interface CommentService {
 
     Comment getComment(Long id);
 
-    void addComment(Comment comment,Long userId, Long travelStoryId,Long mediaId);
-
     void deleteComment(Comment comment);
-
 
 }

@@ -1,6 +1,6 @@
 package com.travelstory.services;
 
-import com.travelstory.dao.UserDAO;
+import com.travelstory.repositories.UserRepository;
 import com.travelstory.dto.LoginDTO;
 import com.travelstory.dto.RegistrationDTO;
 import com.travelstory.dto.UserDto;
@@ -20,14 +20,14 @@ import java.io.IOException;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserDAO userDAO;
+    UserRepository userRepository;
 
     @Autowired
     TokenProvider tokenProvider;
 
     @Override
     public void registrateUser(RegistrationDTO registrationDTO) {
-        if (userDAO.existsByEmail(registrationDTO.getEmail())) {
+        if (userRepository.existsByEmail(registrationDTO.getEmail())) {
 
         } else {
             User user = new User();
@@ -37,36 +37,36 @@ public class UserServiceImpl implements UserService {
             user.setPassword(registrationDTO.getPassword());
             user.setGender(registrationDTO.getGender());
             user.setUserRole(UserRole.ROLE_USER);
-            userDAO.save(user);
+            userRepository.save(user);
         }
     }
 
     public User uploadProfilePicture(Long userId, UserDto userDetails) throws IOException {
-        User user = userDAO.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found",
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found",
                 "Dear customer, no such user in the database", UserServiceImpl.class));
 
         String imgBase64 = userDetails.getProfilePic();
         String imgUrl = MediaUtils.uploadMediaOnCloud(imgBase64, "profile_pic");
         user.setProfilePic(imgUrl);
 
-        return userDAO.save(user);
+        return userRepository.save(user);
     }
 
     @Override
     public boolean checkCredentials(LoginDTO loginDTO) {
-        return userDAO.existsByEmailAndPassword(loginDTO.getEmail(), loginDTO.getPassword());
+        return userRepository.existsByEmailAndPassword(loginDTO.getEmail(), loginDTO.getPassword());
     }
 
     @Override
     public User getUserByEmail(String email) {
-        return userDAO.findByEmail(email);
+        return userRepository.findByEmail(email);
     }
 
     @Override
     public String signIn(LoginDTO loginDTO) {
         String email = loginDTO.getEmail();
-        return tokenProvider.createToken(email, userDAO.findByEmail(email).getUserRole(),
-                userDAO.findByEmail(email).getId());
+        return tokenProvider.createToken(email, userRepository.findByEmail(email).getUserRole(),
+                userRepository.findByEmail(email).getId());
     }
 
 }

@@ -2,9 +2,8 @@ package com.travelstory.services;
 
 import com.travelstory.entity.Media;
 import com.travelstory.exceptions.EntityNotFoundException;
-import com.travelstory.dao.LikeRepository;
+import com.travelstory.repositories.LikeRepository;
 import com.travelstory.entity.Like;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.travelstory.dao;
+package com.travelstory.repositories;
 
 import com.travelstory.entity.Like;
 import com.travelstory.entity.Media;
@@ -41,14 +41,12 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
      * @return List<Like>
      */
     public List<Like> findAllByUserAndMedia(User user, Media media);
+
     /**
      * @param user
      * @param travelStory
      * @return List<Like>
      */
     public List<Like> findAllByUserAndTravelStory(User user, TravelStory travelStory);
-
-
-
 
 }

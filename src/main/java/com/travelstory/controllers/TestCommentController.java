@@ -27,11 +27,11 @@ public class TestCommentController {
     }
 
     @PostMapping
-    public ResponseEntity<Comment> addComment(@RequestBody Comment comment,
-                                              @RequestParam(value = "transitId") Integer transitId, @RequestParam(value = "userId") Integer userId,
-                                              @RequestParam(value = "parentId", required = false) Integer parentId) {
-        Comment addedComment = commentService.add(comment, transitId, userId, parentId);
-        return new ResponseEntity<>(addedComment,HttpStatus.CREATED);
+    public ResponseEntity<Comment> addComment(@RequestBody Comment comment, @RequestParam(value = "userId") Long userId,
+            @RequestParam(value = "travelStoryId") Long travelStoryId,
+            @RequestParam(value = "mediaId", required = false) Long mediaId) {
+        Comment addedComment = commentService.add(comment, userId, travelStoryId, mediaId);
+        return new ResponseEntity<>(addedComment, HttpStatus.CREATED);
     }
 
 }

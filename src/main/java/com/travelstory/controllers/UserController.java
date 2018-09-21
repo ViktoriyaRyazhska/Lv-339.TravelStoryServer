@@ -1,6 +1,6 @@
 package com.travelstory.controllers;
 
-import com.travelstory.dao.UserDAO;
+import com.travelstory.repositories.UserRepository;
 import com.travelstory.dto.LoginDTO;
 import com.travelstory.dto.RegistrationDTO;
 import com.travelstory.dto.UserDto;
@@ -20,19 +20,19 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final UserDAO userDao;
+    private final UserRepository userRepository;
     private final TokenProvider tokenProvider;
 
     @Autowired
-    public UserController(UserService userService, UserDAO userDao, TokenProvider tokenProvider) {
+    public UserController(UserService userService, UserRepository userRepository, TokenProvider tokenProvider) {
         this.userService = userService;
-        this.userDao = userDao;
+        this.userRepository = userRepository;
         this.tokenProvider = tokenProvider;
     }
 
     @GetMapping("/users")
     List<User> getAllUsers() {
-        return userDao.findAll();
+        return userRepository.findAll();
     }
 
     @PutMapping("/updateProfilePic")
