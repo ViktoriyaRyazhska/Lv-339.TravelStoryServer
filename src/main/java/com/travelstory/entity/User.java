@@ -1,12 +1,12 @@
 package com.travelstory.entity;
 
-import lombok.Data;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,7 +14,9 @@ import java.util.List;
 
 @Data
 @Entity
-@EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor
+@AllArgsConstructor
+//@EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 public class User {
     @Id
@@ -33,6 +35,7 @@ public class User {
 
     private LocalDate dateOfBirth;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
