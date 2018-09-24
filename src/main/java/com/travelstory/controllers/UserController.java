@@ -5,7 +5,6 @@ import com.travelstory.dto.LoginDTO;
 import com.travelstory.dto.RegistrationDTO;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
-import com.travelstory.exceptions.validation.ValidationException;
 import com.travelstory.security.TokenProvider;
 import com.travelstory.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

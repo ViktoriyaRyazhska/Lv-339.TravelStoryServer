@@ -32,9 +32,11 @@ public class Message {
     private User user;
 
     @NotNull
-    private LocalDateTime createdDateTime;
+    private LocalDateTime createdAt;
 
-    public Message(@NotNull String messageContent) {
-        this.messageContent = messageContent;
-    }
+    private LocalDateTime lastEditedAt;
+
+    private LocalDateTime deletedAt;
+
+    private boolean deleted;
 }
