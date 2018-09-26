@@ -7,10 +7,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Lv-339.TravelStoryServer" />
         <module name="travel_story" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Lv-339.TravelStoryServer" target="1.8" />
       <module name="travel_story" target="1.8" />
     </bytecodeTargetLevel>
   </component>

@@ -46,6 +46,7 @@ com\travelstory\repositories\TravelStoryRepository.class
 com\travelstory\exceptions\api\LowerCaseClassNameResolver.class
 com\travelstory\utils\MediaUtils.class
 com\travelstory\entity\User.class
+com\travelstory\services\UserDetailServiceImplementation.class
 com\travelstory\exceptions\RuntimeException.class
 com\travelstory\dto\UserDto.class
 com\travelstory\entity\Chat.class

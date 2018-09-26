@@ -1,7 +1,7 @@
 package com.travelstory.services;
 
-import com.travelstory.dao.UserDAO;
 import com.travelstory.entity.User;
+import com.travelstory.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserDetailServiceImplementation implements UserDetailsService {
 
-    private UserDAO userDAO;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         log.info("in loadUserByUsername method");
-        User user = userDAO.findByEmail(email);
+        User user = userRepository.findByEmail(email);
         log.error("user found");
         if (user == null) {
             throw new UsernameNotFoundException("User '" + email + "' not found");
