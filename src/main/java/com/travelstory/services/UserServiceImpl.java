@@ -27,7 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void registrateUser(RegistrationDTO registrationDTO) {
-        if (userRepository.existsByEmail(registrationDTO.getEmail())) {
+
+        if (userDAO.existsByEmail(registrationDTO.getEmail())) {
+            log.error("There is no user with such email");
 
         } else {
             User user = new User();
