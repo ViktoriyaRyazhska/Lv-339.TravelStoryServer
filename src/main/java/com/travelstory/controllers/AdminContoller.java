@@ -48,12 +48,12 @@ public class AdminContoller {
     }
 
     @GetMapping("setAdminStatus/{id}")
-    public void setAdminStatus(@PathVariable(value = "id") long id){
+    public void setAdminStatus(@PathVariable(value = "id") long id) {
         adminService.setAdminStatus(id);
     }
 
     @GetMapping("setUserStatus/{id}")
-    public void setUserStatus(@PathVariable(value = "id") long id){
+    public void setUserStatus(@PathVariable(value = "id") long id) {
         adminService.setUserStatus(id);
     }
 

@@ -38,21 +38,21 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public  void markAsDeleted(long id){
+    public void markAsDeleted(long id) {
         user = userDAO.findById(id).get();
         user.setUserStatus(UserStatus.DELETED);
         userDAO.save(user);
     }
 
     @Override
-    public  void markAsActive(long id){
+    public void markAsActive(long id) {
         user = userDAO.findById(id).get();
         user.setUserStatus(UserStatus.ACTIVE);
         userDAO.save(user);
     }
 
     @Override
-    public  void markAsBanned(long id){
+    public void markAsBanned(long id) {
         user = userDAO.findById(id).get();
         user.setUserStatus(UserStatus.BANNED);
         userDAO.save(user);

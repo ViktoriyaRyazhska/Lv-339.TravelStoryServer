@@ -3,8 +3,6 @@ package com.travelstory.services;
 import com.travelstory.entity.User;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public interface AdminService {
 
