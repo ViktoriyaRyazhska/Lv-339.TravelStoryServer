@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/api")
@@ -48,12 +49,13 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginDTO loginDTO) {
-        String token = null;
+        TokenModel token = null;
         if (userService.checkCredentials(loginDTO)) {
             token = userService.signIn(loginDTO);
-            return new ResponseEntity<>(new TokenModel(token), HttpStatus.OK);
+            return new ResponseEntity<>(token, HttpStatus.OK);
         } else {
             log.error("There is no user with such credentials");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -4,6 +4,7 @@ import com.travelstory.dao.UserDAO;
 import com.travelstory.dto.LoginDTO;
 import com.travelstory.dto.RegistrationDTO;
 import com.travelstory.dto.UserDto;
+import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
 import com.travelstory.entity.UserRole;
 import com.travelstory.exceptions.EntityNotFoundException;
@@ -63,10 +64,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String signIn(LoginDTO loginDTO) {
+    public TokenModel signIn(LoginDTO loginDTO) {
         String email = loginDTO.getEmail();
-        return tokenProvider.createToken(email, userDAO.findByEmail(email).getUserRole(),
-                userDAO.findByEmail(email).getId());
+        TokenModel tokenModel = new TokenModel();
+        tokenModel.setAccessToken(tokenProvider.createAccessToken(email, userDAO.findByEmail(email).getUserRole(),
+                userDAO.findByEmail(email).getId()));
+        tokenModel.setRefreshToken(tokenProvider.createRefreshToken(loginDTO.getEmail()));
+        return tokenModel;
     }
 
 }
