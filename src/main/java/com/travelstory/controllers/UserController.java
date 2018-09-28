@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/api")
@@ -46,6 +47,11 @@ public class UserController {
     public ResponseEntity registrateUser(@RequestBody RegistrationDTO registrationDTO) {
         userService.registrateUser(registrationDTO);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{id}")
+    public User getUserById(@PathVariable long id) {
+        return userService.getUserById(id);
     }
 
     @PostMapping("/login")

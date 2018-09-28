@@ -11,6 +11,7 @@ import com.travelstory.security.TokenProvider;
 import com.travelstory.utils.MediaUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -60,6 +61,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByEmail(String email) {
         return userDAO.findByEmail(email);
+    }
+
+    @Override
+    public User getUserById(long userId) {
+        return userDAO.findById(userId).orElseThrow(()-> new EntityNotFoundException("User not found",
+                "Dear customer, no such user in the database", UserServiceImpl.class));
     }
 
     @Override
