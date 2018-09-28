@@ -17,6 +17,8 @@ public interface UserService {
 
     User getUserByEmail(String email);
 
+    User getUserById(long userId);
+
     public TokenModel signIn(LoginDTO loginDTO);
 
 }

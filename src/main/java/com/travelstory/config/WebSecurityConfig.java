@@ -1,6 +1,6 @@
 package com.travelstory.config;
 
-import com.travelstory.dao.UserDAO;
+import com.travelstory.repositories.UserRepository;
 import com.travelstory.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +18,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenProvider tokenProviderokenProvider;
-    private final UserDAO userDAO;
+    private final UserRepository userRepository;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

@@ -1,11 +1,11 @@
 package com.travelstory.controllers;
 
-import com.travelstory.repositories.UserRepository;
 import com.travelstory.dto.LoginDTO;
 import com.travelstory.dto.RegistrationDTO;
 import com.travelstory.dto.UserDto;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
+import com.travelstory.repositories.UserRepository;
 import com.travelstory.security.TokenProvider;
 import com.travelstory.services.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +47,11 @@ public class UserController {
     public ResponseEntity registrateUser(@RequestBody RegistrationDTO registrationDTO) {
         userService.registrateUser(registrationDTO);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{id}")
+    public User getUserById(@PathVariable long id) {
+        return userService.getUserById(id);
     }
 
     @CrossOrigin

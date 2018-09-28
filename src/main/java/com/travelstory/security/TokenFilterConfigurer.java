@@ -1,6 +1,6 @@
 package com.travelstory.security;
 
-import com.travelstory.dao.UserDAO;
+import com.travelstory.repositories.UserRepository;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
@@ -9,16 +9,16 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class TokenFilterConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
     private TokenProvider tokenProvider;
 
-    private UserDAO userDAO;
+    private UserRepository userRepository;
 
-    public TokenFilterConfigurer(TokenProvider tokenProvider, UserDAO userDAO) {
+    public TokenFilterConfigurer(TokenProvider tokenProvider, UserRepository userRepository) {
         this.tokenProvider = tokenProvider;
 
-        this.userDAO = userDAO;
+        this.userRepository = userRepository;
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.addFilterAfter(new TokenFilter(tokenProvider, userDAO), BasicAuthenticationFilter.class);
+        http.addFilterAfter(new TokenFilter(tokenProvider, userRepository), BasicAuthenticationFilter.class);
     }
 }

@@ -1,7 +1,7 @@
 package com.travelstory.security;
 
-import com.travelstory.dao.UserDAO;
 import com.travelstory.entity.UserRole;
+import com.travelstory.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -22,7 +22,7 @@ public class TokenFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
 
-    private final UserDAO userDAO;
+    private final UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -39,8 +39,8 @@ public class TokenFilter extends OncePerRequestFilter {
                 // checkExpiration(accessToken)
                 String userName = tokenProvider.getEmail(refreshToken);
                 /// removeAlreadyFiltredAttributes
-                UserRole userRole = userDAO.findByEmail(userName).getUserRole();
-                Long id = userDAO.findByEmail(userName).getId();
+                UserRole userRole = userRepository.findByEmail(userName).getUserRole();
+                Long id = userRepository.findByEmail(userName).getId();
                 response.setHeader("Access-token", tokenProvider.createAccessToken(userName, userRole, id));
                 response.setHeader("Refresh-token", tokenProvider.createRefreshToken(userName));
             }

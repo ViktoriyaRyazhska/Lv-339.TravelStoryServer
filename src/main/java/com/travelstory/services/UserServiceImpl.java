@@ -1,6 +1,5 @@
 package com.travelstory.services;
 
-import com.travelstory.repositories.UserRepository;
 import com.travelstory.dto.LoginDTO;
 import com.travelstory.dto.RegistrationDTO;
 import com.travelstory.dto.UserDto;
@@ -8,6 +7,7 @@ import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
 import com.travelstory.entity.UserRole;
 import com.travelstory.exceptions.EntityNotFoundException;
+import com.travelstory.repositories.UserRepository;
 import com.travelstory.security.TokenProvider;
 import com.travelstory.utils.MediaUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -66,10 +66,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserById(long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found",
+                "Dear customer, no such user in the database", UserServiceImpl.class));
+    }
+
+    @Override
     public TokenModel signIn(LoginDTO loginDTO) {
         String email = loginDTO.getEmail();
         TokenModel tokenModel = new TokenModel();
-        tokenModel.setAccessToken(tokenProvider.createAccessToken(email, userDAO.findByEmail(email).getUserRole(),
+        tokenModel.setAccessToken(tokenProvider.createAccessToken(email, userRepository.findByEmail(email).getUserRole(),
                 userRepository.findByEmail(email).getId()));
         tokenModel.setRefreshToken(tokenProvider.createRefreshToken(loginDTO.getEmail()));
         return tokenModel;
