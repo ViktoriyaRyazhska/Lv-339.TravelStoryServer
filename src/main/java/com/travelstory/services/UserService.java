@@ -3,6 +3,7 @@ package com.travelstory.services;
 import com.travelstory.dto.LoginDTO;
 import com.travelstory.dto.RegistrationDTO;
 import com.travelstory.dto.UserDto;
+import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
 
 import java.io.IOException;
@@ -18,6 +19,6 @@ public interface UserService {
 
     User getUserById(long userId);
 
-    public String signIn(LoginDTO loginDTO);
+    public TokenModel signIn(LoginDTO loginDTO);
 
 }

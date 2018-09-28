@@ -1,52 +1,38 @@
 package com.travelstory.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "likes")
 public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @ManyToOne
+    @JsonManagedReference
+    private Media media;
+
+    @ManyToOne
+    @JsonManagedReference
     private TravelStory travelStory;
 
     @NotBlank
     @ManyToOne
     private User user;
 
-    public Like() {
-    }
+    @CreatedDate
+    private LocalDateTime createdAt;
 
-    public Like(TravelStory travelStory, User user) {
-        this.travelStory = travelStory;
-        this.user = user;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public TravelStory getTravelStory() {
-        return travelStory;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setTravelStory(TravelStory travelStory) {
-        this.travelStory = travelStory;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

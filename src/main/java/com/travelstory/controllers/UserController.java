@@ -1,11 +1,11 @@
 package com.travelstory.controllers;
 
-import com.travelstory.dao.UserDAO;
 import com.travelstory.dto.LoginDTO;
 import com.travelstory.dto.RegistrationDTO;
 import com.travelstory.dto.UserDto;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
+import com.travelstory.repositories.UserRepository;
 import com.travelstory.security.TokenProvider;
 import com.travelstory.services.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,19 +23,19 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final UserDAO userDao;
+    private final UserRepository userRepository;
     private final TokenProvider tokenProvider;
 
     @Autowired
-    public UserController(UserService userService, UserDAO userDao, TokenProvider tokenProvider) {
+    public UserController(UserService userService, UserRepository userRepository, TokenProvider tokenProvider) {
         this.userService = userService;
-        this.userDao = userDao;
+        this.userRepository = userRepository;
         this.tokenProvider = tokenProvider;
     }
 
     @GetMapping("/users")
     List<User> getAllUsers() {
-        return userDao.findAll();
+        return userRepository.findAll();
     }
 
     @PutMapping("/updateProfilePic")
@@ -54,12 +54,13 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginDTO loginDTO) {
-        String token = null;
+        TokenModel token = null;
         if (userService.checkCredentials(loginDTO)) {
             token = userService.signIn(loginDTO);
-            return new ResponseEntity<>(new TokenModel(token), HttpStatus.OK);
+            return new ResponseEntity<>(token, HttpStatus.OK);
         } else {
             log.error("There is no user with such credentials");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 
@@ -36,10 +37,20 @@ public class TokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String email, UserRole role, Long id) {
+    public String createAccessToken(String email, UserRole role, Long id) {
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("role", role);
         claims.put("id", id);
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + validityInMilliseconds);
+
+        return Jwts.builder().setClaims(claims).setIssuedAt(now).setExpiration(validity)
+                .signWith(SignatureAlgorithm.HS256, secretKey).compact();
+    }
+
+    public String createRefreshToken(String username) {
+
+        Claims claims = Jwts.claims().setSubject(username);
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
@@ -66,6 +77,16 @@ public class TokenProvider {
             log.error("Problem with validating token");
             return false;
         }
+    }
+
+    public String resolveAccessToken(HttpServletRequest req) {
+        String accessToken = req.getHeader("Access-token");
+        return accessToken;
+    }
+
+    public String resolveRefreshToken(HttpServletRequest req) {
+        String accessToken = req.getHeader("Refresh-token");
+        return accessToken;
     }
 
 }
