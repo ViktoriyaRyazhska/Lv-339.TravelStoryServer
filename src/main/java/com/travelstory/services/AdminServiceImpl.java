@@ -1,9 +1,10 @@
 package com.travelstory.services;
 
-import com.travelstory.dao.CommentDAO;
-import com.travelstory.dao.TravelStoryDAO;
-import com.travelstory.dao.UserDAO;
+
 import com.travelstory.entity.*;
+import com.travelstory.repositories.CommentRepository;
+import com.travelstory.repositories.TravelStoryRepository;
+import com.travelstory.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,74 +12,74 @@ import org.springframework.stereotype.Service;
 public class AdminServiceImpl implements AdminService {
 
     @Autowired
-    UserDAO userDAO;
+    UserRepository userRepository;
 
     @Autowired
     User user;
 
     @Autowired
-    CommentDAO commentDAO;
+    CommentRepository commentRepository;
 
     @Autowired
-    TravelStoryDAO travelStoryDAO;
+    TravelStoryRepository travelStoryRepository;
 
     @Override
     public void addUser(User user) {
-        userDAO.save(user);
+        userRepository.save(user);
     }
 
     @Override
     public User getUserById(long id) {
-        return userDAO.findById(id).get();
+        return userRepository.findById(id).get();
     }
 
     @Override
     public void deleteUser(long id) {
-        userDAO.deleteById(id);
+        userRepository.deleteById(id);
     }
 
     @Override
     public void markAsDeleted(long id) {
-        user = userDAO.findById(id).get();
+        user = userRepository.findById(id).get();
         user.setUserStatus(UserStatus.DELETED);
-        userDAO.save(user);
+        userRepository.save(user);
     }
 
     @Override
     public void markAsActive(long id) {
-        user = userDAO.findById(id).get();
+        user = userRepository.findById(id).get();
         user.setUserStatus(UserStatus.ACTIVE);
-        userDAO.save(user);
+        userRepository.save(user);
     }
 
     @Override
     public void markAsBanned(long id) {
-        user = userDAO.findById(id).get();
+        user = userRepository.findById(id).get();
         user.setUserStatus(UserStatus.BANNED);
-        userDAO.save(user);
+        userRepository.save(user);
     }
 
     @Override
     public void setAdminStatus(long id) {
-        user = userDAO.findById(id).get();
+        user = userRepository.findById(id).get();
         user.setUserRole(UserRole.ROLE_ADMIN);
-        userDAO.save(user);
+        userRepository.save(user);
     }
 
     @Override
     public void setUserStatus(long id) {
-        user = userDAO.findById(id).get();
+        user = userRepository.findById(id).get();
         user.setUserRole(UserRole.ROLE_USER);
-        userDAO.save(user);
+        userRepository.save(user);
     }
 
     @Override
     public void deleteComment(long id) {
-        commentDAO.deleteById(id);
+        commentRepository.deleteById(id);
     }
 
     @Override
     public void deleteTravelStory(long id) {
-        travelStoryDAO.deleteById(id);
+        travelStoryRepository.deleteById(id);
     }
 }

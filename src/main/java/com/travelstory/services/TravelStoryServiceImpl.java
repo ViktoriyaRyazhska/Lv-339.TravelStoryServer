@@ -1,6 +1,6 @@
 package com.travelstory.services;
 
-import com.travelstory.dao.TravelStoryDAO;
+import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.entity.TravelStory;
 import com.travelstory.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,32 +11,32 @@ import java.util.List;
 @Service
 public class TravelStoryServiceImpl implements TravelStoryService {
     @Autowired
-    TravelStoryDAO travelStoryDAO;
+    TravelStoryRepository travelStoryRepository;
 
     @Override
     public TravelStory addTravelStory(TravelStory travelStory) {
-        TravelStory travelStory1 = travelStoryDAO.saveAndFlush(travelStory);
+        TravelStory travelStory1 = travelStoryRepository.saveAndFlush(travelStory);
         return travelStory;
     }
 
     @Override
     public void deleteTravelStory(long id) {
-        travelStoryDAO.deleteById(id);
+        travelStoryRepository.deleteById(id);
     }
 
     @Override
     public TravelStory getByHead(String head) {
-        return travelStoryDAO.findByHead(head);
+        return travelStoryRepository.findByHead(head);
     }
 
     @Override
     public TravelStory editTravelStory(TravelStory travelStory) {
-        return travelStoryDAO.saveAndFlush(travelStory);
+        return travelStoryRepository.saveAndFlush(travelStory);
     }
 
     @Override
     public List<TravelStory> getAll() {
-        return travelStoryDAO.findAll();
+        return travelStoryRepository.findAll();
     }
 
     @Override
@@ -48,6 +48,6 @@ public class TravelStoryServiceImpl implements TravelStoryService {
 
     @Override
     public List<TravelStory> getByUserOwner(User userOwner) {
-        return (List<TravelStory>) travelStoryDAO.findByUserOwner(userOwner);
+        return (List<TravelStory>) travelStoryRepository.findByUserOwner(userOwner);
     }
 }
