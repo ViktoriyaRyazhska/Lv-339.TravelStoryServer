@@ -1,5 +1,10 @@
 package com.travelstory.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -8,8 +13,13 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
+@Data
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "comments")
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,8 +27,12 @@ public class Comment {
     @NotBlank
     private String commentMassage;
 
-    @NotBlank
     @ManyToOne
+    @JsonManagedReference
+    private Media media;
+
+    @ManyToOne
+    @JsonManagedReference
     private TravelStory travelStory;
 
     @NotNull
@@ -29,42 +43,8 @@ public class Comment {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public Comment() {
-    }
-
-    public Comment(@NotBlank String commentMassage, TravelStory travelStory, User user, LocalDateTime createdAt) {
-        this.commentMassage = commentMassage;
-        this.travelStory = travelStory;
-        this.user = user;
-        this.createdAt = createdAt;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getCommentMassage() {
-        return commentMassage;
-    }
-
-    public TravelStory getTravelStory() {
-        return travelStory;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setCommentMassage(String commentMassage) {
-        this.commentMassage = commentMassage;
+    public void setMedia(Media media) {
+        this.media = media;
     }
 
     public void setTravelStory(TravelStory travelStory) {
@@ -73,9 +53,5 @@ public class Comment {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 }
