@@ -1,5 +1,6 @@
 package com.travelstory.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,15 +30,14 @@ public class TravelStory {
 
     @Enumerated(EnumType.STRING)
     private TravelStoryStatus travelStoryStatus;
-
-    @ManyToOne
-    private User userOwner;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
-    private List<Comment> comments;
-
+    @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
     private List<Like> likes;
+    @JsonBackReference
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
+    private List<Comment> comments;
+    @ManyToOne
+    private User userOwner;
 
     private enum TravelStoryStatus {
         STATUS_ACTIVE, STATUS_INACTIVE;
