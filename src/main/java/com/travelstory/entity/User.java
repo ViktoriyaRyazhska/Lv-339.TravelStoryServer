@@ -1,6 +1,11 @@
 package com.travelstory.entity;
 
-import lombok.*;
+import com.travelstory.entity.messenger.Chat;
+import com.travelstory.entity.messenger.Message;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.stereotype.Component;
@@ -17,13 +22,15 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = { "connectedChats", "messages", "travelStories", "chats", "createdChats", "socialNetworks",
+        "likes" })
 // @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 @Component
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String firstName;
 
@@ -56,10 +63,15 @@ public class User {
     private List<Chat> connectedChats;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    // @JsonBackReference
     private List<Message> messages;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
+    // @JsonBackReference
     private List<Chat> chats;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "creator")
+    private List<Chat> createdChats;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userOwner")
     private List<TravelStory> travelStories;
@@ -67,7 +79,26 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private List<Like> likes;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    // @JsonBackReference
+    private List<SocialNetworkNick> socialNetworks;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private UserState userState;
+
+    public enum UserState {
+        ONLINE, OFFLINE, AWAY, BUSY
+    }
+
+    public enum UserStatus {
+        ACTIVE, BANNED, DELETED;
+    }
+
+    public enum Gender {
+        MALE, FEMALE
+    }
 }

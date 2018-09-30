@@ -1,12 +1,13 @@
-package com.travelstory.services;
+package com.travelstory.services.messenger;
 
-import com.travelstory.dto.chat.MessageDTO;
-import com.travelstory.entity.Chat;
-import org.springframework.stereotype.Service;
+import com.travelstory.dto.messenger.MessageDTO;
 
-@Service
 public interface MessageService {
-    public void saveMessage(MessageDTO messageDTO);
+    public void save(MessageDTO messageDTO);
 
-    public void getNext50Messages(int chatId, int pageNumber); //107 374 182 350 - max number of messages =)
+    public void delete(MessageDTO messageDTO);
+
+    public MessageDTO get(Long chatId);
+
+    public void getNext50Messages(int chatId, int pageNumber); // 107 374 182 350 - max number of messages =)
 }

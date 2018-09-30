@@ -1,5 +1,7 @@
-package com.travelstory.dto.chat;
+package com.travelstory.dto.messenger;
 
+import com.travelstory.entity.Media;
+import com.travelstory.entity.MessageType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +12,8 @@ import lombok.NoArgsConstructor;
 public class MessageDTO {
     private Long id;
     private String messageContent;
+    private MessageType messageType;
+    private Media media;
     private Long chat_id;
-    // private Long chat_id;
-    // private User user_id;
+    private MessengerUserDTO user;
 }

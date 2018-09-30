@@ -82,7 +82,7 @@
             <artifactId>modelmapper-spring-boot-starter</artifactId>
             <version>1.0.1</version>
         </dependency>
-        <!--Websockets for chat-->
+        <!--Websockets for messenger-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>

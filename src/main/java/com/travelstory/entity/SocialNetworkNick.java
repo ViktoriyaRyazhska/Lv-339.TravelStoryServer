@@ -1,32 +1,28 @@
 package com.travelstory.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "social_networks")
-public class SocialNetworksNick {
+public class SocialNetworkNick {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
     private SocialNetworks socialNetwork;
 
+    @NotBlank
     private String nickName;
 
-    @Email
-    private String email;
+    @ManyToOne
+    // @JsonManagedReference
+    private User user;
 
-    @Size(min = 1, max = 25)
-    private String password;
-
-    private LocalDate dateOfBirth;
-
-    public enum SocialNetworks{
-        FACEBOOK,
-        INSTAGRAM,
-        TWITTER
+    public enum SocialNetworks {
+        FACEBOOK, INSTAGRAM, TWITTER
     }
 }

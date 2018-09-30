@@ -1,4 +1,4 @@
-package com.travelstory.dto.converter;
+package com.travelstory.dto.converter.messenger;
 
 import com.travelstory.dto.messenger.ChatDTO;
 import com.travelstory.entity.messenger.Chat;
