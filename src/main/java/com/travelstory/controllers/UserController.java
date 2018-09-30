@@ -2,7 +2,6 @@ package com.travelstory.controllers;
 
 import com.travelstory.dto.LoginDTO;
 import com.travelstory.dto.RegistrationDTO;
-import com.travelstory.dto.UserDto;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
 import com.travelstory.repositories.UserRepository;
@@ -14,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -38,10 +36,10 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @PutMapping("/updateProfilePic")
+    /*@PutMapping("/updateProfilePic")
     User uploadProfilePicture(@RequestBody UserDto userDetails) throws IOException {
         return userService.uploadProfilePicture(userDetails.getId(), userDetails);
-    }
+    }*/
 
     @PostMapping("/registrate")
     public ResponseEntity registrateUser(@RequestBody RegistrationDTO registrationDTO) {
@@ -62,7 +60,7 @@ public class UserController {
             token = userService.signIn(loginDTO);
             return new ResponseEntity<>(token, HttpStatus.OK);
         } else {
-            log.error("There is no user with such credentials");
+//            log.error("There is no user with such credentials");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

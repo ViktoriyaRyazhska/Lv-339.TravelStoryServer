@@ -117,6 +117,11 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.revelc.code.formatter</groupId>
+            <artifactId>jsdt-core</artifactId>
+            <version>2.6.0</version>
+        </dependency>
         <!--LiquidBase-->
         <!--<dependency>-->
         <!--<groupId>org.liquibase</groupId>-->
