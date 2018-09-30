@@ -11,7 +11,16 @@ import java.time.LocalDateTime;
 public class MessageController {
     @MessageMapping("/message")
     @SendTo("/topic/messages")
-    public MessageDTO greeting(MessageDTO message) throws Exception {
+    public MessageDTO sendMessage(MessageDTO message) throws Exception {
+        Thread.sleep(200); // simulated delay
+
+        LocalDateTime currTime = LocalDateTime.now();
+        return message;
+    }
+
+    @MessageMapping("/chat/{chatId}")
+    @SendTo("/chat/{chatId}/messages")
+    public MessageDTO addChat(MessageDTO message) throws Exception {
         Thread.sleep(500); // simulated delay
         LocalDateTime currTime = LocalDateTime.now();
         return message;

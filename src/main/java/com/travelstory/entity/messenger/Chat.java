@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Slf4j
@@ -28,6 +29,13 @@ public class Chat {
 
     @NotBlank
     private String chatName;
+
+    @NotNull
+    private ChatType chatType;
+
+    public enum ChatType {
+        PRIVATE_MESSAGES, PRIVATE_GROUP, PUBLIC_GROUP
+    }
 
     public Chat(List<User> connectedUsers) {
         this.connectedUsers = connectedUsers;

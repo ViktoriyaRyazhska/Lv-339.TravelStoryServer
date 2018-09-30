@@ -32,6 +32,9 @@ public class Message {
     private User user;
 
     @NotNull
+    private MessageType messageType;
+
+    @NotNull
     private LocalDateTime createdAt;
 
     private LocalDateTime lastEditedAt;
