@@ -1,13 +1,9 @@
-package com.travelstory.dto.converter.messenger.impl;
+package com.travelstory.dto.converter.messenger;
 
-import com.travelstory.dto.converter.messenger.ChatConverter;
-import com.travelstory.dto.converter.messenger.ChatDetailsConverter;
 import com.travelstory.dto.messenger.ChatDetailsDTO;
-import com.travelstory.dto.messenger.MessageDTO;
 import com.travelstory.dto.messenger.MessengerUserDTO;
 import com.travelstory.entity.User;
 import com.travelstory.entity.messenger.Chat;
-import com.travelstory.entity.messenger.Message;
 import com.travelstory.repositories.UserRepository;
 import com.travelstory.utils.ModelMapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +29,23 @@ public class ChatDetailsConverterImpl implements ChatDetailsConverter {
     @Override
     public ChatDetailsDTO convertToDto(Chat chat) {
         ChatDetailsDTO chatDetailsDTO = modelMapperUtils.map(chat, ChatDetailsDTO.class);
-        ;
+
         List<MessengerUserDTO> messengerUserDTOs = modelMapperUtils.mapAll(chat.getConnectedUsers(),
                 MessengerUserDTO.class);
-        List<MessageDTO> messageDTOs = modelMapperUtils.mapAll(chat.getMessages(), MessageDTO.class);
         MessengerUserDTO creator = modelMapperUtils.map(chat.getCreator(), MessengerUserDTO.class);
 
+        // set interlocutor
+        if (chat.getChatType() == Chat.ChatType.PRIVATE_MESSAGES) {
+            if (chat.getConnectedUsers().get(0).getId().equals(chat.getCreator().getId())) {
+                chatDetailsDTO
+                        .setInterlocutor(modelMapperUtils.map(chat.getConnectedUsers().get(1), MessengerUserDTO.class));
+            } else {
+                chatDetailsDTO
+                        .setInterlocutor(modelMapperUtils.map(chat.getConnectedUsers().get(0), MessengerUserDTO.class));
+            }
+        }
+
         chatDetailsDTO.setCreator(creator);
-        chatDetailsDTO.setMessages(messageDTOs);
         chatDetailsDTO.setUsers(messengerUserDTOs);
         return chatDetailsDTO;
     }
@@ -51,9 +56,7 @@ public class ChatDetailsConverterImpl implements ChatDetailsConverter {
 
         List<User> membersToSearch = modelMapperUtils.mapAll(chatDetailsDTO.getUsers(), User.class);
         User creator = modelMapperUtils.map(chatDetailsDTO.getCreator(), User.class);
-        List<Message> messages = modelMapperUtils.mapAll(chatDetailsDTO.getMessages(), Message.class);
 
-        chat.setMessages(messages);
         chat.setCreator(creator);
 
         chat.setConnectedUsers(membersToSearch);

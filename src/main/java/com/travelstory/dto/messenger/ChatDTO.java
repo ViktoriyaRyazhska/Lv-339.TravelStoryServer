@@ -13,4 +13,5 @@ public class ChatDTO {
     private String chatName;
     Chat.ChatType chatType;
     private MessageDTO lastMessage;
+    private MessengerUserDTO interlocutor; // !null if chatType==PRIVATE_MESSAGES
 }

@@ -1,4 +1,4 @@
-package com.travelstory.repositories;
+package com.travelstory.repositories.messenger;
 
 import com.travelstory.entity.messenger.Chat;
 import com.travelstory.entity.messenger.Message;
@@ -16,4 +16,5 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     public Message findTopByChatOrderByCreatedAt(Chat chat);
 
     public List<Message> findAllByChatOrderByCreatedAt(Chat chat, Pageable pageable);
+    // public Page<Message> findAllByChatOrderByCreatedAt(Chat chat,Pageable pageable);
 }

@@ -17,6 +17,4 @@ public class ChatDetailsDTO extends ChatDTO {
     private String description;
     private List<MessengerUserDTO> users;
     private MessengerUserDTO creator;
-    private List<MessageDTO> messages;
-
 }

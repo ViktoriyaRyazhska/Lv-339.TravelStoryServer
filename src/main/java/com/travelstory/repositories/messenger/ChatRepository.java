@@ -1,7 +1,7 @@
-package com.travelstory.repositories;
+package com.travelstory.repositories.messenger;
 
-import com.travelstory.entity.messenger.Chat;
 import com.travelstory.entity.User;
+import com.travelstory.entity.messenger.Chat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

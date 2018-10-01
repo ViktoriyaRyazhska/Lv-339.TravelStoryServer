@@ -7,11 +7,13 @@ import com.travelstory.dto.messenger.ChatDetailsDTO;
 import com.travelstory.entity.User;
 import com.travelstory.entity.messenger.Chat;
 import com.travelstory.exceptions.EntityNotFoundException;
-import com.travelstory.repositories.ChatRepository;
+import com.travelstory.repositories.messenger.ChatRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,9 +38,15 @@ public class ChatServiceImpl implements ChatService {
         chatRepository.save(chatConverter.convertToEntity(chatDTO));
     }
 
+    @Transactional
     @Override
     public void delete(ChatDTO chatDTO) {
-        chatRepository.delete(chatConverter.convertToEntity(chatDTO));
+        Chat chat = chatConverter.convertToEntity(chatDTO);
+
+        chat.setDeleted(true);
+        chat.setDeletedAt(LocalDateTime.now());
+
+        chatRepository.save(chat);
     }
 
     @Override

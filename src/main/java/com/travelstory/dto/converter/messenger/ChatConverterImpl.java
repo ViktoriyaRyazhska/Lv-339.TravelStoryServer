@@ -1,10 +1,10 @@
-package com.travelstory.dto.converter.messenger.impl;
+package com.travelstory.dto.converter.messenger;
 
-import com.travelstory.dto.converter.messenger.ChatConverter;
 import com.travelstory.dto.messenger.ChatDTO;
 import com.travelstory.dto.messenger.MessageDTO;
+import com.travelstory.dto.messenger.MessengerUserDTO;
 import com.travelstory.entity.messenger.Chat;
-import com.travelstory.repositories.MessageRepository;
+import com.travelstory.repositories.messenger.MessageRepository;
 import com.travelstory.utils.ModelMapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,6 +30,15 @@ public class ChatConverterImpl implements ChatConverter {
 
         chatDTO.setLastMessage(
                 modelMapperUtils.map(messageRepository.findTopByChatOrderByCreatedAt(chat), MessageDTO.class));
+
+        // set interlocutor
+        if (chat.getChatType() == Chat.ChatType.PRIVATE_MESSAGES) {
+            if (chat.getConnectedUsers().get(0).getId().equals(chat.getCreator().getId())) {
+                chatDTO.setInterlocutor(modelMapperUtils.map(chat.getConnectedUsers().get(1), MessengerUserDTO.class));
+            } else {
+                chatDTO.setInterlocutor(modelMapperUtils.map(chat.getConnectedUsers().get(0), MessengerUserDTO.class));
+            }
+        }
 
         return chatDTO;
     }

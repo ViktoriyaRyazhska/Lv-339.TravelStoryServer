@@ -1,5 +1,6 @@
 package com.travelstory.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.travelstory.entity.messenger.Chat;
 import com.travelstory.entity.messenger.Message;
 import lombok.AllArgsConstructor;
@@ -80,8 +81,8 @@ public class User {
     private List<Like> likes;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-    // @JsonBackReference
-    private List<SocialNetworkNick> socialNetworks;
+    @JsonManagedReference
+    private List<SocialNetwork> socialNetworks;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;

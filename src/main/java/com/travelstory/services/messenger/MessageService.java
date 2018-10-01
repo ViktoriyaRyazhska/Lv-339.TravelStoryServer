@@ -2,6 +2,8 @@ package com.travelstory.services.messenger;
 
 import com.travelstory.dto.messenger.MessageDTO;
 
+import java.util.List;
+
 public interface MessageService {
     public void save(MessageDTO messageDTO);
 
@@ -9,5 +11,5 @@ public interface MessageService {
 
     public MessageDTO get(Long chatId);
 
-    public void getNext50Messages(int chatId, int pageNumber); // 107 374 182 350 - max number of messages =)
+    public List<MessageDTO> getNext30Messages(long chatId, int pageNumber);
 }
