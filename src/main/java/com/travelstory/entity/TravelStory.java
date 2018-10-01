@@ -30,12 +30,15 @@ public class TravelStory {
 
     @Enumerated(EnumType.STRING)
     private TravelStoryStatus travelStoryStatus;
+
     @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
     private List<Like> likes;
+
     @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
     private List<Comment> comments;
+
     @ManyToOne
     private User userOwner;
 

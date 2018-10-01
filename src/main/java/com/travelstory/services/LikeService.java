@@ -1,5 +1,6 @@
 package com.travelstory.services;
 
+import com.travelstory.dto.LikeDTO;
 import com.travelstory.entity.Like;
 import com.travelstory.entity.Media;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,7 @@ import java.util.Optional;
 
 @Service
 public interface LikeService {
-    public List<Like> getAllLikes();
+    public List<LikeDTO> getLikes(Long treavelStoryId, Long mediaId);
 
     public List<Like> getLikesByMedia(Media media);
 

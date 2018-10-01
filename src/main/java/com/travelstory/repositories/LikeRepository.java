@@ -49,4 +49,7 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
      */
     public List<Like> findAllByUserAndTravelStory(User user, TravelStory travelStory);
 
+    List<Like> findAllByTravelStoryId(Long travelStoryId);
+
+    List<Like> findAllByMediaId(Long mediaId);
 }

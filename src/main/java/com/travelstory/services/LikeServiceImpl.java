@@ -1,9 +1,12 @@
 package com.travelstory.services;
 
+import com.travelstory.dto.LikeDTO;
+import com.travelstory.dto.converter.LikeConverter;
 import com.travelstory.entity.Media;
 import com.travelstory.exceptions.EntityNotFoundException;
 import com.travelstory.repositories.LikeRepository;
 import com.travelstory.entity.Like;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +18,19 @@ import java.util.Optional;
 public class LikeServiceImpl implements LikeService {
     @Autowired
     LikeRepository likeRepository;
+    @Autowired
+    LikeConverter likeConverter;
 
     @Override
-    public List<Like> getAllLikes() {
-        return likeRepository.findAll();
+    public List<LikeDTO> getLikes(Long travelStoryId, Long mediaId) {
+        if(mediaId==null){
+            ModelMapper modelMapper=new ModelMapper();
+            return likeConverter.convertToDto(likeRepository.findAllByTravelStoryId(travelStoryId));
+        }
+        else{
+            return  likeConverter.convertToDto(likeRepository.findAllByMediaId(mediaId));
+        }
+
     }
 
     @Override
