@@ -95,7 +95,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     List<Follow> follows;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private UserState userState;
 

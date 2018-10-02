@@ -30,6 +30,9 @@ public class TokenProvider {
     @Value("${jwt.token.expire-length}")
     private long validityInMilliseconds;
 
+    @Value("${jwt.bearer}")
+    private String bearer;
+
     private final UserDetailServiceImplementation userDetails;
 
     @PostConstruct
@@ -81,12 +84,11 @@ public class TokenProvider {
 
     public String resolveAccessToken(HttpServletRequest req) {
         String accessToken = req.getHeader("authorization");
-        return accessToken;
+        return accessToken != null ? accessToken.substring(bearer.length() + 1) : accessToken;
     }
 
     public String resolveRefreshToken(HttpServletRequest req) {
-        String accessToken = req.getHeader("Refresh-token");
-        return accessToken;
+        return req.getHeader("Refresh-token");
     }
 
 }
