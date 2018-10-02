@@ -1,9 +1,13 @@
 package com.travelstory.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -14,12 +18,15 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Component
+@ToString(exclude = {"comments","likes","userOwner"})
+@JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer"})
 public class TravelStory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank
+//    @NotBlank
     private String head;
 
     private String description;
@@ -40,6 +47,8 @@ public class TravelStory {
     private List<Comment> comments;
 
     @ManyToOne
+    @JsonBackReference
+    @NotBlank
     private User userOwner;
 
     private enum TravelStoryStatus {

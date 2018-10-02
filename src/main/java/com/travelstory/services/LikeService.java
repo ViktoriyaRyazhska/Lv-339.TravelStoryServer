@@ -12,13 +12,9 @@ import java.util.Optional;
 public interface LikeService {
     public List<LikeDTO> getLikes(Long treavelStoryId, Long mediaId);
 
-    public List<Like> getLikesByMedia(Media media);
+    public LikeDTO add(LikeDTO likeDTO);
+    public LikeDTO deleteLike(Long id);
 
-    public Optional<Like> getLike(Long id);
 
-    public void addLike(Like like);
-
-    public void deleteLike(Like like);
-
-    public void updateLike(Long id);
+    LikeDTO getUserLike(Long travelStoryId, Long mediaId, Long userId);
 }

@@ -1,7 +1,6 @@
 package com.travelstory.controllers;
 
 import com.travelstory.dto.LikeDTO;
-import com.travelstory.entity.Like;
 import com.travelstory.services.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,26 +11,35 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("api/likes")
+@RequestMapping("api/")
 public class LikeController {
 
-    @Autowired
+    @Autowired()
     private LikeService likeService;
 
-    @GetMapping
+    @GetMapping("likes")
     public List<LikeDTO> getLikes(@RequestParam(value = "travelStoryId") Long travelStoryId,
-                                  @RequestParam(value = "mediaId", required = false)Long mediaId) {
-        return likeService.getLikes(travelStoryId,mediaId);
+                                  @RequestParam(value = "mediaId", required = false) Long mediaId) {
+        return likeService.getLikes(travelStoryId, mediaId);
     }
 
-//    @PostMapping
-//    public ResponseEntity<Like> addLike(@RequestBody Like like, @RequestParam(value = "userId") Long userId,
-//                                        @RequestParam(value = "travelStoryId") Long travelStoryId,
-//                                        @RequestParam(value = "mediaId", required = false) Long mediaId) {
-//        Like addedLike = likeService.add(like, userId, travelStoryId, mediaId);
-//        return new ResponseEntity<>(addedLike, HttpStatus.CREATED);
-//    }
+    @GetMapping("like")
+    public LikeDTO getLike(@RequestParam(value = "travelStoryId") Long travelStoryId,
+                                  @RequestParam(value = "mediaId", required = false) Long mediaId, @RequestParam(value = "userId") Long userId) {
+        return likeService.getUserLike(travelStoryId, mediaId, userId);
+    }
 
+    @PostMapping("likes")
+    public ResponseEntity<LikeDTO> addLike(@RequestBody LikeDTO likeDTO) {
+        LikeDTO addedLike = likeService.add(likeDTO);
+        return new ResponseEntity<>(addedLike, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("likes/{id}")
+    public ResponseEntity<LikeDTO> deleteLike(@PathVariable Long id) {
+        LikeDTO deletedLike = likeService.deleteLike(id);
+        return new ResponseEntity<>(deletedLike, HttpStatus.ACCEPTED);
+    }
 
 
 }

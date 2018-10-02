@@ -1,5 +1,7 @@
 package com.travelstory.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -20,10 +22,12 @@ import java.util.List;
 // @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 @Component
+@ToString(exclude = {"connectedChats","messages","chats","travelStories","likes","gender","userStatus"})
+@JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String firstName;
 
@@ -61,9 +65,11 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
     private List<Chat> chats;
 
+    @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userOwner")
     private List<TravelStory> travelStories;
 
+    @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private List<Like> likes;
 

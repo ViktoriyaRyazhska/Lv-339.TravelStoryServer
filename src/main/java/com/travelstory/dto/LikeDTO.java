@@ -3,6 +3,7 @@ package com.travelstory.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.stereotype.Component;
 
 @Data
@@ -11,6 +12,12 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 public class LikeDTO extends BaseDTO {
     private Long id;
+    private boolean likeState;
+    private Long travelStoryId;
+    private Long mediaId;
+    private Long loggedUserId;
 
-
+    public boolean isLikeState() {
+        return likeState;
+    }
 }

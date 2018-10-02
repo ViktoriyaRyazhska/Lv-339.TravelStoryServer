@@ -11,45 +11,12 @@ import java.util.List;
 
 @Repository
 public interface LikeRepository extends JpaRepository<Like, Long> {
-    /**
-     * @param id
-     * @return List<Like>
-     */
-    public List<Like> findAllByTravelStoryIdOrderByCreatedAt(Long id);
-
-    /**
-     * @param travelStory
-     * @return List<Like>
-     */
-    public List<Like> findAllByTravelStory(TravelStory travelStory);
-
-    /**
-     * @param media
-     * @return List<Like>
-     */
-    public List<Like> findAllByMedia(Media media);
-
-    /**
-     * @param user
-     * @return List<Like>
-     */
-    public List<Like> findAllByUser(User user);
-
-    /**
-     * @param user
-     * @param media
-     * @return List<Like>
-     */
-    public List<Like> findAllByUserAndMedia(User user, Media media);
-
-    /**
-     * @param user
-     * @param travelStory
-     * @return List<Like>
-     */
-    public List<Like> findAllByUserAndTravelStory(User user, TravelStory travelStory);
 
     List<Like> findAllByTravelStoryId(Long travelStoryId);
 
     List<Like> findAllByMediaId(Long mediaId);
+
+    Like findByMediaIdAndUserId(Long mediaId, Long userId);
+
+    Like findByTravelStoryIdAndUserId(Long mediaId, Long userId);
 }

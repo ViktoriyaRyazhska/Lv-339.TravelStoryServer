@@ -13,23 +13,26 @@ public class LikeConverter implements GeneralConverter<LikeDTO, Like> {
     @Autowired
     LikeDTO likeDTO;
 
-
     @Override
     public Like convertToEntity(LikeDTO dto) {
-        return null;
+        Like like = new Like();
+        like.setId(likeDTO.getId());
+        like.setLikeState(likeDTO.isLikeState());
+        return like;
     }
 
     @Override
     public LikeDTO convertToDto(Like entity) {
-//        return likeDTO.setId(entity.getId());
-        return null;
+
+        LikeDTO likeDTO=new LikeDTO();
+        likeDTO.setId(entity.getId());
+        likeDTO.setLikeState(entity.isLikeState());
+        return  likeDTO;
     }
 
     @Override
     public List<Like> convertToEntity(List<LikeDTO> dtos) {
         return null;
-
-
     }
 
     @Override
@@ -38,7 +41,9 @@ public class LikeConverter implements GeneralConverter<LikeDTO, Like> {
         List<LikeDTO> likeDTOList = new ArrayList<>();
 
         for (Like like : entities) {
-            LikeDTO likeDTO =new LikeDTO(like.getId());
+            LikeDTO likeDTO = new LikeDTO();
+                    likeDTO.setId(like.getId());
+                    likeDTO.setLikeState(like.isLikeState());
             likeDTOList.add(likeDTO);
         }
         return likeDTOList;
