@@ -5,7 +5,7 @@ import com.travelstory.dto.messenger.MessageDTO;
 import com.travelstory.dto.messenger.MessengerUserDTO;
 import com.travelstory.entity.messenger.Chat;
 import com.travelstory.repositories.messenger.MessageRepository;
-import com.travelstory.utils.ModelMapperUtils;
+import com.travelstory.utils.ModelMapperDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,28 +15,30 @@ import java.util.List;
 @Component
 public class ChatConverterImpl implements ChatConverter {
 
-    private ModelMapperUtils modelMapperUtils;
+    private ModelMapperDecorator modelMapperDecorator;
     private MessageRepository messageRepository;
 
     @Autowired
-    public ChatConverterImpl(ModelMapperUtils modelMapperUtils, MessageRepository messageRepository) {
-        this.modelMapperUtils = modelMapperUtils;
+    public ChatConverterImpl(ModelMapperDecorator modelMapperDecorator, MessageRepository messageRepository) {
+        this.modelMapperDecorator = modelMapperDecorator;
         this.messageRepository = messageRepository;
     }
 
     @Override
     public ChatDTO convertToDto(Chat chat) {
-        ChatDTO chatDTO = modelMapperUtils.map(chat, ChatDTO.class);
+        ChatDTO chatDTO = modelMapperDecorator.map(chat, ChatDTO.class);
 
         chatDTO.setLastMessage(
-                modelMapperUtils.map(messageRepository.findTopByChatOrderByCreatedAt(chat), MessageDTO.class));
+                modelMapperDecorator.map(messageRepository.findTopByChatOrderByCreatedAtDesc(chat), MessageDTO.class));
 
         // set interlocutor
         if (chat.getChatType() == Chat.ChatType.PRIVATE_MESSAGES) {
             if (chat.getConnectedUsers().get(0).getId().equals(chat.getCreator().getId())) {
-                chatDTO.setInterlocutor(modelMapperUtils.map(chat.getConnectedUsers().get(1), MessengerUserDTO.class));
+                chatDTO.setInterlocutor(
+                        modelMapperDecorator.map(chat.getConnectedUsers().get(1), MessengerUserDTO.class));
             } else {
-                chatDTO.setInterlocutor(modelMapperUtils.map(chat.getConnectedUsers().get(0), MessengerUserDTO.class));
+                chatDTO.setInterlocutor(
+                        modelMapperDecorator.map(chat.getConnectedUsers().get(0), MessengerUserDTO.class));
             }
         }
 
@@ -45,7 +47,7 @@ public class ChatConverterImpl implements ChatConverter {
 
     @Override
     public Chat convertToEntity(ChatDTO chatDTO) {
-        Chat chat = modelMapperUtils.map(chatDTO, Chat.class);
+        Chat chat = modelMapperDecorator.map(chatDTO, Chat.class);
 
         // User creator = userRepository.findById(creatorToFind.getId())
         // .orElseThrow(() -> new EntityNotFoundException("User isn't found in the DB." +

@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ModelMapperUtils {
+public class ModelMapperDecorator {
 
     private ModelMapper modelMapper;
 
     @Autowired
-    public ModelMapperUtils(ModelMapper modelMapper) {
+    public ModelMapperDecorator(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
     }

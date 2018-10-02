@@ -4,15 +4,15 @@ import com.travelstory.dto.messenger.MessengerUserDetailsDTO;
 import com.travelstory.dto.messenger.SocialNetworksDTO;
 import com.travelstory.entity.User;
 import com.travelstory.repositories.UserRepository;
-import com.travelstory.utils.ModelMapperUtils;
+import com.travelstory.utils.ModelMapperDecorator;
 
 public class MessengerUserDetailsConverterImpl implements MessengerUserDetailsConverter {
-    private ModelMapperUtils modelMapperUtils;
+    private ModelMapperDecorator modelMapperDecorator;
     private UserRepository userRepository;
 
     @Override
     public MessengerUserDetailsDTO convertToDto(User user) {
-        MessengerUserDetailsDTO messengerUserDetailsDTO = modelMapperUtils.map(user, MessengerUserDetailsDTO.class);
+        MessengerUserDetailsDTO messengerUserDetailsDTO = modelMapperDecorator.map(user, MessengerUserDetailsDTO.class);
 
         for (int i = 0; i < user.getSocialNetworks().size(); ++i) {
             SocialNetworksDTO socialNetworksDTO;
@@ -23,6 +23,6 @@ public class MessengerUserDetailsConverterImpl implements MessengerUserDetailsCo
 
     @Override
     public User convertToEntity(MessengerUserDetailsDTO messengerUserDetailsDTO) {
-        return modelMapperUtils.map(messengerUserDetailsDTO, User.class);
+        return modelMapperDecorator.map(messengerUserDetailsDTO, User.class);
     }
 }

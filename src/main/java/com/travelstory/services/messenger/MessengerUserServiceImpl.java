@@ -5,27 +5,27 @@ import com.travelstory.entity.User;
 import com.travelstory.exceptions.EntityNotFoundException;
 import com.travelstory.repositories.SocialNetworkRepository;
 import com.travelstory.repositories.UserRepository;
-import com.travelstory.utils.ModelMapperUtils;
+import com.travelstory.utils.ModelMapperDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MessengerUserServiceImpl implements MessengerUserService {
     private UserRepository userRepository;
-    private ModelMapperUtils modelMapperUtils;
+    private ModelMapperDecorator modelMapperDecorator;
 
     @Autowired
     private SocialNetworkRepository socialNetworkRepository;
 
     @Autowired
-    public MessengerUserServiceImpl(UserRepository userRepository, ModelMapperUtils modelMapperUtils) {
+    public MessengerUserServiceImpl(UserRepository userRepository, ModelMapperDecorator modelMapperDecorator) {
         this.userRepository = userRepository;
-        this.modelMapperUtils = modelMapperUtils;
+        this.modelMapperDecorator = modelMapperDecorator;
     }
 
     @Override
     public void saveUserDetails(MessengerUserDetailsDTO messengerUserDetailsDTO) {
-        User user = modelMapperUtils.map(messengerUserDetailsDTO, User.class);
+        User user = modelMapperDecorator.map(messengerUserDetailsDTO, User.class);
         userRepository.save(user);
     }
 
@@ -38,7 +38,7 @@ public class MessengerUserServiceImpl implements MessengerUserService {
                         "Dear user, there is no such user. Don't by disappointed and try again =)",
                         MessengerUserService.class));
         // List<SocialNetwork> socialNetworks = socialNetworkRepository.getAllByUser(user);
-        MessengerUserDetailsDTO messengerUserDetailsDTO = modelMapperUtils.map(user, MessengerUserDetailsDTO.class);
+        MessengerUserDetailsDTO messengerUserDetailsDTO = modelMapperDecorator.map(user, MessengerUserDetailsDTO.class);
         //
         // // messengerUserDetailsDTO.setSocialNetworks(modelMapperUtils.mapAll(socialNetworks,
         // SocialNetworksDTO.class));

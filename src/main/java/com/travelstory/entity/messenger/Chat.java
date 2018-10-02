@@ -41,6 +41,8 @@ public class Chat {
     @NotBlank
     private String chatName;
 
+    private String avatar;
+
     private String description;
 
     @NotNull

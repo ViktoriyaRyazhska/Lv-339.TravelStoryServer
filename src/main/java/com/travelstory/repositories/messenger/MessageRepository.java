@@ -13,8 +13,10 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     // public List<Message> findAllByChat(@Param("chat") Chat chat, Pageable pageRequest);
 
     // public List<Message> findAll(Pageable pageable);
-    public Message findTopByChatOrderByCreatedAt(Chat chat);
+    public Message findTopByChatOrderByCreatedAtDesc(Chat chat);
 
     public List<Message> findAllByChatOrderByCreatedAt(Chat chat, Pageable pageable);
+
+    public Message findFirst1ByChatOrderByCreatedAtDesc(Chat chat);
     // public Page<Message> findAllByChatOrderByCreatedAt(Chat chat,Pageable pageable);
 }
