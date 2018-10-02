@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     public void registrateUser(RegistrationDTO registrationDTO) {
 
         if (userRepository.existsByEmail(registrationDTO.getEmail())) {
-            log.error("There is no user with such email");
+            log.error("There is a user with such email. Cannot register!");
 
         } else {
             User user = new User();
