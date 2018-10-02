@@ -5,7 +5,7 @@ import com.travelstory.entity.messenger.Chat;
 
 public interface ChatDetailsConverter {
 
-    public ChatDetailsDTO convertToDto(Chat chat);
+    public ChatDetailsDTO convertToDto(Chat chat, Long currUserId);
 
     public Chat convertToEntity(ChatDetailsDTO chatDTO);
 }

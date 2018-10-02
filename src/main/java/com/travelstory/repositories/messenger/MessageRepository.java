@@ -15,7 +15,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     // public List<Message> findAll(Pageable pageable);
     public Message findTopByChatOrderByCreatedAtDesc(Chat chat);
 
-    public List<Message> findAllByChatOrderByCreatedAt(Chat chat, Pageable pageable);
+    public List<Message> findAllByChatOrderByCreatedAtDesc(Chat chat, Pageable pageable);
 
     public Message findFirst1ByChatOrderByCreatedAtDesc(Chat chat);
     // public Page<Message> findAllByChatOrderByCreatedAt(Chat chat,Pageable pageable);

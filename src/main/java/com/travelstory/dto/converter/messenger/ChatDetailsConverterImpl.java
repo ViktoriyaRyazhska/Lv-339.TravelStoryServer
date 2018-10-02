@@ -27,23 +27,15 @@ public class ChatDetailsConverterImpl implements ChatDetailsConverter {
     }
 
     @Override
-    public ChatDetailsDTO convertToDto(Chat chat) {
+    public ChatDetailsDTO convertToDto(Chat chat, Long currUserId) {
         ChatDetailsDTO chatDetailsDTO = modelMapperDecorator.map(chat, ChatDetailsDTO.class);
 
         List<MessengerUserDTO> messengerUserDTOs = modelMapperDecorator.mapAll(chat.getConnectedUsers(),
                 MessengerUserDTO.class);
         MessengerUserDTO creator = modelMapperDecorator.map(chat.getCreator(), MessengerUserDTO.class);
 
-        // set interlocutor
-        if (chat.getChatType() == Chat.ChatType.PRIVATE_MESSAGES) {
-            if (chat.getConnectedUsers().get(0).getId().equals(chat.getCreator().getId())) {
-                chatDetailsDTO.setInterlocutor(
-                        modelMapperDecorator.map(chat.getConnectedUsers().get(1), MessengerUserDTO.class));
-            } else {
-                chatDetailsDTO.setInterlocutor(
-                        modelMapperDecorator.map(chat.getConnectedUsers().get(0), MessengerUserDTO.class));
-            }
-        }
+        chatConverter.setInterlocutor(chat, chatDetailsDTO, currUserId);
+        chatConverter.setChatName(chatDetailsDTO);
 
         chatDetailsDTO.setCreator(creator);
         chatDetailsDTO.setUsers(messengerUserDTOs);
