@@ -40,21 +40,21 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void markAsDeleted(long id) {
         user = userRepository.findById(id).get();
-        user.setUserStatus(UserStatus.DELETED);
+        user.setUserStatus(User.UserStatus.DELETED);
         userRepository.save(user);
     }
 
     @Override
     public void markAsActive(long id) {
         user = userRepository.findById(id).get();
-        user.setUserStatus(UserStatus.ACTIVE);
+        user.setUserStatus(User.UserStatus.ACTIVE);
         userRepository.save(user);
     }
 
     @Override
     public void markAsBanned(long id) {
         user = userRepository.findById(id).get();
-        user.setUserStatus(UserStatus.BANNED);
+        user.setUserStatus(User.UserStatus.BANNED);
         userRepository.save(user);
     }
 

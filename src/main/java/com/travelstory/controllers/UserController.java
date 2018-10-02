@@ -2,8 +2,8 @@ package com.travelstory.controllers;
 
 import com.travelstory.dto.LoginDTO;
 import com.travelstory.dto.RegistrationDTO;
-import com.travelstory.dto.UserDto;
-import com.travelstory.dto.UserPicDto;
+import com.travelstory.dto.UserDTO;
+import com.travelstory.dto.UserPicDTO;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
 import com.travelstory.repositories.UserRepository;
@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @PutMapping("/uploadProfilePic")
-    User uploadProfilePicture(@RequestBody UserPicDto dto) throws IOException {
+    User uploadProfilePicture(@RequestBody UserPicDTO dto) throws IOException {
         return userService.uploadProfilePicture(dto);
     }
 
@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public UserDto getUserById(@PathVariable long id) {
+    public UserDTO getUserById(@PathVariable long id) {
         return userService.getUserById(id);
     }
 

@@ -63,7 +63,6 @@ public class MediaUtils {
     }
 
     /**
-     *
      * @param media
      *            media file in base64
      * @return encoded file as array of bytes
