@@ -24,11 +24,7 @@ public class ChatController {
     }
 
     @GetMapping("/chat/{id}")
-    public ChatDetailsDTO getChatById(@PathVariable Long id, @RequestParam("userId") Long userId) {
-
-        if (userId == null) {
-            userId = (long) 1; //TODO later I will take this data from token
-        }
+    public ChatDetailsDTO getChatById(@PathVariable Long id) {
         return chatService.get(id);
     }
 

@@ -4,7 +4,6 @@ import com.travelstory.dto.messenger.ChatDetailsDTO;
 import com.travelstory.dto.messenger.MessengerUserDTO;
 import com.travelstory.entity.User;
 import com.travelstory.entity.messenger.Chat;
-import com.travelstory.repositories.UserRepository;
 import com.travelstory.utils.ModelMapperDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,14 +14,11 @@ import java.util.List;
 public class ChatDetailsConverterImpl implements ChatDetailsConverter {
 
     private ModelMapperDecorator modelMapperDecorator;
-    private UserRepository userRepository;
     private ChatConverter chatConverter;
 
     @Autowired
-    public ChatDetailsConverterImpl(ModelMapperDecorator modelMapperDecorator, UserRepository userRepository,
-            ChatConverter chatConverter) {
+    public ChatDetailsConverterImpl(ModelMapperDecorator modelMapperDecorator, ChatConverter chatConverter) {
         this.modelMapperDecorator = modelMapperDecorator;
-        this.userRepository = userRepository;
         this.chatConverter = chatConverter;
     }
 

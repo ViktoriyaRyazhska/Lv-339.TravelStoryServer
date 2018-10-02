@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/messenger")
 public class MessengerUserController {
 
-    MessengerUserService messengerUserService;
+    private MessengerUserService messengerUserService;
 
     @Autowired
     public MessengerUserController(MessengerUserService messengerUserService) {

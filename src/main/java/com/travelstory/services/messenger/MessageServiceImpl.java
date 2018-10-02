@@ -17,8 +17,8 @@ import java.util.List;
 @Service
 public class MessageServiceImpl implements MessageService {
 
-    MessageRepository messageRepository;
-    ModelMapperDecorator modelMapperDecorator;
+    private MessageRepository messageRepository;
+    private ModelMapperDecorator modelMapperDecorator;
 
     @Autowired
     public MessageServiceImpl(MessageRepository messageRepository, ModelMapperDecorator modelMapperDecorator) {

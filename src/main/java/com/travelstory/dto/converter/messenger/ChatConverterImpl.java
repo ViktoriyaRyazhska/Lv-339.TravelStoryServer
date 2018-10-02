@@ -39,13 +39,7 @@ public class ChatConverterImpl implements ChatConverter {
 
     @Override
     public Chat convertToEntity(ChatDTO chatDTO) {
-        Chat chat = modelMapperDecorator.map(chatDTO, Chat.class);
-
-        // User creator = userRepository.findById(creatorToFind.getId())
-        // .orElseThrow(() -> new EntityNotFoundException("User isn't found in the DB." +
-        // " Exception occurred while converting from ChatDTO to Chat", "sdf", ChatConverter.class));
-
-        return chat;
+        return modelMapperDecorator.map(chatDTO, Chat.class);
     }
 
     @Override
