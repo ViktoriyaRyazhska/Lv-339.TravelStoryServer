@@ -75,8 +75,8 @@ public class UserServiceImpl implements UserService {
     public TokenModel signIn(LoginDTO loginDTO) {
         String email = loginDTO.getEmail();
         TokenModel tokenModel = new TokenModel();
-        tokenModel.setAccessToken(tokenProvider.createAccessToken(email, userRepository.findByEmail(email).getUserRole(),
-                userRepository.findByEmail(email).getId()));
+        tokenModel.setAccessToken(tokenProvider.createAccessToken(email,
+                userRepository.findByEmail(email).getUserRole(), userRepository.findByEmail(email).getId()));
         tokenModel.setRefreshToken(tokenProvider.createRefreshToken(loginDTO.getEmail()));
         return tokenModel;
     }

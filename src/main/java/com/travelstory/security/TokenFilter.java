@@ -31,8 +31,8 @@ public class TokenFilter extends OncePerRequestFilter {
         String refreshToken = tokenProvider.resolveRefreshToken(request);
 
         try {
-            if (accessToken != null && tokenProvider.validateToken(accessToken)) {
-                Authentication auth = tokenProvider.getAuthentication(accessToken);
+            if (accessToken != null && tokenProvider.validateToken(accessToken.substring(7))) { // TODO заміити на пропе
+                Authentication auth = tokenProvider.getAuthentication(accessToken.substring(7));
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } else if (refreshToken != null && tokenProvider.validateToken(refreshToken)
                     && !tokenProvider.validateToken(accessToken)) {
