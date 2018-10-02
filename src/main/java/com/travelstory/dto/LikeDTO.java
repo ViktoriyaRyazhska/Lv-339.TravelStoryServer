@@ -14,6 +14,7 @@ public class LikeDTO extends BaseDTO {
     private Long id;
     private boolean likeState;
     private Long travelStoryId;
+    private Long userId;
     private Long mediaId;
     private Long loggedUserId;
 

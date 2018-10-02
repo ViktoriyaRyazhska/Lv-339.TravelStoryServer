@@ -43,6 +43,7 @@ public class LikeConverter implements GeneralConverter<LikeDTO, Like> {
         for (Like like : entities) {
             LikeDTO likeDTO = new LikeDTO();
                     likeDTO.setId(like.getId());
+                    likeDTO.setUserId(like.getUser().getId());
                     likeDTO.setLikeState(like.isLikeState());
             likeDTOList.add(likeDTO);
         }

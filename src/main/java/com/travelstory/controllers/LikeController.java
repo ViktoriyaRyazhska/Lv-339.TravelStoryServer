@@ -21,13 +21,7 @@ public class LikeController {
     public List<LikeDTO> getLikes(@RequestParam(value = "travelStoryId") Long travelStoryId,
                                   @RequestParam(value = "mediaId", required = false) Long mediaId) {
         return likeService.getLikes(travelStoryId, mediaId);
-    }
-
-    @GetMapping("like")
-    public LikeDTO getLike(@RequestParam(value = "travelStoryId") Long travelStoryId,
-                                  @RequestParam(value = "mediaId", required = false) Long mediaId, @RequestParam(value = "userId") Long userId) {
-        return likeService.getUserLike(travelStoryId, mediaId, userId);
-    }
+    }gi
 
     @PostMapping("likes")
     public ResponseEntity<LikeDTO> addLike(@RequestBody LikeDTO likeDTO) {
