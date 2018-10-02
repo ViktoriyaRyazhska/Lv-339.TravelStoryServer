@@ -23,7 +23,6 @@ public class TravelStory {
     private String head;
 
     private String description;
-
     private LocalDate createdDate;
 
     private LocalDate updatedDate;

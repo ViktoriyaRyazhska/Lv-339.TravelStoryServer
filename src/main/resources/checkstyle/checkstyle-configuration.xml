@@ -5,7 +5,7 @@
   "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
 
 <!-- This is a checkstyle configuration file. For descriptions of
-what the following rules do, please see the checkstyle configuration
+what the follow rules do, please see the checkstyle configuration
 page at http://checkstyle.sourceforge.net/config.html -->
 
 <module name="Checker">
@@ -34,7 +34,7 @@ page at http://checkstyle.sourceforge.net/config.html -->
   </module>
 
   <module name="RegexpSingleline">
-    <!-- Checks that TODOs are named with some basic formatting. Checks for the following pattern  TОDO: (
+    <!-- Checks that TODOs are named with some basic formatting. Checks for the follow pattern  TОDO: (
     -->
     <property name="format" value="((//.*)|(\*.*))TODO[^: (]"/>
     <property name="message"
@@ -156,7 +156,7 @@ page at http://checkstyle.sourceforge.net/config.html -->
       <property name="severity" value="error"/>
 
       <!--
-        The default ignore pattern exempts the following elements:
+        The default ignore pattern exempts the follow elements:
           - import statements
           - long URLs inside comments
       -->
@@ -173,7 +173,7 @@ page at http://checkstyle.sourceforge.net/config.html -->
 
     <module name="RightCurly">
       <!-- Checks right curlies on CATCH, ELSE, and TRY blocks are on
-      the same line. e.g., the following example is fine:
+      the same line. e.g., the follow example is fine:
       <pre>
         if {
           ...

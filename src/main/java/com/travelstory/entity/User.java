@@ -1,6 +1,8 @@
 package com.travelstory.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.stereotype.Component;
@@ -52,6 +54,8 @@ public class User {
 
     private String profilePic;
 
+    private String backgroundPic;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
     private List<Chat> connectedChats;
 
@@ -69,5 +73,10 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    private String location;
+
+    @OneToMany(mappedBy = "user")
+    List<Follow> follows;
 
 }
