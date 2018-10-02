@@ -1,12 +1,15 @@
 package com.travelstory.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -22,15 +25,16 @@ public class TravelStory {
     private String head;
     @NotBlank
     private String description;
-
-    private LocalDate createdDate;
-
-    private LocalDate updatedDate;
+    @CreatedDate
+    private LocalDateTime createdDate;
+    @LastModifiedDate
+    private LocalDateTime updatedDate;
 
     @Enumerated(EnumType.STRING)
     private TravelStoryStatus travelStoryStatus;
 
     @ManyToOne
+    @JsonBackReference
     private User userOwner;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
@@ -39,9 +43,8 @@ public class TravelStory {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
     private List<Like> likes;
 
-
-    public TravelStory(User userOwner, String description, LocalDate createdDate, LocalDate updatedDate,
-                       TravelStoryStatus travelStoryStatus) {
+    public TravelStory(User userOwner, String description, LocalDateTime createdDate, LocalDateTime updatedDate,
+            TravelStoryStatus travelStoryStatus) {
         this.userOwner = userOwner;
         this.description = description;
         this.createdDate = createdDate;
@@ -49,11 +52,9 @@ public class TravelStory {
         this.travelStoryStatus = travelStoryStatus;
     }
 
-
     private enum TravelStoryStatus {
         STATUS_ACTIVE, STATUS_INACTIVE;
     }
-
 
     public String getDescription() {
         return description;
@@ -63,19 +64,19 @@ public class TravelStory {
         this.description = description;
     }
 
-    public LocalDate getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDate createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public LocalDate getUpdatedDate() {
+    public LocalDateTime getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(LocalDate updatedDate) {
+    public void setUpdatedDate(LocalDateTime updatedDate) {
         this.updatedDate = updatedDate;
     }
 
@@ -94,6 +95,5 @@ public class TravelStory {
     public void setHead(String head) {
         this.head = head;
     }
-
 
 }

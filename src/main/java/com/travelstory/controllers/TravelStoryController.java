@@ -1,5 +1,6 @@
 package com.travelstory.controllers;
 
+import com.travelstory.dto.TravelStoryDTO;
 import com.travelstory.services.TravelStoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,13 +10,13 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(name = "/travelStory")
+@RequestMapping("/travelStory")
 public class TravelStoryController {
     @Autowired
     TravelStoryService tss;
 
     @PutMapping("/add")
-    public TravelStory addTravelStory(@Valid @RequestBody TravelStory travelStory) {
+    public TravelStoryDTO addTravelStory(@Valid @RequestBody TravelStoryDTO travelStory) {
         return (tss.addTravelStory(travelStory));
     }
 
@@ -47,6 +48,5 @@ public class TravelStoryController {
     @GetMapping("/byOwner/{id}")
     public List<TravelStory> getUserStories(@PathVariable long id) {
         return (tss.getByUserOwner(id));
-
     }
 }

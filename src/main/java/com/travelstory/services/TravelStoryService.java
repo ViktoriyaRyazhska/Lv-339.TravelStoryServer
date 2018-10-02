@@ -1,12 +1,12 @@
 package com.travelstory.services;
 
+import com.travelstory.dto.TravelStoryDTO;
 import com.travelstory.entity.TravelStory;
-import com.travelstory.entity.User;
 
 import java.util.List;
 
 public interface TravelStoryService {
-    TravelStory addTravelStory(TravelStory travelStory);
+    TravelStoryDTO addTravelStory(TravelStoryDTO travelStory);
 
     void deleteTravelStory(long id);
 

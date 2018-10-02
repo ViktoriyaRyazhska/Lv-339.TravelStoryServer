@@ -1,8 +1,9 @@
 package com.travelstory.services;
 
 import com.travelstory.dao.TravelStoryDAO;
+import com.travelstory.dto.TravelStoryDTO;
 import com.travelstory.entity.TravelStory;
-import com.travelstory.entity.User;
+import com.travelstory.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,12 @@ public class TravelStoryServiceImpl implements TravelStoryService {
     TravelStoryDAO travelStoryDAO;
 
     @Override
-    public TravelStory addTravelStory(TravelStory travelStory) {
-        TravelStory travelStory1 = travelStoryDAO.saveAndFlush(travelStory);
+    public TravelStoryDTO addTravelStory(TravelStoryDTO travelStory) {
+        TravelStory travelStory1 = new TravelStory();
+        travelStory.setHead(travelStory.getHead());
+        travelStory.setDescription(travelStory.getDescription());
+        travelStory.setCreatedDate(travelStory.getCreatedDate());
+        travelStoryDAO.saveAndFlush(travelStory1);
         return travelStory;
     }
 
@@ -41,13 +46,12 @@ public class TravelStoryServiceImpl implements TravelStoryService {
 
     @Override
     public TravelStory getById(long id) {
-        return null;
-        // return travelStoryDAO.findById(id).orElseThrow(() ->
-        // new EntityNotFoundException(String.format("TravelStory with id '%s' not found", id,"sdknfiosdv")));
+        return travelStoryDAO.findById(id).orElseThrow(() -> new EntityNotFoundException("Travel story not found",
+                "Dear customer,no such user in the database", TravelStoryServiceImpl.class));
     }
 
     @Override
     public List<TravelStory> getByUserOwner(long id) {
-        return (List<TravelStory>) travelStoryDAO.findByUserOwnerId(id);
+        return travelStoryDAO.findByUserOwnerId(id);
     }
 }
