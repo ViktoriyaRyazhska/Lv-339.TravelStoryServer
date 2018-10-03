@@ -16,9 +16,9 @@ public interface UserService {
 
     public boolean checkCredentials(LoginDTO loginDTO);
 
-    public com.travelstory.entity.User getUserByEmail(String email);
+    public User getUserByEmail(String email);
 
-    public com.travelstory.entity.User resetProfilePic(long id);
+    public User resetProfilePic(long id);
 
     public UserDTO getUserById(long userId);
 
