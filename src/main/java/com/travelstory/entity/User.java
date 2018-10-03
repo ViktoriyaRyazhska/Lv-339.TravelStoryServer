@@ -39,9 +39,9 @@ public class User {
 
     private String lastName;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     @JsonBackReference
-    private Media[] media;
+    private List<Media> media;
 
     @Email
     private String email;
