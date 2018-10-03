@@ -4,7 +4,7 @@ import com.travelstory.dto.messenger.ChatDetailsDTO;
 import com.travelstory.dto.messenger.MessengerUserDTO;
 import com.travelstory.entity.User;
 import com.travelstory.entity.messenger.Chat;
-import com.travelstory.utils.ModelMapperDecorator;
+import com.travelstory.utils.modelMapper.ModelMapperDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
