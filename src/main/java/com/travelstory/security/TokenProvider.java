@@ -24,11 +24,14 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class TokenProvider {
 
-    @Value("SecretKey")
+    @Value("${jwt.secretKey}")
     private String secretKey;
 
-    @Value("259200000")
+    @Value("${jwt.token.expire-length}")
     private long validityInMilliseconds;
+
+    @Value("${jwt.bearer}")
+    private String bearer;
 
     private final UserDetailServiceImplementation userDetails;
 
@@ -80,13 +83,12 @@ public class TokenProvider {
     }
 
     public String resolveAccessToken(HttpServletRequest req) {
-        String accessToken = req.getHeader("Access-token");
-        return accessToken;
+        String accessToken = req.getHeader("authorization");
+        return accessToken != null ? accessToken.substring(bearer.length() + 1) : accessToken;
     }
 
     public String resolveRefreshToken(HttpServletRequest req) {
-        String accessToken = req.getHeader("Refresh-token");
-        return accessToken;
+        return req.getHeader("Refresh-token");
     }
 
 }

@@ -2,6 +2,8 @@ package com.travelstory.controllers;
 
 import com.travelstory.dto.LoginDTO;
 import com.travelstory.dto.RegistrationDTO;
+import com.travelstory.dto.UserDTO;
+import com.travelstory.dto.UserPicDTO;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
 import com.travelstory.repositories.UserRepository;
@@ -36,10 +38,10 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    /*@PutMapping("/updateProfilePic")
-    User uploadProfilePicture(@RequestBody UserDto userDetails) throws IOException {
-        return userService.uploadProfilePicture(userDetails.getId(), userDetails);
-    }*/
+    @PutMapping("/uploadProfilePic")
+    User uploadProfilePicture(@RequestBody UserPicDTO dto) throws IOException {
+        return userService.uploadProfilePicture(dto);
+    }
 
     @PostMapping("/registrate")
     public ResponseEntity registrateUser(@RequestBody RegistrationDTO registrationDTO) {
@@ -48,7 +50,9 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public User getUserById(@PathVariable long id) {
+
+    public UserDTO getUserById(@PathVariable long id) {
+
         return userService.getUserById(id);
     }
 
@@ -60,8 +64,8 @@ public class UserController {
             token = userService.signIn(loginDTO);
             return new ResponseEntity<>(token, HttpStatus.OK);
         } else {
-//            log.error("There is no user with such credentials");
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("There is no user with such credentials");
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 }

@@ -1,23 +1,18 @@
 package com.travelstory.services;
 
-import com.travelstory.entity.Like;
-import com.travelstory.entity.Media;
+import com.travelstory.dto.LikeDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public interface LikeService {
-    public List<Like> getAllLikes();
+    List<LikeDTO> getLikes(Long travelStoryId, Long mediaId);
 
-    public List<Like> getLikesByMedia(Media media);
+    LikeDTO add(LikeDTO likeDTO);
 
-    public Optional<Like> getLike(Long id);
+    void deleteLike(Long id);
 
-    public void addLike(Like like);
 
-    public void deleteLike(Like like);
-
-    public void updateLike(Long id);
+    LikeDTO getUserLike(Long travelStoryId, Long mediaId, Long userId);
 }
