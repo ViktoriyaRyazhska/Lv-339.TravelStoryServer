@@ -53,7 +53,6 @@ public class UserController {
     @GetMapping("/user/{id}")
 
     public UserDTO getUserById(@PathVariable long id) {
-
         return userService.getUserById(id);
     }
 

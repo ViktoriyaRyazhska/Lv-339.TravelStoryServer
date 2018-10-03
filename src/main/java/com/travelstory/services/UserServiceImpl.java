@@ -10,6 +10,7 @@ import com.travelstory.entity.User;
 import com.travelstory.entity.UserRole;
 import com.travelstory.exceptions.EntityNotFoundException;
 import com.travelstory.repositories.FollowRepository;
+import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
 import com.travelstory.security.TokenProvider;
 import com.travelstory.utils.MediaUtils;
@@ -35,7 +36,10 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    FollowRepository followRepository;
+    private TravelStoryRepository travelStoryRepository;
+
+    @Autowired
+    private FollowRepository followRepository;
 
     @Autowired
     private TokenProvider tokenProvider;
@@ -85,7 +89,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found",
                 "Dear customer, no such user in the database", UserServiceImpl.class));
-
+        long countOfTrStories = travelStoryRepository.countTravelStoriesByUserOwner(user);
         List<Follow> follows = followRepository.getFollowByUserId(userId);
         List<Long> followsFiltered = new ArrayList<>();
         for (Follow follow : follows) {
@@ -93,6 +97,7 @@ public class UserServiceImpl implements UserService {
         }
         UserDTO map = modelMapper.map(user, UserDTO.class);
         map.setUsersFollows(followsFiltered);
+        map.setCountOfTravelStories(countOfTrStories);
         return map;
     }
 
