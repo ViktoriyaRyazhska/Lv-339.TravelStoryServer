@@ -4,7 +4,6 @@ import com.travelstory.dto.messenger.ChatDetailsDTO;
 import com.travelstory.dto.messenger.MessengerUserDTO;
 import com.travelstory.entity.User;
 import com.travelstory.entity.messenger.Chat;
-import com.travelstory.repositories.UserRepository;
 import com.travelstory.utils.ModelMapperDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,35 +14,24 @@ import java.util.List;
 public class ChatDetailsConverterImpl implements ChatDetailsConverter {
 
     private ModelMapperDecorator modelMapperDecorator;
-    private UserRepository userRepository;
     private ChatConverter chatConverter;
 
     @Autowired
-    public ChatDetailsConverterImpl(ModelMapperDecorator modelMapperDecorator, UserRepository userRepository,
-            ChatConverter chatConverter) {
+    public ChatDetailsConverterImpl(ModelMapperDecorator modelMapperDecorator, ChatConverter chatConverter) {
         this.modelMapperDecorator = modelMapperDecorator;
-        this.userRepository = userRepository;
         this.chatConverter = chatConverter;
     }
 
     @Override
-    public ChatDetailsDTO convertToDto(Chat chat) {
+    public ChatDetailsDTO convertToDto(Chat chat, Long currUserId) {
         ChatDetailsDTO chatDetailsDTO = modelMapperDecorator.map(chat, ChatDetailsDTO.class);
 
         List<MessengerUserDTO> messengerUserDTOs = modelMapperDecorator.mapAll(chat.getConnectedUsers(),
                 MessengerUserDTO.class);
         MessengerUserDTO creator = modelMapperDecorator.map(chat.getCreator(), MessengerUserDTO.class);
 
-        // set interlocutor
-        if (chat.getChatType() == Chat.ChatType.PRIVATE_MESSAGES) {
-            if (chat.getConnectedUsers().get(0).getId().equals(chat.getCreator().getId())) {
-                chatDetailsDTO.setInterlocutor(
-                        modelMapperDecorator.map(chat.getConnectedUsers().get(1), MessengerUserDTO.class));
-            } else {
-                chatDetailsDTO.setInterlocutor(
-                        modelMapperDecorator.map(chat.getConnectedUsers().get(0), MessengerUserDTO.class));
-            }
-        }
+        chatConverter.setInterlocutor(chat, chatDetailsDTO, currUserId);
+        chatConverter.setChatName(chatDetailsDTO);
 
         chatDetailsDTO.setCreator(creator);
         chatDetailsDTO.setUsers(messengerUserDTOs);

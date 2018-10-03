@@ -4,10 +4,7 @@ import com.travelstory.dto.messenger.ChatDTO;
 import com.travelstory.dto.messenger.ChatDetailsDTO;
 import com.travelstory.services.messenger.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,9 +27,5 @@ public class ChatController {
     public ChatDetailsDTO getChatById(@PathVariable Long id) {
         return chatService.get(id);
     }
-    // @PutMapping("/updateProfilePic")
-    // User uploadProfilePicture(@RequestBody UserDTO userDetails) throws IOException {
-    // return userService.uploadProfilePicture(userDetails.getId(), userDetails);
-    // }
 
 }

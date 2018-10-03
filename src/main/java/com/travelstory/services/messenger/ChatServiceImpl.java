@@ -51,12 +51,13 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public ChatDetailsDTO get(Long chatId) {
+
         Chat chat = Optional.of(chatRepository.getOne(chatId))
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Chat entity is not found during getting it in chatService class",
                         "Dear user, there is no such chat.", ChatServiceImpl.class));
         log.debug("Getting chat by id");
-        return chatDetailsConverter.convertToDto(chat);
+        return chatDetailsConverter.convertToDto(chat, chatId);
     }
 
     @Override
@@ -67,7 +68,7 @@ public class ChatServiceImpl implements ChatService {
         log.debug("Getting list of chats for user with id - " + userId);
         List<Chat> chats = chatRepository.findByConnectedUsers(user);
 
-        return chatConverter.convertToDtos(chats);
+        return chatConverter.convertToDtos(chats, userId);
     }
 
 }

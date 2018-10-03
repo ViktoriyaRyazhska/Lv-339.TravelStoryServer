@@ -11,13 +11,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class MessageServiceImpl implements MessageService {
 
-    MessageRepository messageRepository;
-    ModelMapperDecorator modelMapperDecorator;
+    private MessageRepository messageRepository;
+    private ModelMapperDecorator modelMapperDecorator;
 
     @Autowired
     public MessageServiceImpl(MessageRepository messageRepository, ModelMapperDecorator modelMapperDecorator) {
@@ -58,7 +59,9 @@ public class MessageServiceImpl implements MessageService {
     public List<MessageDTO> getNext30Messages(long chatId, int pageNumber) { // max number of messages =)
         Chat chat = new Chat();
         chat.setId(chatId);
-        List<Message> messages = messageRepository.findAllByChatOrderByCreatedAt(chat, PageRequest.of(pageNumber, 30));
+        List<Message> messages = messageRepository.findAllByChatOrderByCreatedAtDesc(chat,
+                PageRequest.of(pageNumber, 30));
+        Collections.reverse(messages);
         return modelMapperDecorator.mapAll(messages, MessageDTO.class);
     }
 }
