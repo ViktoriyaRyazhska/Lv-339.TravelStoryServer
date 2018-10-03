@@ -1,13 +1,16 @@
 package com.travelstory.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,8 +18,11 @@ import java.util.List;
 
 @Data
 @Entity
-@EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor
+@AllArgsConstructor
+// @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
+@Component
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +40,7 @@ public class User {
 
     private LocalDate dateOfBirth;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
@@ -47,6 +54,8 @@ public class User {
     private LocalDateTime lastUpdateDate;
 
     private String profilePic;
+
+    private String backgroundPic;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
     private List<Chat> connectedChats;
@@ -65,5 +74,10 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    private String location;
+
+    @OneToMany(mappedBy = "user")
+    List<Follow> follows;
 
 }

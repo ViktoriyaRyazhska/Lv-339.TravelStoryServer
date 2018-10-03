@@ -37,11 +37,12 @@ public class TravelStory {
     @JsonBackReference
     private User userOwner;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
-    private List<Comment> comments;
-
+    @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
     private List<Like> likes;
+    @JsonBackReference
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
+    private List<Comment> comments;
 
     public TravelStory(User userOwner, String description, LocalDateTime createdDate, LocalDateTime updatedDate,
             TravelStoryStatus travelStoryStatus) {

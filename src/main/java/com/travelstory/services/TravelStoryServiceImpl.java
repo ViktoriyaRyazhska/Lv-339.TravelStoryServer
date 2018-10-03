@@ -1,7 +1,7 @@
 package com.travelstory.services;
 
-import com.travelstory.dao.TravelStoryDAO;
 import com.travelstory.dto.TravelStoryDTO;
+import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.entity.TravelStory;
 import com.travelstory.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class TravelStoryServiceImpl implements TravelStoryService {
     @Autowired
-    TravelStoryDAO travelStoryDAO;
+    TravelStoryRepository travelStoryRepository;
 
     @Override
     public TravelStoryDTO addTravelStory(TravelStoryDTO travelStory) {
@@ -20,38 +20,39 @@ public class TravelStoryServiceImpl implements TravelStoryService {
         travelStory.setHead(travelStory.getHead());
         travelStory.setDescription(travelStory.getDescription());
         travelStory.setCreatedDate(travelStory.getCreatedDate());
-        travelStoryDAO.saveAndFlush(travelStory1);
+        travelStoryRepository.saveAndFlush(travelStory1);
         return travelStory;
     }
 
     @Override
     public void deleteTravelStory(long id) {
-        travelStoryDAO.deleteById(id);
+        travelStoryRepository.deleteById(id);
     }
 
     @Override
     public TravelStory getByHead(String head) {
-        return travelStoryDAO.findByHead(head);
+        return travelStoryRepository.findByHead(head);
     }
 
     @Override
     public TravelStory editTravelStory(TravelStory travelStory) {
-        return travelStoryDAO.saveAndFlush(travelStory);
+        return travelStoryRepository.saveAndFlush(travelStory);
     }
 
     @Override
     public List<TravelStory> getAll() {
-        return travelStoryDAO.findAll();
+        return travelStoryRepository.findAll();
     }
 
     @Override
     public TravelStory getById(long id) {
-        return travelStoryDAO.findById(id).orElseThrow(() -> new EntityNotFoundException("Travel story not found",
-                "Dear customer,no such user in the database", TravelStoryServiceImpl.class));
+        return travelStoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Travel story not found",
+                        "Dear customer,no such user in the database", TravelStoryServiceImpl.class));
     }
 
     @Override
     public List<TravelStory> getByUserOwner(long id) {
-        return travelStoryDAO.findByUserOwnerId(id);
+        return travelStoryRepository.findByUserOwnerId(id);
     }
 }
