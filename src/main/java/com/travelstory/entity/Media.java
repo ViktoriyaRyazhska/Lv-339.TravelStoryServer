@@ -2,6 +2,7 @@ package com.travelstory.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.travelstory.entity.messenger.Message;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "medias")
-@ToString(exclude = {"likes","comments"})
+@ToString(exclude = {"likes", "comments"})
 @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer"})
 public class Media {
     @Id
@@ -26,6 +27,13 @@ public class Media {
 
     @URL
     private String url;
+
+    @Enumerated(EnumType.STRING)
+    private MediaType mediaType;
+
+    @ManyToOne
+    @JsonManagedReference
+    private User user;
 
     @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "media")
@@ -37,4 +45,8 @@ public class Media {
 
     @OneToOne(mappedBy = "media")
     private Message message;
+
+    public enum MediaType {
+        IMAGE, VIDEO
+    }
 }
