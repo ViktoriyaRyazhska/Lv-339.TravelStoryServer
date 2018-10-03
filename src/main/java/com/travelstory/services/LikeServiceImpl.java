@@ -47,7 +47,7 @@ public class LikeServiceImpl implements LikeService {
 
         Like like = likeConverter.convertToEntity(likeDTO);
 
-        Optional<User> userOptional = userRepository.findById(likeDTO.getLoggedUserId());
+        Optional<User> userOptional = userRepository.findById(likeDTO.getUserId());
         Optional<TravelStory> travelStoryOptional = travelStoryRepository.findById(likeDTO.getTravelStoryId());
         TravelStory travelStory = travelStoryOptional.orElseThrow(() -> new EntityNotFoundException("no such travel story in the database",
                 "sorry,we have no such travel story ", TravelStory.class));
