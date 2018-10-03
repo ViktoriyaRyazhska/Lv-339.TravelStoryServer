@@ -10,15 +10,17 @@ import com.travelstory.entity.User;
 import java.io.IOException;
 
 public interface UserService {
-    void registrateUser(RegistrationDTO registrationDTO);
+    public void registrateUser(RegistrationDTO registrationDTO);
 
-    User uploadProfilePicture(UserPicDTO dto) throws IOException;
+    public User uploadProfilePicture(UserPicDTO dto) throws IOException;
 
-    boolean checkCredentials(LoginDTO loginDTO);
+    public boolean checkCredentials(LoginDTO loginDTO);
 
-    User getUserByEmail(String email);
+    public com.travelstory.entity.User getUserByEmail(String email);
 
-    UserDTO getUserById(long userId);
+    public com.travelstory.entity.User resetProfilePic(long id);
+
+    public UserDTO getUserById(long userId);
 
     public TokenModel signIn(LoginDTO loginDTO);
 

@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
             log.error("There is a user with such email. Cannot register!");
 
         } else {
-            User user = new User();
+            com.travelstory.entity.User user = new com.travelstory.entity.User();
             user.setEmail(registrationDTO.getEmail());
             user.setFirstName(registrationDTO.getFirstName());
             user.setLastName(registrationDTO.getLastName());
@@ -62,8 +62,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public User uploadProfilePicture(UserPicDTO dto) throws IOException {
-        User user = userRepository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException("User not found",
+    public com.travelstory.entity.User uploadProfilePicture(UserPicDTO dto) throws IOException {
+        com.travelstory.entity.User user = userRepository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException("UserPicDTO not found",
                 "Dear customer, no such user in the database", UserServiceImpl.class));
 
         String imgBase64 = dto.getProfilePic();
@@ -80,14 +80,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByEmail(String email) {
+    public com.travelstory.entity.User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public User resetProfilePic(long id) {
+        com.travelstory.entity.User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("UserPicDTO not found",
+                "Dear customer, no such user in the database", UserServiceImpl.class));
+        user.setProfilePic
+                ("https://res.cloudinary.com/travelstory/image/upload/v1538575861/default/default_avatar.jpg");
+        return userRepository.save(user);
     }
 
     @Override
     public UserDTO getUserById(long userId) {
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found",
+        com.travelstory.entity.User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("UserPicDTO not found",
                 "Dear customer, no such user in the database", UserServiceImpl.class));
         long countOfTrStories = travelStoryRepository.countTravelStoriesByUserOwner(user);
         List<Follow> follows = followRepository.getFollowByUserId(userId);
