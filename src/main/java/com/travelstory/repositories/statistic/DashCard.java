@@ -9,7 +9,6 @@ public class DashCard {
     private String title;
     private String icon;
 
-
     public DashCard() {
     }
 
@@ -68,12 +67,7 @@ public class DashCard {
 
     @Override
     public String toString() {
-        return "DashCard{" +
-                "colorDark='" + colorDark + '\'' +
-                ", colorLight='" + colorLight + '\'' +
-                ", number=" + number +
-                ", title='" + title + '\'' +
-                ", icon='" + icon + '\'' +
-                '}';
+        return "{" + "colorDark='" + colorDark + '\'' + ", colorLight='" + colorLight + '\'' + ", number=" + number
+                + ", title='" + title + '\'' + ", icon='" + icon + '\'' + '}';
     }
 }
