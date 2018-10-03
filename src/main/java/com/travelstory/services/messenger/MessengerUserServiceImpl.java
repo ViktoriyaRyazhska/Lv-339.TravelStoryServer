@@ -5,7 +5,7 @@ import com.travelstory.entity.User;
 import com.travelstory.exceptions.EntityNotFoundException;
 import com.travelstory.repositories.SocialNetworkRepository;
 import com.travelstory.repositories.UserRepository;
-import com.travelstory.utils.ModelMapperDecorator;
+import com.travelstory.utils.modelMapper.ModelMapperDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

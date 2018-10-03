@@ -4,7 +4,7 @@ import com.travelstory.dto.messenger.MessageDTO;
 import com.travelstory.dto.messenger.MessengerUserDTO;
 import com.travelstory.entity.MessageType;
 import com.travelstory.services.messenger.MessageService;
-import com.travelstory.utils.ModelMapperDecorator;
+import com.travelstory.utils.modelMapper.ModelMapperDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;

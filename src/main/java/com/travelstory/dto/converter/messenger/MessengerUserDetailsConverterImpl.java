@@ -4,7 +4,7 @@ import com.travelstory.dto.messenger.MessengerUserDetailsDTO;
 import com.travelstory.dto.messenger.SocialNetworksDTO;
 import com.travelstory.entity.User;
 import com.travelstory.repositories.UserRepository;
-import com.travelstory.utils.ModelMapperDecorator;
+import com.travelstory.utils.modelMapper.ModelMapperDecorator;
 
 public class MessengerUserDetailsConverterImpl implements MessengerUserDetailsConverter {
     private ModelMapperDecorator modelMapperDecorator;
