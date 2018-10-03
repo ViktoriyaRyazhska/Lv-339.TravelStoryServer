@@ -63,12 +63,17 @@ public class MediaUtils {
     }
 
     /**
-     *
      * @param media
      *            media file in base64
      * @return encoded file as array of bytes
      */
     public static byte[] decodeMedia(String media) {
         return Base64.getDecoder().decode(media);
+    }
+
+    public static String cleanBase64String(String s) {
+        return s.replace("data:image/jpeg;base64,", "").replace("data:image/png;base64,", "")
+                .replace("data:image/raw;base64,", "").replace("data:image/bmp;base64,", "")
+                .replace("data:image/tiff;base64,", "").replace("data:image/gif;base64,", "");
     }
 }

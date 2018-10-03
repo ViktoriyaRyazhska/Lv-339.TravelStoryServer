@@ -2,6 +2,7 @@ package com.travelstory.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.travelstory.entity.messenger.Message;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,4 +34,7 @@ public class Media {
     @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "media")
     private List<Comment> comments;
+
+    @OneToOne(mappedBy = "media")
+    private Message message;
 }

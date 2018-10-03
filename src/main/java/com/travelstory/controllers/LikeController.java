@@ -21,7 +21,7 @@ public class LikeController {
     public List<LikeDTO> getLikes(@RequestParam(value = "travelStoryId") Long travelStoryId,
                                   @RequestParam(value = "mediaId", required = false) Long mediaId) {
         return likeService.getLikes(travelStoryId, mediaId);
-    }gi
+    }
 
     @PostMapping("likes")
     public ResponseEntity<LikeDTO> addLike(@RequestBody LikeDTO likeDTO) {

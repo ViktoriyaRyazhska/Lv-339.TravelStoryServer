@@ -24,13 +24,12 @@ import java.util.List;
 public class TravelStory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
 //    @NotBlank
     private String head;
 
     private String description;
-
     private LocalDate createdDate;
 
     private LocalDate updatedDate;
