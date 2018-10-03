@@ -1,12 +1,13 @@
 package com.travelstory.entity;
 
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.travelstory.entity.messenger.Chat;
 import com.travelstory.entity.messenger.Message;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -74,12 +75,14 @@ public class User {
     // @JsonBackReference
     private List<Chat> chats;
 
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "creator")
     private List<Chat> createdChats;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userOwner")
     private List<TravelStory> travelStories;
 
+    @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private List<Like> likes;
 
@@ -95,7 +98,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     List<Follow> follows;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private UserState userState;
 

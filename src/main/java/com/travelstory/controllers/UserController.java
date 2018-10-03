@@ -51,7 +51,9 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
+
     public UserDTO getUserById(@PathVariable long id) {
+
         return userService.getUserById(id);
     }
 
@@ -64,7 +66,7 @@ public class UserController {
             return new ResponseEntity<>(token, HttpStatus.OK);
         } else {
             log.error("There is no user with such credentials");
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 }
