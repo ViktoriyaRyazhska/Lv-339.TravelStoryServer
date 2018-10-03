@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,7 +27,7 @@ public class ChatServiceImpl implements ChatService {
 
     @Autowired
     public ChatServiceImpl(ChatRepository chatRepository, ChatDetailsConverter chatDetailsConverter,
-                           ChatConverter chatConverter) {
+            ChatConverter chatConverter) {
         this.chatRepository = chatRepository;
         this.chatDetailsConverter = chatDetailsConverter;
         this.chatConverter = chatConverter;

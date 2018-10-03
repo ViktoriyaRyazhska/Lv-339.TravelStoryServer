@@ -2,7 +2,6 @@ package com.travelstory.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,14 +18,14 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Component
-@ToString(exclude = {"comments","likes","userOwner"})
-@JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer"})
+@ToString(exclude = { "comments", "likes", "userOwner" })
+@JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
 public class TravelStory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @NotBlank
+    // @NotBlank
     private String head;
 
     private String description;
