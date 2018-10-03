@@ -39,6 +39,10 @@ public class User {
 
     private String lastName;
 
+    @OneToMany
+    @JsonBackReference
+    private Media[] media;
+
     @Email
     private String email;
 
