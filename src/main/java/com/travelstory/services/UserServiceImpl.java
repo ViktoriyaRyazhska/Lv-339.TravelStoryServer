@@ -10,6 +10,7 @@ import com.travelstory.entity.User;
 import com.travelstory.entity.UserRole;
 import com.travelstory.exceptions.EntityNotFoundException;
 import com.travelstory.repositories.FollowRepository;
+import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
 import com.travelstory.security.TokenProvider;
 import com.travelstory.utils.MediaUtils;
@@ -29,13 +30,16 @@ import static com.travelstory.utils.MediaUtils.cleanBase64String;
 public class UserServiceImpl implements UserService {
 
     @Autowired
+    FollowRepository followRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    FollowRepository followRepository;
+    private TravelStoryRepository travelStoryRepository;
 
     @Autowired
     private TokenProvider tokenProvider;
@@ -59,8 +63,9 @@ public class UserServiceImpl implements UserService {
     }
 
     public User uploadProfilePicture(UserPicDTO dto) throws IOException {
-        User user = userRepository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException("User not found",
-                "Dear customer, no such user in the database", UserServiceImpl.class));
+        User user = userRepository.findById(dto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("UserPicDTO not found",
+                        "Dear customer, no such user in the database", UserServiceImpl.class));
 
         String imgBase64 = dto.getProfilePic();
         String filteredImgBase64 = cleanBase64String(imgBase64);
@@ -81,11 +86,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User resetProfilePic(long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("UserPicDTO not found",
+                "Dear customer, no such user in the database", UserServiceImpl.class));
+        user.setProfilePic(
+                "https://res.cloudinary.com/travelstory/image/upload/v1538575861/default/default_avatar.jpg");
+        return userRepository.save(user);
+    }
+
+    @Override
     public UserDTO getUserById(long userId) {
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found",
-                "Dear customer, no such user in the database", UserServiceImpl.class));
-
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("UserPicDTO not found",
+                        "Dear customer, no such user in the database", UserServiceImpl.class));
+        long countOfTrStories = travelStoryRepository.countTravelStoriesByUserOwner(user);
         List<Follow> follows = followRepository.getFollowByUserId(userId);
         List<Long> followsFiltered = new ArrayList<>();
         for (Follow follow : follows) {
@@ -93,6 +108,7 @@ public class UserServiceImpl implements UserService {
         }
         UserDTO map = modelMapper.map(user, UserDTO.class);
         map.setUsersFollows(followsFiltered);
+        map.setCountOfTravelStories(countOfTrStories);
         return map;
     }
 

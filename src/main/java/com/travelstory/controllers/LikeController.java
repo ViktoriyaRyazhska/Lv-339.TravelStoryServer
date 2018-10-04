@@ -30,8 +30,8 @@ public class LikeController {
 
     @DeleteMapping("likes/{id}")
     public ResponseEntity<LikeDTO> deleteLike(@PathVariable Long id) {
-        LikeDTO deletedLike = likeService.deleteLike(id);
-        return new ResponseEntity<>(deletedLike, HttpStatus.ACCEPTED);
+        likeService.deleteLike(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

@@ -7,8 +7,8 @@ import java.util.Properties;
 
 @Slf4j
 public class PropertiesConfig {
-    private static ClassLoader classLoader = PropertiesConfig.class.getClassLoader();
     private static final String APP_PROPERTIES = "app.properties";
+    private static ClassLoader classLoader = PropertiesConfig.class.getClassLoader();
 
     private static Properties getConfigurationPropetries() {
         Properties properties = new Properties();

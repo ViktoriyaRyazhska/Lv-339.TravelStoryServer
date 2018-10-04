@@ -15,9 +15,10 @@ public class UserDTO {
     private LocalDate dateOfBirth;
     private String profilePic;
     private String backgroundPic;
+    private Long countOfTravelStories;
+    private String location;
+    private String hobbies;
     private User.Gender gender;
     private List<Long> usersFollows;
     private List<TravelStory> travelStories;
-    private String location;
-
 }

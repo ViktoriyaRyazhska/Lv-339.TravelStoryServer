@@ -5,7 +5,7 @@ import com.travelstory.entity.messenger.Chat;
 import com.travelstory.entity.messenger.Message;
 import com.travelstory.exceptions.EntityNotFoundException;
 import com.travelstory.repositories.messenger.MessageRepository;
-import com.travelstory.utils.ModelMapperDecorator;
+import com.travelstory.utils.modelmapper.ModelMapperDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -17,8 +17,8 @@ import java.util.List;
 @Service
 public class MessageServiceImpl implements MessageService {
 
-    MessageRepository messageRepository;
-    ModelMapperDecorator modelMapperDecorator;
+    private MessageRepository messageRepository;
+    private ModelMapperDecorator modelMapperDecorator;
 
     @Autowired
     public MessageServiceImpl(MessageRepository messageRepository, ModelMapperDecorator modelMapperDecorator) {

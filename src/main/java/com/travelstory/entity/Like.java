@@ -42,11 +42,11 @@ public class Like {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public void setLikeState(boolean likeState) {
-        this.likeState = likeState;
-    }
-
     public boolean isLikeState() {
         return likeState;
+    }
+
+    public void setLikeState(boolean likeState) {
+        this.likeState = likeState;
     }
 }

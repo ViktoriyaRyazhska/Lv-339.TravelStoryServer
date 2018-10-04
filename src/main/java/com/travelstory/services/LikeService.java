@@ -7,11 +7,11 @@ import java.util.List;
 
 @Service
 public interface LikeService {
-    public List<LikeDTO> getLikes(Long treavelStoryId, Long mediaId);
+    List<LikeDTO> getLikes(Long travelStoryId, Long mediaId);
 
-    public LikeDTO add(LikeDTO likeDTO);
+    LikeDTO add(LikeDTO likeDTO);
 
-    public LikeDTO deleteLike(Long id);
+    void deleteLike(Long id);
 
     LikeDTO getUserLike(Long travelStoryId, Long mediaId, Long userId);
 }

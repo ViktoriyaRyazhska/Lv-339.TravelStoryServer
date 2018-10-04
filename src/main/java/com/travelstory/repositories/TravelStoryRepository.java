@@ -10,4 +10,6 @@ public interface TravelStoryRepository extends JpaRepository<TravelStory, Long> 
     TravelStory findByHead(String head);
 
     TravelStory findByUserOwner(User userOwner);
+
+    Long countTravelStoriesByUserOwner(User userOwner);
 }
