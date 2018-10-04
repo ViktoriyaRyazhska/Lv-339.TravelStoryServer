@@ -98,8 +98,10 @@ public class User {
 
     private String location;
 
+    private String hobbies;
+
     @OneToMany(mappedBy = "user")
-    List<Follow> follows;
+    private List<Follow> follows;
 
     @Enumerated(EnumType.STRING)
     private UserState userState;
