@@ -51,10 +51,13 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-
     public UserDTO getUserById(@PathVariable long id) {
-
         return userService.getUserById(id);
+    }
+
+    @PostMapping("/resetProfilePic")
+    public com.travelstory.entity.User resetProfilePic(@RequestBody long id) {
+        return userService.resetProfilePic(id);
     }
 
     @CrossOrigin
