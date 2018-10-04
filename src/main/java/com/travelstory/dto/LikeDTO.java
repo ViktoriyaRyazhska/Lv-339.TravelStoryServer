@@ -16,7 +16,6 @@ public class LikeDTO extends BaseDTO {
     private Long userId;
     private Long mediaId;
 
-
     public boolean isLikeState() {
         return likeState;
     }

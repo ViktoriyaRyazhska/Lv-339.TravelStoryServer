@@ -35,7 +35,6 @@ public class Comment {
     @JsonManagedReference
     private TravelStory travelStory;
 
-
     @ManyToOne
     private User user;
 

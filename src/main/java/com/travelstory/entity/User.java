@@ -1,6 +1,5 @@
 package com.travelstory.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.travelstory.entity.messenger.Chat;
@@ -78,7 +77,6 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
     // @JsonBackReference
     private List<Chat> chats;
-
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "creator")
     private List<Chat> createdChats;

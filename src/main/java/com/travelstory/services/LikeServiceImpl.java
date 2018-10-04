@@ -21,6 +21,7 @@ import java.util.Optional;
 @Service
 
 public class LikeServiceImpl implements LikeService {
+
     @Autowired
     LikeRepository likeRepository;
     @Autowired
@@ -49,8 +50,9 @@ public class LikeServiceImpl implements LikeService {
 
         Optional<User> userOptional = userRepository.findById(likeDTO.getUserId());
         Optional<TravelStory> travelStoryOptional = travelStoryRepository.findById(likeDTO.getTravelStoryId());
-        TravelStory travelStory = travelStoryOptional.orElseThrow(() -> new EntityNotFoundException("no such travel story in the database",
-                "sorry,we have no such travel story ", TravelStory.class));
+        TravelStory travelStory = travelStoryOptional
+                .orElseThrow(() -> new EntityNotFoundException("no such travel story in the database",
+                        "sorry,we have no such travel story ", TravelStory.class));
         User user = userOptional.orElseThrow(() -> new EntityNotFoundException("no such user in the database",
                 "sorry,we have no such user", User.class));
         like.setUser(user);

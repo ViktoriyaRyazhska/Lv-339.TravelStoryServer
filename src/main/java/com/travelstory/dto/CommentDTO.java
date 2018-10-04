@@ -12,5 +12,4 @@ public class CommentDTO extends BaseDTO {
     private LocalDateTime localDateTime;
     private String profilePic;
 
-
 }
