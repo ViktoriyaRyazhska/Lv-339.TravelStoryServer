@@ -4,9 +4,11 @@ import com.travelstory.dto.TravelStoryDTO;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.entity.TravelStory;
 import com.travelstory.exceptions.EntityNotFoundException;
+import com.travelstory.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -14,14 +16,16 @@ public class TravelStoryServiceImpl implements TravelStoryService {
     @Autowired
     TravelStoryRepository travelStoryRepository;
     @Autowired
-    UserServiceImpl userService;
+    UserRepository userRepository;
 
     @Override
     public TravelStoryDTO addTravelStory(TravelStoryDTO travelStory) {
-        TravelStory travelStory1 = new TravelStory();
-        travelStory1.setHead(travelStory.getHead());
-        travelStory1.setDescription(travelStory.getDescription());
-        travelStoryRepository.saveAndFlush(travelStory1);
+        TravelStory travelStoryBase = new TravelStory();
+        travelStoryBase.setHead(travelStory.getHead());
+        travelStoryBase.setDescription(travelStory.getDescription());
+        travelStoryBase.setUserOwner(userRepository.findUserById(travelStory.getOwnerId()));
+        travelStoryBase.setCreatedDate(LocalDateTime.now());
+        travelStoryRepository.saveAndFlush(travelStoryBase);
         return travelStory;
     }
 
@@ -36,8 +40,14 @@ public class TravelStoryServiceImpl implements TravelStoryService {
     }
 
     @Override
-    public TravelStory editTravelStory(TravelStory travelStory) {
-        return travelStoryRepository.saveAndFlush(travelStory);
+    public TravelStoryDTO editTravelStory(TravelStoryDTO travelStory) {
+        TravelStory travelStoryBase = new TravelStory();
+        travelStoryBase.setHead(travelStory.getHead());
+        travelStoryBase.setDescription(travelStory.getDescription());
+        travelStoryBase.setUserOwner(userRepository.findUserById(travelStory.getOwnerId()));
+        travelStoryBase.setCreatedDate(LocalDateTime.now());
+        travelStoryRepository.saveAndFlush(travelStoryBase);
+        return travelStory;
     }
 
     @Override

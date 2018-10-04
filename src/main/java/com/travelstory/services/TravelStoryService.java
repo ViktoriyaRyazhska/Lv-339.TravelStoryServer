@@ -12,7 +12,7 @@ public interface TravelStoryService {
 
     TravelStory getByHead(String head);
 
-    TravelStory editTravelStory(TravelStory travelStory);
+    TravelStoryDTO editTravelStory(TravelStoryDTO travelStory);
 
     List<TravelStory> getAll();
 
