@@ -1,4 +1,4 @@
-package com.travelstory.repositories.statistic;
+package com.travelstory.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CardStatistic {
+public class TotalStatisticCard {
     private String title;
     private Long current;
     private Integer max;

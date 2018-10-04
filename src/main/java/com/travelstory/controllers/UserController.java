@@ -36,10 +36,10 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    /*@PutMapping("/updateProfilePic")
-    User uploadProfilePicture(@RequestBody UserDto userDetails) throws IOException {
-        return userService.uploadProfilePicture(userDetails.getId(), userDetails);
-    }*/
+    /*
+     * @PutMapping("/updateProfilePic") User uploadProfilePicture(@RequestBody UserDto userDetails) throws IOException {
+     * return userService.uploadProfilePicture(userDetails.getId(), userDetails); }
+     */
 
     @PostMapping("/registrate")
     public ResponseEntity registrateUser(@RequestBody RegistrationDTO registrationDTO) {
@@ -60,7 +60,7 @@ public class UserController {
             token = userService.signIn(loginDTO);
             return new ResponseEntity<>(token, HttpStatus.OK);
         } else {
-//            log.error("There is no user with such credentials");
+            // log.error("There is no user with such credentials");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

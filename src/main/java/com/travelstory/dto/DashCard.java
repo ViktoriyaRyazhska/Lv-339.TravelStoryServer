@@ -1,4 +1,4 @@
-package com.travelstory.repositories.statistic;
+package com.travelstory.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

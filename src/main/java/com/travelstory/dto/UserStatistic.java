@@ -1,4 +1,4 @@
-package com.travelstory.repositories.statistic;
+package com.travelstory.dto;
 
 import com.travelstory.entity.Gender;
 import com.travelstory.entity.User;

@@ -1,9 +1,5 @@
-package com.travelstory.repositories.statistic;
+package com.travelstory.dto;
 
-import com.travelstory.dto.CommentStatistic;
-import com.travelstory.dto.LikeStatistic;
-import com.travelstory.dto.TravelStoryStatistic;
-import com.travelstory.dto.UserStatistic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 

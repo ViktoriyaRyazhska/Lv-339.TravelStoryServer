@@ -1,9 +1,5 @@
-package com.travelstory.repositories.statistic;
+package com.travelstory.dto;
 
-import com.travelstory.dto.CommentStatistic;
-import com.travelstory.dto.LikeStatistic;
-import com.travelstory.dto.TravelStoryStatistic;
-import com.travelstory.dto.UserStatistic;
 import com.travelstory.entity.Gender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,8 +60,8 @@ public class StatisticDTO {
     @RequestMapping("/registration")
     ArrayList<RegistrationCard> getRegistrationStatistic() {
         ArrayList<RegistrationCard> registrationStatistic = new ArrayList<>();
-        registrationStatistic.add(new RegistrationCard("rgba(92, 107, 192, 0.36)", "rgba(92, 107, 192,.5)",
-                "Dataset", "start", statistic.getUserRegistrationData()));
+        registrationStatistic.add(new RegistrationCard("rgba(92, 107, 192, 0.36)", "rgba(92, 107, 192,.5)", "Dataset",
+                "start", statistic.getUserRegistrationData()));
         return registrationStatistic;
     }
 
@@ -79,15 +75,15 @@ public class StatisticDTO {
     }
 
     @RequestMapping("/total")
-    ArrayList<CardStatistic> getCardStatistic() {
-        ArrayList<CardStatistic> list = new ArrayList<>();
-        list.add(new CardStatistic("MALE x FEMALE", (userStatistic.countUsersByGender(Gender.MALE) / 100),
+    ArrayList<TotalStatisticCard> getCardStatistic() {
+        ArrayList<TotalStatisticCard> list = new ArrayList<>();
+        list.add(new TotalStatisticCard("MALE x FEMALE", (userStatistic.countUsersByGender(Gender.MALE) / 100),
                 Math.toIntExact(userStatistic.countUsers()), "#FFF968", "#B1A7FF", "#7986CB"));
-        list.add(new CardStatistic("ONLINE", ((userStatistic.countTodayActiveUsers())),
+        list.add(new TotalStatisticCard("ONLINE", ((userStatistic.countTodayActiveUsers())),
                 Math.toIntExact(userStatistic.countUsers()), "#FFE268", "#A7C1FF", "#42A5F5"));
-        list.add(new CardStatistic("ONGOING TRAVELSTORIES", (travelStoryStatistic.countActiveTravelStories()),
+        list.add(new TotalStatisticCard("ONGOING TRAVELSTORIES", (travelStoryStatistic.countActiveTravelStories()),
                 Math.toIntExact(travelStoryStatistic.countTravelStories()), "#FFC368", "#A7F0FF", "#26A69A"));
-        list.add(new CardStatistic("USERS OVER 18 y.o", (userStatistic.countOldUsers()),
+        list.add(new TotalStatisticCard("USERS OVER 18 y.o", (userStatistic.countOldUsers()),
                 Math.toIntExact((userStatistic.countUsers())), "#FFCF68", "#A7DEFF", "#26C6DA"));
         return list;
     }
