@@ -13,13 +13,14 @@ import java.util.List;
 public class TravelStoryServiceImpl implements TravelStoryService {
     @Autowired
     TravelStoryRepository travelStoryRepository;
+    @Autowired
+    UserServiceImpl userService;
 
     @Override
     public TravelStoryDTO addTravelStory(TravelStoryDTO travelStory) {
         TravelStory travelStory1 = new TravelStory();
-        travelStory.setHead(travelStory.getHead());
-        travelStory.setDescription(travelStory.getDescription());
-        travelStory.setCreatedDate(travelStory.getCreatedDate());
+        travelStory1.setHead(travelStory.getHead());
+        travelStory1.setDescription(travelStory.getDescription());
         travelStoryRepository.saveAndFlush(travelStory1);
         return travelStory;
     }

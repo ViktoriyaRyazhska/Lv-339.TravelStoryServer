@@ -2,8 +2,8 @@ package com.travelstory.services;
 
 import com.travelstory.dto.LoginDTO;
 import com.travelstory.dto.RegistrationDTO;
-import com.travelstory.dto.UserDto;
-import com.travelstory.dto.UserPicDto;
+import com.travelstory.dto.UserDTO;
+import com.travelstory.dto.UserPicDTO;
 import com.travelstory.entity.Follow;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     public void registrateUser(RegistrationDTO registrationDTO) {
 
         if (userRepository.existsByEmail(registrationDTO.getEmail())) {
-            log.error("There is no user with such email");
+            log.error("There is a user with such email. Cannot register!");
 
         } else {
             User user = new User();
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public User uploadProfilePicture(UserPicDto dto) throws IOException {
+    public User uploadProfilePicture(UserPicDTO dto) throws IOException {
         User user = userRepository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException("User not found",
                 "Dear customer, no such user in the database", UserServiceImpl.class));
 
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserById(long userId) {
+    public UserDTO getUserById(long userId) {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found",
                 "Dear customer, no such user in the database", UserServiceImpl.class));
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
         for (Follow follow : follows) {
             followsFiltered.add(follow.getId());
         }
-        UserDto map = modelMapper.map(user, UserDto.class);
+        UserDTO map = modelMapper.map(user, UserDTO.class);
         map.setUsersFollows(followsFiltered);
         return map;
     }

@@ -5,6 +5,16 @@ public class TravelStoryDTO {
     private String head;
     private String description;
 
+    private long ownerId;
+
+    public long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(long ownerId) {
+        this.ownerId = ownerId;
+    }
+
     public String getId() {
         return id;
     }

@@ -1,11 +1,14 @@
 package com.travelstory.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import lombok.ToString;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -16,12 +19,15 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Component
+@ToString(exclude = { "comments", "likes", "userOwner" })
+@JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
 public class TravelStory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @NotBlank
+    // @NotBlank
     private String head;
     @NotBlank
     private String description;
@@ -33,13 +39,10 @@ public class TravelStory {
     @Enumerated(EnumType.STRING)
     private TravelStoryStatus travelStoryStatus;
 
-    @ManyToOne
-    @JsonBackReference
-    private User userOwner;
-
     @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
     private List<Like> likes;
+
     @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
     private List<Comment> comments;
@@ -52,6 +55,11 @@ public class TravelStory {
         this.updatedDate = updatedDate;
         this.travelStoryStatus = travelStoryStatus;
     }
+
+    @ManyToOne
+    @JsonBackReference
+    @NotBlank
+    private User userOwner;
 
     private enum TravelStoryStatus {
         STATUS_ACTIVE, STATUS_INACTIVE;

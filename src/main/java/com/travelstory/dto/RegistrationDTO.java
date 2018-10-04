@@ -1,13 +1,13 @@
 package com.travelstory.dto;
 
-import com.travelstory.entity.Gender;
+import com.travelstory.entity.User;
 
 public class RegistrationDTO {
     private String email;
     private String password;
     private String firstName;
     private String lastName;
-    private Gender gender;
+    private User.Gender gender;
 
     public String getEmail() {
         return email;
@@ -41,18 +41,18 @@ public class RegistrationDTO {
         this.lastName = lastName;
     }
 
-    public Gender getGender() {
+    public User.Gender getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(User.Gender gender) {
         this.gender = gender;
     }
 
     public RegistrationDTO() {
     }
 
-    public RegistrationDTO(String email, String password, String firstName, String lastName, Gender gender) {
+    public RegistrationDTO(String email, String password, String firstName, String lastName, User.Gender gender) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;

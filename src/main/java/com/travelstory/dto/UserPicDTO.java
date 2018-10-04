@@ -3,7 +3,7 @@ package com.travelstory.dto;
 import lombok.Data;
 
 @Data
-public class UserPicDto {
+public class UserPicDTO {
 
     private Long id;
     private String profilePic;
