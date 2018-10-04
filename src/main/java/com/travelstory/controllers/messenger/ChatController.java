@@ -31,4 +31,14 @@ public class ChatController {
         return chatService.get(id);
     }
 
+    /*
+     * @GetMapping("/chat/{id}") public ChatDetailsDTO getChatById(@PathVariable Long id , @RequestParam("userId") Long
+     * userId ) {
+     * 
+     *//*
+        * if (userId == null) { userId = (long) 1; // TODO later I will take this data from token }
+        *//*
+           * return chatService.get(id); }
+           */
+
 }
