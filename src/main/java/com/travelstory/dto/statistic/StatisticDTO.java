@@ -1,6 +1,6 @@
-package com.travelstory.dto;
+package com.travelstory.dto.statistic;
 
-import com.travelstory.entity.Gender;
+import com.travelstory.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -77,8 +77,9 @@ public class StatisticDTO {
     @RequestMapping("/total")
     ArrayList<TotalStatisticCard> getCardStatistic() {
         ArrayList<TotalStatisticCard> list = new ArrayList<>();
-        list.add(new TotalStatisticCard("MALE x FEMALE", (userStatistic.countUsersByGender(Gender.MALE) / 100),
-                Math.toIntExact(userStatistic.countUsers()), "#FFF968", "#B1A7FF", "#7986CB"));
+        list.add(new TotalStatisticCard("MALE x FEMALE", (userStatistic.countUsersByGender(User.Gender.MALE) / 100),
+                Math.toIntExact((userStatistic.countUsersByGender(User.Gender.FEMALE) / 100)), "#FFF968", "#B1A7FF",
+                "#7986CB"));
         list.add(new TotalStatisticCard("ONLINE", ((userStatistic.countTodayActiveUsers())),
                 Math.toIntExact(userStatistic.countUsers()), "#FFE268", "#A7C1FF", "#42A5F5"));
         list.add(new TotalStatisticCard("ONGOING TRAVELSTORIES", (travelStoryStatistic.countActiveTravelStories()),

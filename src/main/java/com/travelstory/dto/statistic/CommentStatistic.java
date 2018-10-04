@@ -1,4 +1,4 @@
-package com.travelstory.dto;
+package com.travelstory.dto.statistic;
 
 import com.travelstory.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;

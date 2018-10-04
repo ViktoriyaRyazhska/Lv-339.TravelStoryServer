@@ -1,9 +1,6 @@
 package com.travelstory.repositories;
 
 import com.travelstory.entity.Like;
-import com.travelstory.entity.Media;
-import com.travelstory.entity.TravelStory;
-import com.travelstory.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

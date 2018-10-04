@@ -1,6 +1,5 @@
 package com.travelstory.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.travelstory.entity.messenger.Chat;
@@ -31,17 +30,15 @@ import java.util.List;
 @Table(name = "users")
 @Component
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @OneToMany(mappedBy = "user")
+    List<Follow> follows;
 
     private String firstName;
 
     private String lastName;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-    @JsonBackReference
-    private List<Media> media;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Email
     private String email;
@@ -65,43 +62,34 @@ public class User {
     private LocalDateTime lastUpdateDate;
 
     private String profilePic;
-
-    private String backgroundPic;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonBackReference
+    private List<Media> media;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
     private List<Chat> connectedChats;
-
+    private String backgroundPic;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     // @JsonBackReference
     private List<Message> messages;
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
     // @JsonBackReference
     private List<Chat> chats;
 
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "creator")
-    private List<Chat> createdChats;
-
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userOwner")
     private List<TravelStory> travelStories;
-
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "creator")
+    private List<Chat> createdChats;
     @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private List<Like> likes;
 
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     @JsonManagedReference
     private List<SocialNetwork> socialNetworks;
-
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
-
     private String location;
-
-    @OneToMany(mappedBy = "user")
-    List<Follow> follows;
-
     @Enumerated(EnumType.STRING)
     private UserState userState;
 

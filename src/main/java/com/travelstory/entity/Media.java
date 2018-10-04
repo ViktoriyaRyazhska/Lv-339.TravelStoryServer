@@ -18,8 +18,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "medias")
-@ToString(exclude = {"likes", "comments"})
-@JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer"})
+@ToString(exclude = { "likes", "comments" })
+@JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
 public class Media {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

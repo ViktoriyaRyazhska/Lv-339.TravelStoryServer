@@ -1,4 +1,4 @@
-package com.travelstory.dto;
+package com.travelstory.dto.statistic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

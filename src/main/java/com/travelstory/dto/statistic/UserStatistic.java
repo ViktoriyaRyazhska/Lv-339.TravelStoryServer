@@ -1,6 +1,5 @@
-package com.travelstory.dto;
+package com.travelstory.dto.statistic;
 
-import com.travelstory.entity.Gender;
 import com.travelstory.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,7 +22,7 @@ public interface UserStatistic extends JpaRepository<User, Long> {
     Long countUsersRegisteredAt(@Param("num") Integer numberOfMonth);
 
     @Query(value = "SELECT count(id) from users where gender = :num", nativeQuery = true)
-    Long countUsersByGender(@Param("num") Gender gender);
+    Long countUsersByGender(@Param("num") User.Gender gender);
 
     @Query(value = "SELECT count(id) from users where last_update_date = current_date", nativeQuery = true)
     Long countTodayActiveUsers();

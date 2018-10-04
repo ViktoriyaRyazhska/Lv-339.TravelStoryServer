@@ -29,14 +29,11 @@ import static com.travelstory.utils.MediaUtils.cleanBase64String;
 public class UserServiceImpl implements UserService {
 
     @Autowired
+    FollowRepository followRepository;
+    @Autowired
     private ModelMapper modelMapper;
-
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    FollowRepository followRepository;
-
     @Autowired
     private TokenProvider tokenProvider;
 
