@@ -1,5 +1,9 @@
 package com.travelstory.repositories.statistic;
 
+import com.travelstory.dto.CommentStatistic;
+import com.travelstory.dto.LikeStatistic;
+import com.travelstory.dto.TravelStoryStatistic;
+import com.travelstory.dto.UserStatistic;
 import com.travelstory.entity.Gender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +13,7 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/admin/statistics")
-public class DashCardStatistic {
+public class StatisticDTO {
     @Autowired
     private UserStatistic userStatistic;
     @Autowired
@@ -40,16 +44,16 @@ public class DashCardStatistic {
     }
 
     @RequestMapping("/activity")
-    ArrayList<ActivityStatistic> getActivityGraph() {
-        ActivityStatistic likes = new ActivityStatistic("rgba(92, 107, 192, .7)", "rgba(92, 107, 192, .7)",
+    ArrayList<ActivityCard> getActivityGraph() {
+        ActivityCard likes = new ActivityCard("rgba(92, 107, 192, .7)", "rgba(92, 107, 192, .7)",
                 statistic.countAllLikesCreatedThisMouth(), "Likes", false);
-        ActivityStatistic comments = new ActivityStatistic("rgba(66, 165, 245, .7)", "rgba(69, 39, 160, .7)",
+        ActivityCard comments = new ActivityCard("rgba(66, 165, 245, .7)", "rgba(69, 39, 160, .7)",
                 statistic.countAllCommentsCreatedThisMouth(), "Comments", false);
-        ActivityStatistic travelStories = new ActivityStatistic("rgba(38, 166, 154, .7)", "rgba(69, 39, 160, .7)",
+        ActivityCard travelStories = new ActivityCard("rgba(38, 166, 154, .7)", "rgba(69, 39, 160, .7)",
                 statistic.countAllTravelStoriesCreatedByMonth(), "TravelStories", false);
-        ActivityStatistic users = new ActivityStatistic("rgba(102, 187, 106, .7)", "rgba(255, 99, 132)",
+        ActivityCard users = new ActivityCard("rgba(102, 187, 106, .7)", "rgba(255, 99, 132)",
                 statistic.countAllCommentsCreatedThisMouth(), "Users", false);
-        ArrayList<ActivityStatistic> list = new ArrayList<>();
+        ArrayList<ActivityCard> list = new ArrayList<>();
         list.add(likes);
         list.add(comments);
         list.add(travelStories);
@@ -58,17 +62,17 @@ public class DashCardStatistic {
     }
 
     @RequestMapping("/registration")
-    ArrayList<RegistrationStatistic> getRegistrationStatistic() {
-        ArrayList<RegistrationStatistic> registrationStatistic = new ArrayList<>();
-        registrationStatistic.add(new RegistrationStatistic("rgba(92, 107, 192, 0.36)", "rgba(92, 107, 192,.5)",
+    ArrayList<RegistrationCard> getRegistrationStatistic() {
+        ArrayList<RegistrationCard> registrationStatistic = new ArrayList<>();
+        registrationStatistic.add(new RegistrationCard("rgba(92, 107, 192, 0.36)", "rgba(92, 107, 192,.5)",
                 "Dataset", "start", statistic.getUserRegistrationData()));
         return registrationStatistic;
     }
 
     @RequestMapping("/travelstory")
-    ArrayList<SharePeaceStatistic> getTravelStoryStatistic() {
-        ArrayList<SharePeaceStatistic> travelStoryStatistic = new ArrayList<>();
-        travelStoryStatistic.add(new SharePeaceStatistic("rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 1)",
+    ArrayList<SharePeaceCard> getTravelStoryStatistic() {
+        ArrayList<SharePeaceCard> travelStoryStatistic = new ArrayList<>();
+        travelStoryStatistic.add(new SharePeaceCard("rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 1)",
                 "rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 1)",
                 "rgba(220,220,220,1)", statistic.countAllLikesCreatedThisMouth()));
         return travelStoryStatistic;
