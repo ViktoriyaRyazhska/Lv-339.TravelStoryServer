@@ -1,8 +1,12 @@
 package com.travelstory.services;
 
+<<<<<<< HEAD
 import com.travelstory.entity.User;
 import com.travelstory.entity.UserRole;
 import com.travelstory.entity.UserStatus;
+=======
+import com.travelstory.entity.*;
+>>>>>>> 9a55b1c508401e8326915c46835826480f992a3c
 import com.travelstory.repositories.CommentRepository;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
@@ -42,21 +46,21 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void markAsDeleted(long id) {
         user = userRepository.findById(id).get();
-        user.setUserStatus(UserStatus.DELETED);
+        user.setUserStatus(User.UserStatus.DELETED);
         userRepository.save(user);
     }
 
     @Override
     public void markAsActive(long id) {
         user = userRepository.findById(id).get();
-        user.setUserStatus(UserStatus.ACTIVE);
+        user.setUserStatus(User.UserStatus.ACTIVE);
         userRepository.save(user);
     }
 
     @Override
     public void markAsBanned(long id) {
         user = userRepository.findById(id).get();
-        user.setUserStatus(UserStatus.BANNED);
+        user.setUserStatus(User.UserStatus.BANNED);
         userRepository.save(user);
     }
 
