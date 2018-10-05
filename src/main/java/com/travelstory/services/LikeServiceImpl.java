@@ -56,7 +56,6 @@ public class LikeServiceImpl implements LikeService {
                 "sorry,we have no such user", User.class));
         like.setUser(user);
         like.setTravelStory(travelStory);
-        like.setLikeState(likeDTO.isLikeState());
         if (likeDTO.getMediaId() == null) {
             likeRepository.save(like);
         } else {

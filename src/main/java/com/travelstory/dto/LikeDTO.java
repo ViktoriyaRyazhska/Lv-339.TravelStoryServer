@@ -11,12 +11,11 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 public class LikeDTO extends BaseDTO {
     private Long id;
-    private boolean likeState;
+
     private Long travelStoryId;
+
     private Long userId;
+
     private Long mediaId;
 
-    public boolean isLikeState() {
-        return likeState;
-    }
 }

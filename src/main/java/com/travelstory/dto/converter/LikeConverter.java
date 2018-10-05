@@ -17,7 +17,6 @@ public class LikeConverter implements GeneralConverter<LikeDTO, Like> {
     public Like convertToEntity(LikeDTO dto) {
         Like like = new Like();
         like.setId(likeDTO.getId());
-        like.setLikeState(likeDTO.isLikeState());
         return like;
     }
 
@@ -26,7 +25,6 @@ public class LikeConverter implements GeneralConverter<LikeDTO, Like> {
 
         LikeDTO likeDTO = new LikeDTO();
         likeDTO.setId(entity.getId());
-        likeDTO.setLikeState(entity.isLikeState());
         return likeDTO;
     }
 
@@ -44,7 +42,6 @@ public class LikeConverter implements GeneralConverter<LikeDTO, Like> {
             LikeDTO likeDTO = new LikeDTO();
             likeDTO.setId(like.getId());
             likeDTO.setUserId(like.getUser().getId());
-            likeDTO.setLikeState(like.isLikeState());
             likeDTOList.add(likeDTO);
         }
         return likeDTOList;
