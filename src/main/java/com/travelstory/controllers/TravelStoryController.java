@@ -31,7 +31,7 @@ public class TravelStoryController {
     }
 
     @PutMapping("/edit")
-    public TravelStoryDTO edit( @RequestBody TravelStoryDTO travelStory) {
+    public TravelStoryDTO edit(@RequestBody TravelStoryDTO travelStory) {
         return (tss.editTravelStory(travelStory));
     }
 

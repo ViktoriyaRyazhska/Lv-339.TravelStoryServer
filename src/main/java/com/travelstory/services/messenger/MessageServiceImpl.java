@@ -5,7 +5,7 @@ import com.travelstory.entity.messenger.Chat;
 import com.travelstory.entity.messenger.Message;
 import com.travelstory.exceptions.EntityNotFoundException;
 import com.travelstory.repositories.messenger.MessageRepository;
-import com.travelstory.utils.modelMapper.ModelMapperDecorator;
+import com.travelstory.utils.modelmapper.ModelMapperDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
