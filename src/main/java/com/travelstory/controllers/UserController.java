@@ -46,8 +46,12 @@ public class UserController {
 
     @PostMapping("/registrate")
     public ResponseEntity registrateUser(@RequestBody RegistrationDTO registrationDTO) {
-        userService.registrateUser(registrationDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if (userService.getUserByEmail(registrationDTO.getEmail()) != null) {
+            return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+        } else {
+            userService.registrateUser(registrationDTO);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 
     @GetMapping("/user/{id}")

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("api/")
 public class LikeController {
@@ -19,7 +18,7 @@ public class LikeController {
 
     @GetMapping("likes")
     public List<LikeDTO> getLikes(@RequestParam(value = "travelStoryId") Long travelStoryId,
-                                  @RequestParam(value = "mediaId", required = false) Long mediaId) {
+            @RequestParam(value = "mediaId", required = false) Long mediaId) {
         return likeService.getLikes(travelStoryId, mediaId);
     }
 
@@ -34,6 +33,5 @@ public class LikeController {
         likeService.deleteLike(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
 }
