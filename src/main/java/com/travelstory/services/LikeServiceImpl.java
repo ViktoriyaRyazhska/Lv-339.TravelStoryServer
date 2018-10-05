@@ -2,12 +2,12 @@ package com.travelstory.services;
 
 import com.travelstory.dto.LikeDTO;
 import com.travelstory.dto.converter.LikeConverter;
+import com.travelstory.entity.Like;
 import com.travelstory.entity.Media;
 import com.travelstory.entity.TravelStory;
 import com.travelstory.entity.User;
 import com.travelstory.exceptions.EntityNotFoundException;
 import com.travelstory.repositories.LikeRepository;
-import com.travelstory.entity.Like;
 import com.travelstory.repositories.MediaRepository;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;

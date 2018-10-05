@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatDTO {
+    Chat.ChatType chatType;
     private Long id;
     private String chatName;
-    Chat.ChatType chatType;
     private MessageDTO lastMessage;
     private String avatar;
     private MessengerUserDTO interlocutor; // !null if chatType==PRIVATE_MESSAGES
