@@ -41,22 +41,22 @@ public class RegistrationDTO {
         this.lastName = lastName;
     }
 
-    public User.Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(User.Gender gender) {
-        this.gender = gender;
-    }
-
-    public RegistrationDTO() {
-    }
-
     public RegistrationDTO(String email, String password, String firstName, String lastName, User.Gender gender) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.gender = gender;
+    }
+
+    public User.Gender getGender() {
+        return gender;
+    }
+
+    public RegistrationDTO() {
+    }
+
+    public void setGender(User.Gender gender) {
         this.gender = gender;
     }
 }

@@ -34,8 +34,8 @@ page at http://checkstyle.sourceforge.net/config.html -->
   </module>
 
   <module name="RegexpSingleline">
-    <!-- Checks that TODOs are named with some basic formatting. Checks for the follow pattern  TОDO: (
-    -->
+      <!-- Checks that TODOs are named with some basic formatting. Checks for the follow pattern  TОDO: (
+      -->
     <property name="format" value="((//.*)|(\*.*))TODO[^: (]"/>
     <property name="message"
       value='All TODOs should be named.  e.g. "TODO: (ENG-123) - Refactor when v2 is released."'/>

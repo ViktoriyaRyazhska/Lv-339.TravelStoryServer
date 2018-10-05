@@ -48,17 +48,14 @@ public class Chat {
     @NotNull
     @Enumerated(EnumType.STRING)
     private ChatType chatType;
+    @PastOrPresent
+    private LocalDateTime createdAt;
+    @PastOrPresent
+    private LocalDateTime deletedAt;
+    @NotNull
+    private boolean deleted;
 
     public enum ChatType {
         PRIVATE_MESSAGES, PRIVATE_GROUP, PUBLIC_GROUP
     }
-
-    @PastOrPresent
-    private LocalDateTime createdAt;
-
-    @PastOrPresent
-    private LocalDateTime deletedAt;
-
-    @NotNull
-    private boolean deleted;
 }
