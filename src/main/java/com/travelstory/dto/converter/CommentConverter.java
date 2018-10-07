@@ -59,8 +59,7 @@ public class CommentConverter implements GeneralConverter<CommentDTO, Comment> {
     @Override
     public List<CommentDTO> convertToDto(List<Comment> entities) {
         List<CommentDTO> listDTO = new ArrayList();
-        for (Comment entity : entities
-        ) {
+        for (Comment entity : entities) {
             CommentDTO commentDTO = new CommentDTO();
             commentDTO.setId(entity.getId());
             commentDTO.setUserId(entity.getUser().getId());

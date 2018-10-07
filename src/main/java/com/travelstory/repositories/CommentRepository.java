@@ -21,13 +21,13 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
      * @param travelStoryId
      * @return List<Comment>
      */
-    public List<Comment> findAllByTravelStoryId(Long  travelStoryId);
+    public List<Comment> findAllByTravelStoryId(Long travelStoryId);
 
     /**
      * @param mediaId
      * @return List<Comment>
      */
-    public List<Comment> findAllByMediaId(Long  mediaId);
+    public List<Comment> findAllByMediaId(Long mediaId);
 
     /**
      * @param user

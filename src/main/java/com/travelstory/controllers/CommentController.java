@@ -19,8 +19,8 @@ public class CommentController {
 
     @GetMapping("comments")
     public List<CommentDTO> getComments(@RequestParam(value = "travelStoryId") Long travelStoryId,
-                                     @RequestParam(value = "mediaId", required = false) Long mediaId) {
-        return commentService.getAllComments(travelStoryId,mediaId);
+            @RequestParam(value = "mediaId", required = false) Long mediaId) {
+        return commentService.getAllComments(travelStoryId, mediaId);
     }
 
     @GetMapping("{id}")
