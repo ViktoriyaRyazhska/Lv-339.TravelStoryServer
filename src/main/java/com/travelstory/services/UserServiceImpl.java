@@ -30,6 +30,9 @@ import static com.travelstory.utils.MediaUtils.cleanBase64String;
 public class UserServiceImpl implements UserService {
 
     @Autowired
+    FollowRepository followRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
@@ -37,9 +40,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TravelStoryRepository travelStoryRepository;
-
-    @Autowired
-    private FollowRepository followRepository;
 
     @Autowired
     private TokenProvider tokenProvider;
@@ -97,9 +97,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUserById(long userId) {
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("UserPicDTO not found",
-                        "Dear customer, no such user in the database", UserServiceImpl.class));
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found",
+                "Dear customer, no such user in the database", UserServiceImpl.class));
         long countOfTrStories = travelStoryRepository.countTravelStoriesByUserOwner(user);
         List<Follow> follows = followRepository.getFollowByUserId(userId);
         List<Long> followsFiltered = new ArrayList<>();

@@ -30,17 +30,13 @@ import java.util.List;
 @Table(name = "users")
 @Component
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private String firstName;
 
     private String lastName;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-    @JsonBackReference
-    private List<Media> media;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Email
     private String email;
@@ -64,16 +60,16 @@ public class User {
     private LocalDateTime lastUpdateDate;
 
     private String profilePic;
-
-    private String backgroundPic;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonBackReference
+    private List<Media> media;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
     private List<Chat> connectedChats;
-
+    private String backgroundPic;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     // @JsonBackReference
     private List<Message> messages;
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
     // @JsonBackReference
     private List<Chat> chats;
@@ -88,13 +84,12 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private List<Like> likes;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-    @JsonManagedReference
-    private List<SocialNetwork> socialNetworks;
-
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonManagedReference
+    private List<SocialNetwork> socialNetworks;
     private String location;
 
     private String hobbies;

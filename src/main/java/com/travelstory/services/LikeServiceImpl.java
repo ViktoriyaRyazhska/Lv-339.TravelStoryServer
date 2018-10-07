@@ -57,13 +57,13 @@ public class LikeServiceImpl implements LikeService {
         like.setUser(user);
         like.setTravelStory(travelStory);
         if (likeDTO.getMediaId() == null) {
-            likeRepository.save(like);
+            likeDTO = likeConverter.convertToDto(likeRepository.save(like));
         } else {
             Optional<Media> mediaOptional = mediaRepository.findById(likeDTO.getMediaId());
             Media media = mediaOptional.orElseThrow(() -> new EntityNotFoundException("no such media in the database",
                     "sorry,we have no such media ", Media.class));
             like.setMedia(media);
-            likeConverter.convertToDto(likeRepository.save(like));
+            likeDTO = likeConverter.convertToDto(likeRepository.save(like));
 
         }
         return likeDTO;
@@ -86,4 +86,5 @@ public class LikeServiceImpl implements LikeService {
         }
 
     }
+
 }

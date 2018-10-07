@@ -25,6 +25,9 @@ public class LikeConverter implements GeneralConverter<LikeDTO, Like> {
 
         LikeDTO likeDTO = new LikeDTO();
         likeDTO.setId(entity.getId());
+        likeDTO.setUserId(entity.getUser().getId());
+        likeDTO.setMediaId(entity.getMedia().getId());
+        likeDTO.setTravelStoryId(entity.getTravelStory().getId());
         return likeDTO;
     }
 
