@@ -18,16 +18,16 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     public List<Comment> findAllByTravelStoryIdOrderByCreatedAt(Long id);
 
     /**
-     * @param travelStory
+     * @param travelStoryId
      * @return List<Comment>
      */
-    public List<Comment> findAllByTravelStory(TravelStory travelStory);
+    public List<Comment> findAllByTravelStoryId(Long  travelStoryId);
 
     /**
-     * @param media
+     * @param mediaId
      * @return List<Comment>
      */
-    public List<Comment> findAllByMedia(Media media);
+    public List<Comment> findAllByMediaId(Long  mediaId);
 
     /**
      * @param user

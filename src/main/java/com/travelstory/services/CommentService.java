@@ -1,5 +1,6 @@
 package com.travelstory.services;
 
+import com.travelstory.dto.CommentDTO;
 import com.travelstory.entity.Comment;
 import com.travelstory.entity.Media;
 import com.travelstory.entity.TravelStory;
@@ -12,9 +13,9 @@ import java.util.List;
 public interface CommentService {
     Comment saveComment(Comment comment);
 
-    List<Comment> getAllComments();
+    List<CommentDTO> getAllComments(Long travelStoryId,Long mediaId);
 
-    Comment add(Comment comment, Long userId, Long travelStoryId, Long mediaId);
+    CommentDTO add(CommentDTO commentDTO);
 
     List<Comment> getCommentsByMedia(Media media);
 

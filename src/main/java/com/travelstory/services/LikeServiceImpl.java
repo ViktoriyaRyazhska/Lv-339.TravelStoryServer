@@ -14,6 +14,7 @@ import com.travelstory.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,6 +57,7 @@ public class LikeServiceImpl implements LikeService {
                 "sorry,we have no such user", User.class));
         like.setUser(user);
         like.setTravelStory(travelStory);
+        like.setCreatedAt(LocalDateTime.now());
         if (likeDTO.getMediaId() == null) {
             likeDTO = likeConverter.convertToDto(likeRepository.save(like));
         } else {

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Data
 @Component
 @AllArgsConstructor
@@ -17,5 +19,7 @@ public class LikeDTO extends BaseDTO {
     private Long userId;
 
     private Long mediaId;
+
+    private LocalDateTime createdAt;
 
 }

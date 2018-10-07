@@ -1,14 +1,16 @@
 package com.travelstory.services;
 
-import com.travelstory.repositories.CommentRepository;
-import com.travelstory.repositories.MediaRepository;
-import com.travelstory.repositories.TravelStoryRepository;
-import com.travelstory.repositories.UserRepository;
+import com.travelstory.dto.CommentDTO;
+import com.travelstory.dto.converter.CommentConverter;
 import com.travelstory.entity.Comment;
 import com.travelstory.entity.Media;
 import com.travelstory.entity.TravelStory;
 import com.travelstory.entity.User;
 import com.travelstory.exceptions.EntityNotFoundException;
+import com.travelstory.repositories.CommentRepository;
+import com.travelstory.repositories.MediaRepository;
+import com.travelstory.repositories.TravelStoryRepository;
+import com.travelstory.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ public class CommentServiceImpl implements CommentService {
     TravelStoryRepository travelStoryRepository;
     @Autowired
     MediaRepository mediaRepository;
+    @Autowired
+    CommentConverter commentConverter;
 
     public CommentServiceImpl() {
     }
@@ -38,8 +42,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getAllComments() {
-        return commentRepository.findAll();
+    public List<CommentDTO> getAllComments(Long travelStoryId, Long mediaId) {
+        if (mediaId != null) {
+            return commentConverter.convertToDto(commentRepository.findAllByMediaId(mediaId));
+        } else {
+            return commentConverter.convertToDto(commentRepository.findAllByTravelStoryId(travelStoryId));
+        }
     }
 
     @Override
@@ -81,31 +89,17 @@ public class CommentServiceImpl implements CommentService {
 
     }
 
-    /**
-     *
-     * @param comment
-     * @param userId
-     * @param travelStoryId
-     * @param mediaId
-     * @return
-     */
     @Override
-    public Comment add(Comment comment, Long userId, Long travelStoryId, Long mediaId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-
-        User user = optionalUser.orElseThrow(() -> new EntityNotFoundException("no such user in the database",
-                "sorry,we have no such user", User.class));
-        Optional<TravelStory> travelStoryOptional = travelStoryRepository.findById(travelStoryId);
-        TravelStory travelStory = travelStoryOptional
-                .orElseThrow(() -> new EntityNotFoundException("no such travel story in the database",
-                        "sorry,we have no such travel story", TravelStory.class));
-        Optional<Media> mediaOptional = mediaRepository.findById(mediaId);
-        Media media = mediaOptional.orElseThrow(() -> new EntityNotFoundException("no such media in the database",
-                "sorry,we have no such media", Media.class));
-        comment.setUser(user);
-        comment.setTravelStory(travelStory);
-        comment.setMedia(media);
-        return comment;
-
+    public CommentDTO add(CommentDTO commentDTO) {
+        Comment comment = commentConverter.convertToEntity(commentDTO);
+        if (commentDTO.getMediaId() == null) {
+            commentDTO = commentConverter.convertToDto(commentRepository.save(comment));
+        } else {
+            comment.setMedia(mediaRepository.findById(commentDTO.getMediaId())
+                    .orElseThrow(() -> new EntityNotFoundException("no such media in the database",
+                            "sorry,we have no such user", Media.class)));
+            commentDTO = commentConverter.convertToDto(commentRepository.save(comment));
+        }
+        return commentDTO;
     }
 }

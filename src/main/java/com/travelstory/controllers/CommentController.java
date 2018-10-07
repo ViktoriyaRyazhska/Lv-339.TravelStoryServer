@@ -1,5 +1,6 @@
 package com.travelstory.controllers;
 
+import com.travelstory.dto.CommentDTO;
 import com.travelstory.entity.Comment;
 import com.travelstory.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +11,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/comments")
+@RequestMapping("api/")
 public class CommentController {
 
     @Autowired
     private CommentService commentService;
 
-    @GetMapping
-    public List<Comment> showComments() {
-        return commentService.getAllComments();
+    @GetMapping("comments")
+    public List<CommentDTO> getComments(@RequestParam(value = "travelStoryId") Long travelStoryId,
+                                     @RequestParam(value = "mediaId", required = false) Long mediaId) {
+        return commentService.getAllComments(travelStoryId,mediaId);
     }
 
     @GetMapping("{id}")
@@ -26,11 +28,9 @@ public class CommentController {
         return commentService.getComment(id);
     }
 
-    @PostMapping
-    public ResponseEntity<Comment> addComment(@RequestBody Comment comment, @RequestParam(value = "userId") Long userId,
-            @RequestParam(value = "travelStoryId") Long travelStoryId,
-            @RequestParam(value = "mediaId", required = false) Long mediaId) {
-        Comment addedComment = commentService.add(comment, userId, travelStoryId, mediaId);
+    @PostMapping("comments")
+    public ResponseEntity<CommentDTO> addComment(@RequestBody CommentDTO commentDTO) {
+        CommentDTO addedComment = commentService.add(commentDTO);
         return new ResponseEntity<>(addedComment, HttpStatus.CREATED);
     }
 
