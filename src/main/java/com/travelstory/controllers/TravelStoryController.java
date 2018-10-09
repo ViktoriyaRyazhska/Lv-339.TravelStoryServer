@@ -30,9 +30,9 @@ public class TravelStoryController {
         return (tss.getByHead(head));
     }
 
-    @PutMapping("/edit")
-    public TravelStoryDTO edit(@RequestBody TravelStoryDTO travelStory) {
-        return (tss.editTravelStory(travelStory));
+    @PutMapping("/edit/{id}")
+    public TravelStoryDTO edit(@RequestBody TravelStoryDTO travelStory, @PathVariable long id) {
+        return (tss.editTravelStory(travelStory, id));
     }
 
     @GetMapping("/getAll")

@@ -1,7 +1,8 @@
 package com.travelstory.dto;
 
 public class TravelStoryDTO {
-    private String id;
+
+    private long id;
     private String head;
     private String description;
 
@@ -13,14 +14,6 @@ public class TravelStoryDTO {
 
     public void setOwnerId(long ownerId) {
         this.ownerId = ownerId;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getHead() {
@@ -48,4 +41,13 @@ public class TravelStoryDTO {
     }
 
     private String createdDate;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
 }

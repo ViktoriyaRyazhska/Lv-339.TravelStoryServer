@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,7 +28,6 @@ public class TravelStory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // @NotBlank
     private String head;
     @NotBlank
     private String description;
@@ -58,12 +58,8 @@ public class TravelStory {
 
     @ManyToOne
     @JsonBackReference
-    @NotBlank
+    @NotNull
     private User userOwner;
-
-    private enum TravelStoryStatus {
-        STATUS_ACTIVE, STATUS_INACTIVE;
-    }
 
     public String getDescription() {
         return description;
