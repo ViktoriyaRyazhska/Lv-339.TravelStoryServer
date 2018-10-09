@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @RestController
@@ -24,11 +25,12 @@ public class StatisticDTO {
     @RequestMapping("/actual")
     ArrayList<DashCard> getDashCards() {
 
-        DashCard users = new DashCard("#5C6BC0", "#7986CB", userStatistic.countUsers(), "USERS", "'room'");
-        DashCard active = new DashCard("#42A5F5", "#64B5F6", userStatistic.countUsersActiveLastDay(), "ACTIVE",
-                "'language'");
-        DashCard travelStories = new DashCard("#42A5F5", "#64B5F6", travelStoryStatistic.countTravelStories(),
-                "TRAVELSTORIES", "'dashboard'");
+        DashCard users = new DashCard("#5C6BC0", "#7986CB", userStatistic.count(), "USERS", "'room'");
+        DashCard active = new DashCard("#42A5F5", "#64B5F6",
+                userStatistic.countUsersByLastUpdateDateAfter(LocalDateTime.now().minusDays(1)).longValue(),
+                "ACTIVE SINCE 1 DAY", "'language'");
+        DashCard travelStories = new DashCard("#42A5F5", "#64B5F6", travelStoryStatistic.count(), "TRAVELSTORIES",
+                "'dashboard'");
         DashCard averageAge = new DashCard("#66BB6A", "#81C784", userStatistic.countUsersAverageAge().longValue(),
                 "AVERAGE AGE", "'account_circle'");
         ArrayList<DashCard> list = new ArrayList<>();
@@ -77,15 +79,16 @@ public class StatisticDTO {
     @RequestMapping("/total")
     ArrayList<TotalStatisticCard> getCardStatistic() {
         ArrayList<TotalStatisticCard> list = new ArrayList<>();
-        list.add(new TotalStatisticCard("MALE x FEMALE", (userStatistic.countUsersByGender(User.Gender.MALE) / 100),
-                Math.toIntExact((userStatistic.countUsersByGender(User.Gender.FEMALE) / 100)), "#FFF968", "#B1A7FF",
+        list.add(new TotalStatisticCard("MALE x FEMALE", (userStatistic.countUsersByGender(User.Gender.MALE)),
+                Math.toIntExact((userStatistic.countUsersByGender(User.Gender.FEMALE))), "#FFF968", "#B1A7FF",
                 "#7986CB"));
-        list.add(new TotalStatisticCard("ONLINE", ((userStatistic.countTodayActiveUsers())),
-                Math.toIntExact(userStatistic.countUsers()), "#FFE268", "#A7C1FF", "#42A5F5"));
+        list.add(new TotalStatisticCard("ONLINE", ((userStatistic.countUsersByUserState(User.UserState.ONLINE) +
+                userStatistic.countUsersByUserState(User.UserState.AWAY) + userStatistic.countUsersByUserState(User.UserState.BUSY))),
+                Math.toIntExact(userStatistic.count()), "#FFE268", "#A7C1FF", "#42A5F5"));
         list.add(new TotalStatisticCard("ONGOING TRAVELSTORIES", (travelStoryStatistic.countActiveTravelStories()),
-                Math.toIntExact(travelStoryStatistic.countTravelStories()), "#FFC368", "#A7F0FF", "#26A69A"));
-        list.add(new TotalStatisticCard("USERS OVER 18 y.o", (userStatistic.countOldUsers()),
-                Math.toIntExact((userStatistic.countUsers())), "#FFCF68", "#A7DEFF", "#26C6DA"));
+                Math.toIntExact(travelStoryStatistic.count()), "#FFC368", "#A7F0FF", "#26A69A"));
+        list.add(new TotalStatisticCard("USERS OVER 18 y.o", (userStatistic.countUsersOlder(18)),
+                Math.toIntExact((userStatistic.count())), "#FFCF68", "#A7DEFF", "#26C6DA"));
         return list;
     }
 }
