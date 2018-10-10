@@ -4,7 +4,7 @@ import com.travelstory.dto.messenger.MessageDTO;
 import com.travelstory.dto.messenger.MessengerUserDTO;
 import com.travelstory.entity.MessageType;
 import com.travelstory.services.messenger.MessageService;
-import com.travelstory.utils.ModelMapperDecorator;
+import com.travelstory.utils.modelmapper.ModelMapperDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -35,19 +35,23 @@ public class MessageWebSocketController {
     }
 
     @MessageMapping("/{chatId}/message")
-    public void sendMessageString(@DestinationVariable Long chatId, String message,
-            @RequestBody Map<String, Object> payload) throws Exception {
-        Thread.sleep(200); // simulated delay
+    public void sendMessageString(@DestinationVariable Long chatId, @RequestBody Map<String, Object> jsonBody) {
         LocalDateTime currTime = LocalDateTime.now();
-
         MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setMessageType(MessageType.valueOf((String) payload.get("messageType")));
+
+        messageDTO.setMessageType(MessageType.valueOf((String) jsonBody.get("messageType")));
         messageDTO.setCreatedAt(LocalDateTime.now());
-        messageDTO.setMessageContent((String) payload.get("messageContent"));
-        messageDTO.setUser(modelMapperDecorator.map(payload.get("user"), MessengerUserDTO.class));
+        messageDTO.setMessageContent((String) jsonBody.get("messageContent"));
+        messageDTO.setUser(modelMapperDecorator.map(jsonBody.get("user"), MessengerUserDTO.class));
 
-        messageService.save(messageDTO, chatId);
+        messageDTO.setId(messageService.save(messageDTO, chatId));
 
-        messagingTemplate.convertAndSend(format("/chat/%s/messages", chatId), message);
+        messagingTemplate.convertAndSend(format("/chat/%s/messages", chatId), messageDTO);
     }
+    //
+    // @MessageMapping("/{chatId}/testmessage") TODO why this doesn't work!???
+
+    // public void testSendMessage(@DestinationVariable Long chatId, String m) throws Exception {
+    // messagingTemplate.convertAndSend(format("/chat/%s/testmessages", chatId), m);
+    // }
 }

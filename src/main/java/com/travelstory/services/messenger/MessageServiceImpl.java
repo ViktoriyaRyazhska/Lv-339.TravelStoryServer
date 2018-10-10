@@ -5,7 +5,7 @@ import com.travelstory.entity.messenger.Chat;
 import com.travelstory.entity.messenger.Message;
 import com.travelstory.exceptions.EntityNotFoundException;
 import com.travelstory.repositories.messenger.MessageRepository;
-import com.travelstory.utils.ModelMapperDecorator;
+import com.travelstory.utils.modelmapper.ModelMapperDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -27,12 +27,12 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void save(MessageDTO messageDTO, Long chatId) {
+    public long save(MessageDTO messageDTO, Long chatId) {
         Message message = modelMapperDecorator.map(messageDTO, Message.class);
         Chat chat = new Chat();
         chat.setId(chatId);
         message.setChat(chat);
-        messageRepository.save(message);
+        return messageRepository.save(message).getId();
     }
 
     @Override
