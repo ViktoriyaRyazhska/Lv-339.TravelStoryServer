@@ -47,6 +47,10 @@ public class TravelStory {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
     private List<Comment> comments;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "travelStory")
+    @JsonBackReference
+    private List<Media> media;
+
     public TravelStory(User userOwner, String description, LocalDateTime createdDate, LocalDateTime updatedDate,
             TravelStoryStatus travelStoryStatus) {
         this.userOwner = userOwner;
@@ -101,4 +105,11 @@ public class TravelStory {
         this.head = head;
     }
 
+    public List<Media> getMedia() {
+        return media;
+    }
+
+    public void setMedia(List<Media> media) {
+        this.media = media;
+    }
 }

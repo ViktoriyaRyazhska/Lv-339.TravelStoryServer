@@ -46,7 +46,7 @@ public class TravelStoryController {
     }
 
     @GetMapping("/byOwner/{id}")
-    public List<TravelStory> getUserStories(@PathVariable long id) {
+    public List<TravelStoryDTO> getUserStories(@PathVariable long id) {
         return (tss.getByUserOwner(id));
     }
 }
