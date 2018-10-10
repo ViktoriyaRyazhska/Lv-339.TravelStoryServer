@@ -2,6 +2,7 @@ package com.travelstory.services;
 
 import com.travelstory.dto.CommentDTO;
 import com.travelstory.entity.Comment;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,6 @@ public interface CommentService {
 
     void deleteComment(Long id);
 
-    List<CommentDTO> getNext3Comments(Long travelStoryId, Long mediaId, int pageNumber);
+    Page<CommentDTO> getNext3Comments(Long travelStoryId, Long mediaId, int pageNumber);
 
 }

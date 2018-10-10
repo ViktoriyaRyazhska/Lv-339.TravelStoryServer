@@ -11,6 +11,7 @@ import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -43,9 +44,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentDTO> getAllComments(Long travelStoryId, Long mediaId) {
         if (mediaId != null) {
-            return commentConverter.convertToDto(commentRepository.findAllByMediaId(mediaId));
+            return commentConverter.convertToDto(commentRepository.findAllByMediaIdOrderByCreatedAtDesc(mediaId));
         } else {
-            return commentConverter.convertToDto(commentRepository.findAllByTravelStoryId(travelStoryId));
+            return commentConverter
+                    .convertToDto(commentRepository.findAllByTravelStoryIdOrderByCreatedAt(travelStoryId));
         }
     }
 
@@ -81,15 +83,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDTO> getNext3Comments(Long travelStoryId, Long mediaId, int pageNumber) {
+    public Page<CommentDTO> getNext3Comments(Long travelStoryId, Long mediaId, int pageNumber) {
 
         if (mediaId == null) {
-            return commentConverter.convertToDto(commentRepository
-                    .findAllByTravelStoryIdOrderByCreatedAtDesc(travelStoryId, PageRequest.of(pageNumber, 3)));
-        } else {
+            Page<Comment> commentPage = commentRepository.findAllByTravelStoryIdOrderByCreatedAtDesc(travelStoryId,
+                    PageRequest.of(pageNumber, 3));
+            return commentPage.map(comment -> commentConverter.convertToDto(comment));
 
-            return commentConverter
-                    .convertToDto(commentRepository.findAllByMediaId(mediaId, PageRequest.of(pageNumber, 3)));
+        } else {
+            Page<Comment> commentPage = commentRepository.findAllByMediaIdOrderByCreatedAtDesc(mediaId,
+                    PageRequest.of(pageNumber, 3));
+            return commentPage.map(comment -> commentConverter.convertToDto(comment));
         }
     }
 }

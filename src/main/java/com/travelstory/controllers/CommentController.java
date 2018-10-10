@@ -3,6 +3,7 @@ package com.travelstory.controllers;
 import com.travelstory.dto.CommentDTO;
 import com.travelstory.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class CommentController {
     }
 
     @GetMapping("comments/{travelStoryId}")
-    public List<CommentDTO> getFirstComments(@PathVariable(value = "travelStoryId") Long travelStoryId,
+    public Page<CommentDTO> getFirstComments(@PathVariable(value = "travelStoryId") Long travelStoryId,
             @RequestParam(value = "mediaId", required = false) Long mediaId,
             @RequestParam(value = "pageNumber") int pageNumber) {
 
