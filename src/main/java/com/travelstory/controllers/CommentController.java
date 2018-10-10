@@ -1,7 +1,6 @@
 package com.travelstory.controllers;
 
 import com.travelstory.dto.CommentDTO;
-import com.travelstory.entity.Comment;
 import com.travelstory.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,15 +22,24 @@ public class CommentController {
         return commentService.getAllComments(travelStoryId, mediaId);
     }
 
-    @GetMapping("{id}")
-    public Comment showComments(@RequestParam("id") Long id) {
-        return commentService.getComment(id);
-    }
-
     @PostMapping("comments")
     public ResponseEntity<CommentDTO> addComment(@RequestBody CommentDTO commentDTO) {
         CommentDTO addedComment = commentService.add(commentDTO);
         return new ResponseEntity<>(addedComment, HttpStatus.CREATED);
+    }
+
+    @GetMapping("comments/{travelStoryId}")
+    public List<CommentDTO> getFirstComments(@PathVariable(value = "travelStoryId") Long travelStoryId,
+            @RequestParam(value = "mediaId", required = false) Long mediaId,
+            @RequestParam(value = "pageNumber") int pageNumber) {
+
+        return commentService.getNext3Comments(travelStoryId, mediaId, pageNumber);
+    }
+
+    @DeleteMapping("comments/{id}")
+    public ResponseEntity<CommentDTO> deleteLike(@PathVariable Long id) {
+        commentService.deleteComment(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

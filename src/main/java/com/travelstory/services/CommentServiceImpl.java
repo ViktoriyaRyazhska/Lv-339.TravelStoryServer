@@ -11,6 +11,7 @@ import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -61,9 +62,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteComment(Comment comment) {
-        commentRepository.delete(comment);
-
+    public void deleteComment(Long id) {
+        commentRepository.deleteById(id);
     }
 
     @Override
@@ -78,5 +78,18 @@ public class CommentServiceImpl implements CommentService {
             commentDTO = commentConverter.convertToDto(commentRepository.save(comment));
         }
         return commentDTO;
+    }
+
+    @Override
+    public List<CommentDTO> getNext3Comments(Long travelStoryId, Long mediaId, int pageNumber) {
+
+        if (mediaId == null) {
+            return commentConverter.convertToDto(commentRepository
+                    .findAllByTravelStoryIdOrderByCreatedAtDesc(travelStoryId, PageRequest.of(pageNumber, 3)));
+        } else {
+
+            return commentConverter
+                    .convertToDto(commentRepository.findAllByMediaId(mediaId, PageRequest.of(pageNumber, 3)));
+        }
     }
 }

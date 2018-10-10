@@ -16,6 +16,8 @@ public interface CommentService {
 
     Comment getComment(Long id);
 
-    void deleteComment(Comment comment);
+    void deleteComment(Long id);
+
+    List<CommentDTO> getNext3Comments(Long travelStoryId, Long mediaId, int pageNumber);
 
 }

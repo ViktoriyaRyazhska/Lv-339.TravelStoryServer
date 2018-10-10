@@ -38,6 +38,7 @@ public class Comment {
     private User user;
 
     @Column(nullable = false, updatable = false)
+
     @CreatedDate
     private LocalDateTime createdAt;
 

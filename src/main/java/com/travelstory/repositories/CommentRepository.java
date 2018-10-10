@@ -4,6 +4,7 @@ import com.travelstory.entity.Comment;
 import com.travelstory.entity.Media;
 import com.travelstory.entity.TravelStory;
 import com.travelstory.entity.User;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -24,10 +25,24 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     public List<Comment> findAllByTravelStoryId(Long travelStoryId);
 
     /**
+     * @param pageable
+     * @param travelStoryId
+     * @return List<Comment>
+     */
+    public List<Comment> findAllByTravelStoryIdOrderByCreatedAtDesc(Long travelStoryId, Pageable pageable);
+
+    /**
      * @param mediaId
      * @return List<Comment>
      */
     public List<Comment> findAllByMediaId(Long mediaId);
+
+    /**
+     * @param pageable
+     * @param mediaId
+     * @return List<Comment>
+     */
+    public List<Comment> findAllByMediaId(Long mediaId, Pageable pageable);
 
     /**
      * @param user
