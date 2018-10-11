@@ -8,9 +8,10 @@ import com.travelstory.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.travelstory.dto.ProfileDTO;
+
 import java.util.List;
 import java.time.LocalDateTime;
-import java.time.LocalDate;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -46,7 +47,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public boolean editUser(ProfileDTO userProfile) {
         boolean isSucceed;
-        if (userRepository.existsByEmailAndPassword(userProfile.getEmail(),userProfile.getPassword())) {//end creds
+        if (userRepository.existsByEmailAndPassword(userProfile.getEmail(), userProfile.getPassword())) {
             User user = updateData(userProfile);
             user.setId(userProfile.getId());
             userRepository.save(user);
@@ -59,8 +60,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<User> getAllUsers(){
-       return userRepository.getAllBy();
+    public List<User> getAllUsers() {
+        return userRepository.getAllBy();
     }
 
     @Override
@@ -118,7 +119,7 @@ public class AdminServiceImpl implements AdminService {
         travelStoryRepository.deleteById(id);
     }
 
-    private User updateData(ProfileDTO userProfile){
+    private User updateData(ProfileDTO userProfile) {
         User user = new User();
         user.setEmail(userProfile.getEmail());
         user.setFirstName(userProfile.getFirstName());

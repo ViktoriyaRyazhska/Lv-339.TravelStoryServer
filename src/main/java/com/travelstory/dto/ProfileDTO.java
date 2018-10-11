@@ -1,12 +1,9 @@
 package com.travelstory.dto;
 
-import com.travelstory.entity.TravelStory;
 import com.travelstory.entity.User;
 import com.travelstory.entity.UserRole;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class ProfileDTO {
     private Long id;
@@ -30,7 +27,10 @@ public class ProfileDTO {
     public ProfileDTO() {
     }
 
-    public ProfileDTO(Long id, String firstName, String lastName, String email, LocalDate dateOfBirth, LocalDateTime registrationDate, String profilePic, String backgroundPic, Long countOfTravelStories, String location, String hobbies, User.Gender gender, User.UserStatus status, User.UserState state, UserRole role) {
+    public ProfileDTO(Long id, String firstName, String lastName, String email, LocalDate dateOfBirth,
+            LocalDateTime registrationDate, String profilePic, String backgroundPic, Long countOfTravelStories,
+            String location, String hobbies, User.Gender gender, User.UserStatus status, User.UserState state,
+            UserRole role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

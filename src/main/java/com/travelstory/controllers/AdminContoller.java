@@ -18,24 +18,24 @@ public class AdminContoller {
 
     @PostMapping("addUser")
     public ResponseEntity addUser(@RequestBody ProfileDTO addedUser) {
-        if(adminService.addUser(addedUser)){
+        if (adminService.addUser(addedUser)) {
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @PostMapping("editUser")
     public ResponseEntity editUser(@RequestBody ProfileDTO editedUser) {
-        if(adminService.editUser(editedUser)){
+        if (adminService.editUser(editedUser)) {
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @GetMapping("getAllUsers")
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return adminService.getAllUsers();
     }
 
