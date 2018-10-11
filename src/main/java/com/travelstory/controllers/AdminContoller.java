@@ -3,7 +3,11 @@ package com.travelstory.controllers;
 import com.travelstory.entity.User;
 import com.travelstory.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.travelstory.dto.ProfileDTO;
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
@@ -13,13 +17,26 @@ public class AdminContoller {
     AdminService adminService;
 
     @PostMapping("addUser")
-    public void addUser(@RequestBody User addedUser) {
-        adminService.addUser(addedUser);
+    public ResponseEntity addUser(@RequestBody ProfileDTO addedUser) {
+        if(adminService.addUser(addedUser)){
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
     @PostMapping("editUser")
-    public void editUser(@RequestBody User editedUser) {
-        adminService.addUser(editedUser);
+    public ResponseEntity editUser(@RequestBody ProfileDTO editedUser) {
+        if(adminService.editUser(editedUser)){
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @GetMapping("getAllUsers")
+    public List<User> getAllUsers(){
+        return adminService.getAllUsers();
     }
 
     @GetMapping("getUser/{id}")
