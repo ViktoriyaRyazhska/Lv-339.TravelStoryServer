@@ -1,4 +1,4 @@
-package com.travelstory.utils;
+package com.travelstory.utils.modelmapper;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
