@@ -13,18 +13,17 @@ public interface UserStatistic extends JpaRepository<User, Long> {
 
     Integer countUsersByLastUpdateDateAfter(LocalDateTime lastUpdateDate);
 
-    @Query(value = "SELECT AVG(DATEDIFF(YEAR(NOW()), YEAR(date_of_birth))) FROM users;", nativeQuery = true)
+    @Query(value = "SELECT YEAR(NOW())-AVG(YEAR(date_of_birth)) FROM users where date_of_birth is not null;", nativeQuery = true)
     Integer countUsersAverageAge();
 
     @Query(value = "select count(e.id) from User e where month(e.registrationDate) = ?1")
     Long countUsersRegisteredAt(Integer numberOfMonth);
 
-    Long countUsersByGender(User.Gender gender);
+    Integer countUsersByGender(User.Gender gender);
 
-//    @Query(value = "SELECT count(id) from users where last_update_date = current_date", nativeQuery = true)
     Long countUsersByUserState(User.UserState userState);
 
     @Query(value = "SELECT count(id) from users where year(now())-year(date_of_birth)>=:age", nativeQuery = true)
-    Long countUsersOlder(@Param("age") Integer age);
+    Integer countUsersOlder(@Param("age") Integer age);
 
 }

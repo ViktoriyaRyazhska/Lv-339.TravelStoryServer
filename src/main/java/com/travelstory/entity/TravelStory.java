@@ -49,7 +49,7 @@ public class TravelStory {
     @NotBlank
     private User userOwner;
 
-    private enum TravelStoryStatus {
+    public enum TravelStoryStatus {
         STATUS_ACTIVE, STATUS_INACTIVE;
     }
 
