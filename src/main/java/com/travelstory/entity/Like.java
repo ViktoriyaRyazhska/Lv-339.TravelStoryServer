@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -39,11 +43,11 @@ public class Like {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public void setLikeState(boolean likeState) {
-        this.likeState = likeState;
-    }
-
     public boolean isLikeState() {
         return likeState;
+    }
+
+    public void setLikeState(boolean likeState) {
+        this.likeState = likeState;
     }
 }
