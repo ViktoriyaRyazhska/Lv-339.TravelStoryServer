@@ -28,26 +28,31 @@ public class MessageWebSocketController {
 
     @Autowired
     public MessageWebSocketController(SimpMessageSendingOperations messagingTemplate, MessageService messageService,
-            ModelMapperDecorator modelMapperDecorator) {
+                                      ModelMapperDecorator modelMapperDecorator) {
         this.messagingTemplate = messagingTemplate;
         this.messageService = messageService;
         this.modelMapperDecorator = modelMapperDecorator;
     }
 
     @MessageMapping("/{chatId}/message")
-    public void sendMessageString(@DestinationVariable Long chatId, String message,
-            @RequestBody Map<String, Object> payload) throws Exception {
-        Thread.sleep(200); // simulated delay
-        LocalDateTime currTime = LocalDateTime.now();
+    public void sendMessageString(@DestinationVariable Long chatId,
+                                  @RequestBody Map<String, Object> jsonBody) {
+        MessageDTO messageDTO = convertJsonToDto(jsonBody);
+        messageDTO.setId(messageService.save(messageDTO, chatId));
 
+        messagingTemplate.convertAndSend(format("/chat/%s/messages", chatId), messageDTO);
+    }
+
+
+
+    private MessageDTO convertJsonToDto(Map<String, Object> jsonBody) {
         MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setMessageType(MessageType.valueOf((String) payload.get("messageType")));
+
+        messageDTO.setMessageType(MessageType.valueOf((String) jsonBody.get("messageType")));
         messageDTO.setCreatedAt(LocalDateTime.now());
-        messageDTO.setMessageContent((String) payload.get("messageContent"));
-        messageDTO.setUser(modelMapperDecorator.map(payload.get("user"), MessengerUserDTO.class));
+        messageDTO.setMessageContent((String) jsonBody.get("messageContent"));
+        messageDTO.setUser(modelMapperDecorator.map(jsonBody.get("user"), MessengerUserDTO.class));
 
-        messageService.save(messageDTO, chatId);
-
-        messagingTemplate.convertAndSend(format("/chat/%s/messages", chatId), message);
+        return messageDTO;
     }
 }

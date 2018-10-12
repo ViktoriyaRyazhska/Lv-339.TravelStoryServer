@@ -20,7 +20,6 @@ public class MessageController {
 
     @GetMapping("chat/{chatId}/messages")
     public List<MessageDTO> getCurrentMessages(@PathVariable Long chatId, @RequestParam("pageNumber") int pageNumber) {
-
         return messageService.getNext30Messages(chatId, pageNumber);
     }
 
