@@ -27,12 +27,12 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void save(MessageDTO messageDTO, Long chatId) {
+    public long save(MessageDTO messageDTO, Long chatId) {
         Message message = modelMapperDecorator.map(messageDTO, Message.class);
         Chat chat = new Chat();
         chat.setId(chatId);
         message.setChat(chat);
-        messageRepository.save(message);
+        return messageRepository.save(message).getId();
     }
 
     @Override
