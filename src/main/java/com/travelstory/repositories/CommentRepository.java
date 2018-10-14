@@ -43,7 +43,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
      * @param mediaId
      * @return List<Comment>
      */
-    public Page<Comment> findAllByMediaIdOrderByCreatedAtDesc(Long mediaId, Pageable pageable);
+    public Page<Comment> findAllByMediaIdOrderByCreatedAtAsc(Long mediaId, Pageable pageable);
 
     /**
      * @param user

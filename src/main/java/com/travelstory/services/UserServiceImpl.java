@@ -1,9 +1,7 @@
 package com.travelstory.services;
 
-import com.travelstory.dto.LoginDTO;
-import com.travelstory.dto.RegistrationDTO;
-import com.travelstory.dto.UserDTO;
-import com.travelstory.dto.UserPicDTO;
+import com.travelstory.dto.*;
+import com.travelstory.dto.converter.UserSearchConverter;
 import com.travelstory.entity.Follow;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
@@ -22,6 +20,8 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.travelstory.utils.MediaUtils.cleanBase64String;
 
@@ -43,6 +43,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TokenProvider tokenProvider;
+
+    @Autowired
+    private UserSearchConverter userSearchConverter;
 
     @Override
     public void registrateUser(RegistrationDTO registrationDTO) {
@@ -121,4 +124,38 @@ public class UserServiceImpl implements UserService {
         return tokenModel;
     }
 
+    @Override
+    public List<UserSearchDTO> getUsersByTerm(String term) {
+        List<User> userList = new ArrayList<>();
+        Integer enteredWordsCounter = 0;
+        Pattern pattern = Pattern.compile("[a-zA-Z]+");
+        Matcher matcher = pattern.matcher(term);
+        while (matcher.find()) {
+            enteredWordsCounter++;
+        }
+
+        if (enteredWordsCounter == 1) {
+            matcher = pattern.matcher(term);
+            String searchingTerm1 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : "";
+
+            userList = userRepository.findByFirstNameIsStartingWith(searchingTerm1);
+            if (userList.isEmpty()) {
+                userList = userRepository.findByLastNameIsStartingWith(searchingTerm1);
+            }
+        }
+        if (enteredWordsCounter >= 2) {
+            matcher = pattern.matcher(term);
+            String searchingTerm1 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : "";
+            String searchingTerm2 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : "";
+
+            userList = userRepository.findByFirstNameIsStartingWithAndLastNameIsStartingWith(searchingTerm1,
+                    searchingTerm2);
+            if (userList.isEmpty()) {
+                userList = userRepository.findByFirstNameIsStartingWithAndLastNameIsStartingWith(searchingTerm2,
+                        searchingTerm1);
+            }
+        }
+
+        return userSearchConverter.convertToDto(userList);
+    }
 }

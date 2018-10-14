@@ -1,13 +1,11 @@
 package com.travelstory.services;
 
-import com.travelstory.dto.LoginDTO;
-import com.travelstory.dto.RegistrationDTO;
-import com.travelstory.dto.UserDTO;
-import com.travelstory.dto.UserPicDTO;
+import com.travelstory.dto.*;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface UserService {
     public void registrateUser(RegistrationDTO registrationDTO);
@@ -24,4 +22,5 @@ public interface UserService {
 
     public TokenModel signIn(LoginDTO loginDTO);
 
+    List<UserSearchDTO> getUsersByTerm(String term);
 }

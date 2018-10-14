@@ -1,9 +1,6 @@
 package com.travelstory.controllers;
 
-import com.travelstory.dto.LoginDTO;
-import com.travelstory.dto.RegistrationDTO;
-import com.travelstory.dto.UserDTO;
-import com.travelstory.dto.UserPicDTO;
+import com.travelstory.dto.*;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
 import com.travelstory.repositories.UserRepository;
@@ -37,6 +34,11 @@ public class UserController {
     @GetMapping("/users")
     List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @GetMapping("/users/{term}")
+    public List<UserSearchDTO> getUsersByTerm(@PathVariable(value = "term") String term) {
+        return userService.getUsersByTerm(term);
     }
 
     @PutMapping("/uploadProfilePic")
