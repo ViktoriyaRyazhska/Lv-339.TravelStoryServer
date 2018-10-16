@@ -3,7 +3,8 @@ package com.travelstory.services.messenger;
 import com.travelstory.dto.messenger.MessageDTO;
 import com.travelstory.entity.messenger.Chat;
 import com.travelstory.entity.messenger.Message;
-import com.travelstory.exceptions.EntityNotFoundException;
+import com.travelstory.exceptions.ResourceNotFoundException;
+import com.travelstory.exceptions.codes.ExceptionCode;
 import com.travelstory.repositories.messenger.MessageRepository;
 import com.travelstory.utils.modelmapper.ModelMapperDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +48,9 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public MessageDTO get(Long messageId) {
         Message message = messageRepository.findById(messageId)
-                .orElseThrow(() -> new EntityNotFoundException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Message with id " + messageId + " not found in the db during getting it in messageService",
-                        "Dear user, there is not such message", MessageService.class));
+                        ExceptionCode.MESSAGE_NOT_FOUND));
 
         return modelMapperDecorator.map(message, MessageDTO.class);
     }

@@ -1,14 +1,15 @@
 package com.travelstory.services;
 
-import com.travelstory.repositories.CommentRepository;
-import com.travelstory.repositories.MediaRepository;
-import com.travelstory.repositories.TravelStoryRepository;
-import com.travelstory.repositories.UserRepository;
 import com.travelstory.entity.Comment;
 import com.travelstory.entity.Media;
 import com.travelstory.entity.TravelStory;
 import com.travelstory.entity.User;
-import com.travelstory.exceptions.EntityNotFoundException;
+import com.travelstory.exceptions.ResourceNotFoundException;
+import com.travelstory.exceptions.codes.ExceptionCode;
+import com.travelstory.repositories.CommentRepository;
+import com.travelstory.repositories.MediaRepository;
+import com.travelstory.repositories.TravelStoryRepository;
+import com.travelstory.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,8 +50,8 @@ public class CommentServiceImpl implements CommentService {
             Comment comment = commentOptional.get();
             return comment;
         } else {
-            throw new EntityNotFoundException("Comment with that id is not present in database",
-                    "Resource 'comment' not found", Comment.class);
+            throw new ResourceNotFoundException("Comment with that id is not present in database",
+                    ExceptionCode.COMMENT_NOT_FOUND);
         }
     }
 
@@ -82,7 +83,6 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     *
      * @param comment
      * @param userId
      * @param travelStoryId
@@ -93,15 +93,15 @@ public class CommentServiceImpl implements CommentService {
     public Comment add(Comment comment, Long userId, Long travelStoryId, Long mediaId) {
         Optional<User> optionalUser = userRepository.findById(userId);
 
-        User user = optionalUser.orElseThrow(() -> new EntityNotFoundException("no such user in the database",
-                "sorry,we have no such user", User.class));
+        User user = optionalUser.orElseThrow(
+                () -> new ResourceNotFoundException("no such user in the database", ExceptionCode.USER_NOT_FOUND));
         Optional<TravelStory> travelStoryOptional = travelStoryRepository.findById(travelStoryId);
         TravelStory travelStory = travelStoryOptional
-                .orElseThrow(() -> new EntityNotFoundException("no such travel story in the database",
-                        "sorry,we have no such travel story", TravelStory.class));
+                .orElseThrow(() -> new ResourceNotFoundException("no such travel story in the database",
+                        ExceptionCode.TRAVELSTORY_NOT_FOUND));
         Optional<Media> mediaOptional = mediaRepository.findById(mediaId);
-        Media media = mediaOptional.orElseThrow(() -> new EntityNotFoundException("no such media in the database",
-                "sorry,we have no such media", Media.class));
+        Media media = mediaOptional.orElseThrow(
+                () -> new ResourceNotFoundException("no such media in the database", ExceptionCode.MEDIA_NOT_FOUND));
         comment.setUser(user);
         comment.setTravelStory(travelStory);
         comment.setMedia(media);

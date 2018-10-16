@@ -8,7 +8,8 @@ import com.travelstory.entity.Follow;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
 import com.travelstory.entity.UserRole;
-import com.travelstory.exceptions.EntityNotFoundException;
+import com.travelstory.exceptions.ResourceNotFoundException;
+import com.travelstory.exceptions.codes.ExceptionCode;
 import com.travelstory.repositories.FollowRepository;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
@@ -64,8 +65,7 @@ public class UserServiceImpl implements UserService {
 
     public User uploadProfilePicture(UserPicDTO dto) throws IOException {
         User user = userRepository.findById(dto.getId())
-                .orElseThrow(() -> new EntityNotFoundException("UserPicDTO not found",
-                        "Dear customer, no such user in the database", UserServiceImpl.class));
+                .orElseThrow(() -> new ResourceNotFoundException("UserPicDTO not found", ExceptionCode.USER_NOT_FOUND));
 
         String imgBase64 = dto.getProfilePic();
         String filteredImgBase64 = cleanBase64String(imgBase64);
@@ -87,8 +87,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User resetProfilePic(long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("UserPicDTO not found",
-                "Dear customer, no such user in the database", UserServiceImpl.class));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("UserPicDTO not found", ExceptionCode.USER_NOT_FOUND));
         user.setProfilePic(
                 "https://res.cloudinary.com/travelstory/image/upload/v1538575861/default/default_avatar.jpg");
         return userRepository.save(user);
@@ -97,9 +97,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUserById(long userId) {
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("UserPicDTO not found",
-                        "Dear customer, no such user in the database", UserServiceImpl.class));
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new ResourceNotFoundException("UserPicDTO not found", ExceptionCode.USER_PIC_NOT_FOUND));
         long countOfTrStories = travelStoryRepository.countTravelStoriesByUserOwner(user);
         List<Follow> follows = followRepository.getFollowByUserId(userId);
         List<Long> followsFiltered = new ArrayList<>();

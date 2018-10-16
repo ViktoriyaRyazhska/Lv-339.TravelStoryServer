@@ -6,7 +6,8 @@ import com.travelstory.entity.Like;
 import com.travelstory.entity.Media;
 import com.travelstory.entity.TravelStory;
 import com.travelstory.entity.User;
-import com.travelstory.exceptions.EntityNotFoundException;
+import com.travelstory.exceptions.ResourceNotFoundException;
+import com.travelstory.exceptions.codes.ExceptionCode;
 import com.travelstory.repositories.LikeRepository;
 import com.travelstory.repositories.MediaRepository;
 import com.travelstory.repositories.TravelStoryRepository;
@@ -49,10 +50,10 @@ public class LikeServiceImpl implements LikeService {
         Optional<User> userOptional = userRepository.findById(likeDTO.getLoggedUserId());
         Optional<TravelStory> travelStoryOptional = travelStoryRepository.findById(likeDTO.getTravelStoryId());
         TravelStory travelStory = travelStoryOptional
-                .orElseThrow(() -> new EntityNotFoundException("no such travel story in the database",
-                        "sorry,we have no such travel story ", TravelStory.class));
-        User user = userOptional.orElseThrow(() -> new EntityNotFoundException("no such user in the database",
-                "sorry,we have no such user", User.class));
+                .orElseThrow(() -> new ResourceNotFoundException("no such travel story in the database",
+                        ExceptionCode.TRAVELSTORY_NOT_FOUND));
+        User user = userOptional.orElseThrow(
+                () -> new ResourceNotFoundException("no such user in the database", ExceptionCode.USER_NOT_FOUND));
         like.setUser(user);
         like.setTravelStory(travelStory);
         like.setLikeState(likeDTO.isLikeState());
@@ -60,8 +61,8 @@ public class LikeServiceImpl implements LikeService {
             likeRepository.save(like);
         } else {
             Optional<Media> mediaOptional = mediaRepository.findById(likeDTO.getMediaId());
-            Media media = mediaOptional.orElseThrow(() -> new EntityNotFoundException("no such media in the database",
-                    "sorry,we have no such media ", Media.class));
+            Media media = mediaOptional.orElseThrow(() -> new ResourceNotFoundException("no such media in the database",
+                    ExceptionCode.MEDIA_NOT_FOUND));
             like.setMedia(media);
             likeConverter.convertToDto(likeRepository.save(like));
 
