@@ -36,7 +36,7 @@ public class StatisticController {
         Map<String, ArrayList> activityStatistic = new LinkedHashMap<>();
         activityStatistic.put("likes", statistic.countAllLikesCreatedThisMouth());
         activityStatistic.put("comments", statistic.countAllCommentsCreatedThisMouth());
-        activityStatistic.put("travelStories", statistic.countAllTravelStoriesCreatedByMonth());
+        activityStatistic.put("travelStories", statistic.countAllTravelStoriesCreatedThisYear());
         activityStatistic.put("users", statistic.countAllUsersByRegisteredThisMouth());
         return activityStatistic;
     }
@@ -63,7 +63,7 @@ public class StatisticController {
     @RequestMapping("/travelStory")
     Map<String, ArrayList> getTravelStoryStatistic() {
         Map<String, ArrayList> travelStoryStatistic = new LinkedHashMap<>();
-        travelStoryStatistic.put("year travelStory statistic", statistic.countAllTravelStoriesCreatedByMonth());
+        travelStoryStatistic.put("year travelStory statistic", statistic.countAllTravelStoriesCreatedThisYear());
         travelStoryStatistic.put("since month", new ArrayList(
                 statistic.travelStoryStatistic.countTravelStoriesByCreatedDateAfter(LocalDate.now().minusMonths(1))));
         return travelStoryStatistic;
