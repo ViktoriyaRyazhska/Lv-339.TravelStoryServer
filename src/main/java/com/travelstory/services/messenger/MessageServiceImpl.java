@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -61,7 +60,7 @@ public class MessageServiceImpl implements MessageService {
         chat.setId(chatId);
         List<Message> messages = messageRepository.findAllByChatOrderByCreatedAtDesc(chat,
                 PageRequest.of(pageNumber, 30));
-        Collections.reverse(messages);
+
         return modelMapperDecorator.mapAll(messages, MessageDTO.class);
     }
 }

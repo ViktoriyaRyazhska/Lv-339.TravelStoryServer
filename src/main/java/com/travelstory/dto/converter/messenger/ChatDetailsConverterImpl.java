@@ -30,7 +30,9 @@ public class ChatDetailsConverterImpl implements ChatDetailsConverter {
                 MessengerUserDTO.class);
         MessengerUserDTO creator = modelMapperDecorator.map(chat.getCreator(), MessengerUserDTO.class);
 
-        chatConverter.setInterlocutor(chat, chatDetailsDTO, currUserId);
+        if (chatDetailsDTO.getChatType() == Chat.ChatType.PRIVATE_MESSAGES) {
+            chatConverter.setInterlocutor(chat, chatDetailsDTO, currUserId);
+        }
         chatConverter.setChatName(chatDetailsDTO);
 
         chatDetailsDTO.setCreator(creator);
