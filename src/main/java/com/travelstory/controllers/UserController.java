@@ -8,6 +8,7 @@ import com.travelstory.security.TokenProvider;
 import com.travelstory.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +37,10 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping("/users/{term}")
-    public List<UserSearchDTO> getUsersByTerm(@PathVariable(value = "term") String term) {
-        return userService.getUsersByTerm(term);
+    @GetMapping("/users/{term}/{page}/{size}")
+    public Page<UserSearchDTO> getUsersByTerm(@PathVariable(value = "term") String term,
+            @PathVariable(value = "page") int page, @PathVariable(value = "size") int size) {
+        return userService.getUsersByTerm(term, page, size);
     }
 
     @PutMapping("/uploadProfilePic")

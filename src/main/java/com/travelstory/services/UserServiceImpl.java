@@ -15,6 +15,8 @@ import com.travelstory.utils.MediaUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -125,8 +127,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserSearchDTO> getUsersByTerm(String term) {
-        List<User> userList = new ArrayList<>();
+    public Page<UserSearchDTO> getUsersByTerm(String term, int page, int size) {
+        Page<User> userPage = null;
         Integer enteredWordsCounter = 0;
         Pattern pattern = Pattern.compile("[a-zA-Z]+");
         Matcher matcher = pattern.matcher(term);
@@ -136,26 +138,25 @@ public class UserServiceImpl implements UserService {
 
         if (enteredWordsCounter == 1) {
             matcher = pattern.matcher(term);
-            String searchingTerm1 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : "";
+            String searchingTerm1 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : null;
 
-            userList = userRepository.findByFirstNameIsStartingWith(searchingTerm1);
-            if (userList.isEmpty()) {
-                userList = userRepository.findByLastNameIsStartingWith(searchingTerm1);
+            userPage = userRepository.findByFirstNameIsStartingWith(searchingTerm1, new PageRequest(page, size));
+            if (userPage.getContent().isEmpty()) {
+                userPage = userRepository.findByLastNameIsStartingWith(searchingTerm1, new PageRequest(page, size));
             }
         }
         if (enteredWordsCounter >= 2) {
             matcher = pattern.matcher(term);
-            String searchingTerm1 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : "";
-            String searchingTerm2 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : "";
+            String searchingTerm1 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : null;
+            String searchingTerm2 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : null;
 
-            userList = userRepository.findByFirstNameIsStartingWithAndLastNameIsStartingWith(searchingTerm1,
-                    searchingTerm2);
-            if (userList.isEmpty()) {
-                userList = userRepository.findByFirstNameIsStartingWithAndLastNameIsStartingWith(searchingTerm2,
-                        searchingTerm1);
+            userPage = userRepository.findByFirstNameIsStartingWithAndLastNameIsStartingWith(searchingTerm1,
+                    searchingTerm2, new PageRequest(page, size));
+            if (userPage.getContent().isEmpty()) {
+                userPage = userRepository.findByFirstNameIsStartingWithAndLastNameIsStartingWith(searchingTerm2,
+                        searchingTerm1, new PageRequest(page, size));
             }
         }
-
-        return userSearchConverter.convertToDto(userList);
+        return userPage.map(user -> userSearchConverter.convertToDto(user));
     }
 }

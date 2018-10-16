@@ -3,9 +3,9 @@ package com.travelstory.services;
 import com.travelstory.dto.*;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
+import org.springframework.data.domain.Page;
 
 import java.io.IOException;
-import java.util.List;
 
 public interface UserService {
     public void registrateUser(RegistrationDTO registrationDTO);
@@ -22,5 +22,5 @@ public interface UserService {
 
     public TokenModel signIn(LoginDTO loginDTO);
 
-    List<UserSearchDTO> getUsersByTerm(String term);
+    Page<UserSearchDTO> getUsersByTerm(String term, int page, int size);
 }
