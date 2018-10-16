@@ -75,7 +75,8 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
     // @JsonBackReference
     private List<Chat> chats;
-
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "creator")
+    private List<Chat> createdChats;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userOwner")
     private List<TravelStory> travelStories;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "creator")
@@ -90,6 +91,12 @@ public class User {
     @JsonManagedReference
     private List<SocialNetwork> socialNetworks;
     private String location;
+
+    private String hobbies;
+
+    @OneToMany(mappedBy = "user")
+    private List<Follow> follows;
+
     @Enumerated(EnumType.STRING)
     private UserState userState;
 
