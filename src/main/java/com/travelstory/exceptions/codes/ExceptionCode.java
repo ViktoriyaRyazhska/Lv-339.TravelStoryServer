@@ -47,6 +47,8 @@ public enum ExceptionCode {
 
     EMPTY_STRING(1804),
 
+    STRING_NOT_APPROPRIATE(1805),
+
     /*-
      * Code template: 105*
      * Purpose: Email validation Inherits
