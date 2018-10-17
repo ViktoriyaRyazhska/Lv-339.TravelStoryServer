@@ -51,15 +51,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(ex.getMessage(), ex);
 
         apiError.setDebugMessage(ex.getMessage());
-        apiError.setExceptionCode(ex.getExceptionCode());
+        apiError.setExceptionCode(ex.getExceptionCode().exceptionCode);
         apiError.setTimestamp(LocalDateTime.now());
 
         HashMap<String, Object> jsonBody = new HashMap<String, Object>();
-        // jsonBody.put("debugMessage",apiError.getDebugMessage());
-        // jsonBody.put("timestamp",apiError.getTimestamp());
-        // jsonBody.put("status",apiError.getStatus());
         jsonBody.put("error", apiError);
-        // return new ResponseEntity<ApiError>(jsonBody, apiError.getStatus());
+
         return new ResponseEntity<HashMap<String, Object>>(jsonBody, apiError.getStatus());
 
     }
@@ -84,7 +81,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(errorText);
         log.error(ex.getMessage());
         return buildResponseEntity(
-                new ApiError(BAD_REQUEST, ExceptionCode.MISSING_SERVLET_REQUEST_PARAMETER, errorText));
+                new ApiError(BAD_REQUEST, ExceptionCode.MISSING_SERVLET_REQUEST_PARAMETER.exceptionCode, errorText));
     }
 
     /**
@@ -112,8 +109,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(errorText);
         log.error(ex.getMessage());
 
-        return buildResponseEntity(
-                new ApiError(HttpStatus.UNSUPPORTED_MEDIA_TYPE, ExceptionCode.UNSUPPORTED_MEDIA_TYPE, errorText));
+        return buildResponseEntity(new ApiError(HttpStatus.UNSUPPORTED_MEDIA_TYPE,
+                ExceptionCode.UNSUPPORTED_MEDIA_TYPE.exceptionCode, errorText));
     }
 
     /**
@@ -135,7 +132,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError apiError = new ApiError();
         apiError.setStatus(BAD_REQUEST);
         apiError.setDebugMessage("Validation error");
-        apiError.setExceptionCode(ExceptionCode.VALIDATION_FAILED);
+        apiError.setExceptionCode(ExceptionCode.VALIDATION_FAILED.exceptionCode);
         apiError.addValidationErrors(ex.getBindingResult().getFieldErrors());
         apiError.addValidationError(ex.getBindingResult().getGlobalErrors());
 
@@ -156,7 +153,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleConstraintViolation(javax.validation.ConstraintViolationException ex) {
         ApiError apiError = new ApiError();
         apiError.setStatus(BAD_REQUEST);
-        apiError.setExceptionCode(ExceptionCode.VALIDATION_FAILED);
+        apiError.setExceptionCode(ExceptionCode.VALIDATION_FAILED.exceptionCode);
         apiError.setDebugMessage("Validation error");
         apiError.addValidationErrors(ex.getConstraintViolations());
 
@@ -184,7 +181,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             HttpHeaders headers, HttpStatus status, WebRequest request) {
         ServletWebRequest servletWebRequest = (ServletWebRequest) request;
         String errorText = "Malformed JSON request";
-        return buildResponseEntity(new ApiError(BAD_REQUEST, ExceptionCode.JSON_IS_MALFORMED, errorText));
+        return buildResponseEntity(new ApiError(BAD_REQUEST, ExceptionCode.JSON_IS_MALFORMED.exceptionCode, errorText));
     }
 
     /**
@@ -204,7 +201,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
 
-        ApiError apiError = new ApiError(BAD_REQUEST, ExceptionCode.NO_EXCEPTION_HANDLER,
+        ApiError apiError = new ApiError(BAD_REQUEST, ExceptionCode.NO_EXCEPTION_HANDLER.exceptionCode,
                 String.format("Could not find the %s method for URL %s", ex.getHttpMethod(), ex.getRequestURL()));
 
         return buildResponseEntity(apiError);
