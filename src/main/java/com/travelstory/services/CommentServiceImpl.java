@@ -1,17 +1,19 @@
 package com.travelstory.services;
 
+
+import com.travelstory.dto.CommentDTO;
+import com.travelstory.dto.converter.CommentConverter;
 import com.travelstory.entity.Comment;
 import com.travelstory.entity.Media;
-import com.travelstory.entity.TravelStory;
-import com.travelstory.entity.User;
-import com.travelstory.exceptions.ResourceNotFoundException;
-import com.travelstory.exceptions.codes.ExceptionCode;
+import com.travelstory.exceptions.EntityNotFoundException;
 import com.travelstory.repositories.CommentRepository;
 import com.travelstory.repositories.MediaRepository;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +30,8 @@ public class CommentServiceImpl implements CommentService {
     TravelStoryRepository travelStoryRepository;
     @Autowired
     MediaRepository mediaRepository;
+    @Autowired
+    CommentConverter commentConverter;
 
     public CommentServiceImpl() {
     }
@@ -39,8 +43,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getAllComments() {
-        return commentRepository.findAll();
+    public List<CommentDTO> getAllComments(Long travelStoryId, Long mediaId) {
+        if (mediaId != null) {
+            return commentConverter.convertToDto(commentRepository.findAllByMediaIdOrderByCreatedAtDesc(mediaId));
+        } else {
+            return commentConverter
+                    .convertToDto(commentRepository.findAllByTravelStoryIdOrderByCreatedAt(travelStoryId));
+        }
     }
 
     @Override
@@ -56,56 +65,37 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getCommentsByMedia(Media media) {
-
-        return commentRepository.findAllByMedia(media);
+    public void deleteComment(Long id) {
+        commentRepository.deleteById(id);
     }
 
     @Override
-    public List<Comment> getCommentsByUserAndMedia(User user, Media media) {
-        return commentRepository.findAllByUserAndMedia(user, media);
+    public CommentDTO add(CommentDTO commentDTO) {
+        Comment comment = commentConverter.convertToEntity(commentDTO);
+        if (commentDTO.getMediaId() == null) {
+            commentDTO = commentConverter.convertToDto(commentRepository.save(comment));
+        } else {
+            comment.setMedia(mediaRepository.findById(commentDTO.getMediaId())
+                    .orElseThrow(() -> new EntityNotFoundException("no such media in the database",
+                            "sorry,we have no such user", Media.class)));
+            commentDTO = commentConverter.convertToDto(commentRepository.save(comment));
+        }
+        return commentDTO;
     }
 
-    @Override
-    public List<Comment> getCommentsByUserAndTravelStory(User user, TravelStory travelStory) {
-        return commentRepository.findAllByUserAndTravelStory(user, travelStory);
-    }
 
     @Override
-    public List<Comment> getCommentsByTravelStory(TravelStory travelStory) {
-        return commentRepository.findAllByTravelStory(travelStory);
-    }
+    public Page<CommentDTO> getNext3Comments(Long travelStoryId, Long mediaId, int pageNumber) {
 
-    @Override
-    public void deleteComment(Comment comment) {
-        commentRepository.delete(comment);
+        if (mediaId == null) {
+            Page<Comment> commentPage = commentRepository.findAllByTravelStoryIdOrderByCreatedAtDesc(travelStoryId,
+                    PageRequest.of(pageNumber, 3));
+            return commentPage.map(comment -> commentConverter.convertToDto(comment));
 
-    }
-
-    /**
-     * @param comment
-     * @param userId
-     * @param travelStoryId
-     * @param mediaId
-     * @return
-     */
-    @Override
-    public Comment add(Comment comment, Long userId, Long travelStoryId, Long mediaId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-
-        User user = optionalUser.orElseThrow(
-                () -> new ResourceNotFoundException("no such user in the database", ExceptionCode.USER_NOT_FOUND));
-        Optional<TravelStory> travelStoryOptional = travelStoryRepository.findById(travelStoryId);
-        TravelStory travelStory = travelStoryOptional
-                .orElseThrow(() -> new ResourceNotFoundException("no such travel story in the database",
-                        ExceptionCode.TRAVELSTORY_NOT_FOUND));
-        Optional<Media> mediaOptional = mediaRepository.findById(mediaId);
-        Media media = mediaOptional.orElseThrow(
-                () -> new ResourceNotFoundException("no such media in the database", ExceptionCode.MEDIA_NOT_FOUND));
-        comment.setUser(user);
-        comment.setTravelStory(travelStory);
-        comment.setMedia(media);
-        return comment;
-
+        } else {
+            Page<Comment> commentPage = commentRepository.findAllByMediaIdOrderByCreatedAtAsc(mediaId,
+                    PageRequest.of(pageNumber, 3));
+            return commentPage.map(comment -> commentConverter.convertToDto(comment));
+        }
     }
 }

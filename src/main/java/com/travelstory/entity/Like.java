@@ -25,8 +25,6 @@ public class Like {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private boolean likeState;
-
     @ManyToOne
     @JsonManagedReference
     private Media media;
@@ -42,11 +40,4 @@ public class Like {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public boolean isLikeState() {
-        return likeState;
-    }
-
-    public void setLikeState(boolean likeState) {
-        this.likeState = likeState;
-    }
 }
