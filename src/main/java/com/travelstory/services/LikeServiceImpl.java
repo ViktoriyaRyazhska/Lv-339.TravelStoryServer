@@ -14,12 +14,14 @@ import com.travelstory.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 
 public class LikeServiceImpl implements LikeService {
+
     @Autowired
     LikeRepository likeRepository;
     @Autowired
@@ -46,7 +48,7 @@ public class LikeServiceImpl implements LikeService {
 
         Like like = likeConverter.convertToEntity(likeDTO);
 
-        Optional<User> userOptional = userRepository.findById(likeDTO.getLoggedUserId());
+        Optional<User> userOptional = userRepository.findById(likeDTO.getUserId());
         Optional<TravelStory> travelStoryOptional = travelStoryRepository.findById(likeDTO.getTravelStoryId());
         TravelStory travelStory = travelStoryOptional
                 .orElseThrow(() -> new EntityNotFoundException("no such travel story in the database",
@@ -55,15 +57,15 @@ public class LikeServiceImpl implements LikeService {
                 "sorry,we have no such user", User.class));
         like.setUser(user);
         like.setTravelStory(travelStory);
-        like.setLikeState(likeDTO.isLikeState());
+        like.setCreatedAt(LocalDateTime.now());
         if (likeDTO.getMediaId() == null) {
-            likeRepository.save(like);
+            likeDTO = likeConverter.convertToDto(likeRepository.save(like));
         } else {
             Optional<Media> mediaOptional = mediaRepository.findById(likeDTO.getMediaId());
             Media media = mediaOptional.orElseThrow(() -> new EntityNotFoundException("no such media in the database",
                     "sorry,we have no such media ", Media.class));
             like.setMedia(media);
-            likeConverter.convertToDto(likeRepository.save(like));
+            likeDTO = likeConverter.convertToDto(likeRepository.save(like));
 
         }
         return likeDTO;
@@ -86,4 +88,5 @@ public class LikeServiceImpl implements LikeService {
         }
 
     }
+
 }
