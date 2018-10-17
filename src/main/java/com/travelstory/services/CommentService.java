@@ -1,9 +1,8 @@
 package com.travelstory.services;
 
+import com.travelstory.dto.CommentDTO;
 import com.travelstory.entity.Comment;
-import com.travelstory.entity.Media;
-import com.travelstory.entity.TravelStory;
-import com.travelstory.entity.User;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,20 +11,14 @@ import java.util.List;
 public interface CommentService {
     Comment saveComment(Comment comment);
 
-    List<Comment> getAllComments();
+    List<CommentDTO> getAllComments(Long travelStoryId, Long mediaId);
 
-    Comment add(Comment comment, Long userId, Long travelStoryId, Long mediaId);
-
-    List<Comment> getCommentsByMedia(Media media);
-
-    List<Comment> getCommentsByUserAndMedia(User user, Media media);
-
-    List<Comment> getCommentsByUserAndTravelStory(User user, TravelStory travelStory);
-
-    List<Comment> getCommentsByTravelStory(TravelStory travelStory);
+    CommentDTO add(CommentDTO commentDTO);
 
     Comment getComment(Long id);
 
-    void deleteComment(Comment comment);
+    void deleteComment(Long id);
+
+    Page<CommentDTO> getNext3Comments(Long travelStoryId, Long mediaId, int pageNumber);
 
 }
