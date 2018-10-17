@@ -28,22 +28,19 @@ public class MessageWebSocketController {
 
     @Autowired
     public MessageWebSocketController(SimpMessageSendingOperations messagingTemplate, MessageService messageService,
-                                      ModelMapperDecorator modelMapperDecorator) {
+            ModelMapperDecorator modelMapperDecorator) {
         this.messagingTemplate = messagingTemplate;
         this.messageService = messageService;
         this.modelMapperDecorator = modelMapperDecorator;
     }
 
     @MessageMapping("/{chatId}/message")
-    public void sendMessageString(@DestinationVariable Long chatId,
-                                  @RequestBody Map<String, Object> jsonBody) {
+    public void sendMessageString(@DestinationVariable Long chatId, @RequestBody Map<String, Object> jsonBody) {
         MessageDTO messageDTO = convertJsonToDto(jsonBody);
         messageDTO.setId(messageService.save(messageDTO, chatId));
 
         messagingTemplate.convertAndSend(format("/chat/%s/messages", chatId), messageDTO);
     }
-
-
 
     private MessageDTO convertJsonToDto(Map<String, Object> jsonBody) {
         MessageDTO messageDTO = new MessageDTO();
