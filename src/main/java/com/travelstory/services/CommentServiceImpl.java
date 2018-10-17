@@ -1,5 +1,6 @@
 package com.travelstory.services;
 
+
 import com.travelstory.dto.CommentDTO;
 import com.travelstory.dto.converter.CommentConverter;
 import com.travelstory.entity.Comment;
@@ -58,8 +59,8 @@ public class CommentServiceImpl implements CommentService {
             Comment comment = commentOptional.get();
             return comment;
         } else {
-            throw new EntityNotFoundException("Comment with that id is not present in database",
-                    "Resource 'comment' not found", Comment.class);
+            throw new ResourceNotFoundException("Comment with that id is not present in database",
+                    ExceptionCode.COMMENT_NOT_FOUND);
         }
     }
 
@@ -81,6 +82,7 @@ public class CommentServiceImpl implements CommentService {
         }
         return commentDTO;
     }
+
 
     @Override
     public Page<CommentDTO> getNext3Comments(Long travelStoryId, Long mediaId, int pageNumber) {

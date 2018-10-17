@@ -2,6 +2,8 @@ package com.travelstory.controllers.messenger;
 
 import com.travelstory.dto.messenger.ChatDTO;
 import com.travelstory.dto.messenger.ChatDetailsDTO;
+import com.travelstory.exceptions.ResourceNotFoundException;
+import com.travelstory.exceptions.codes.ExceptionCode;
 import com.travelstory.services.messenger.ChatService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class ChatController {
     @GetMapping("/{id}/chats")
     public List<ChatDTO> getChatsByUserId(@PathVariable Long id) {
         log.debug("test");
+        if (true) {
+            throw new ResourceNotFoundException("", ExceptionCode.CHAT_NOT_FOUND);
+        }
         return chatService.getAllByUserId(id);
     }
 
