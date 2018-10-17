@@ -2,9 +2,8 @@ package com.travelstory.dto.converter;
 
 import com.travelstory.dto.CommentDTO;
 import com.travelstory.entity.Comment;
-import com.travelstory.entity.TravelStory;
-import com.travelstory.entity.User;
-import com.travelstory.exceptions.EntityNotFoundException;
+import com.travelstory.exceptions.ResourceNotFoundException;
+import com.travelstory.exceptions.codes.ExceptionCode;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +24,11 @@ public class CommentConverter implements GeneralConverter<CommentDTO, Comment> {
     public Comment convertToEntity(CommentDTO dto) {
         Comment comment = new Comment();
         comment.setCommentMassage(dto.getCommentMassage());
-        comment.setUser(userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("no such user in the database",
-                        "sorry,we have no such user", User.class)));
+        comment.setUser(userRepository.findById(dto.getUserId()).orElseThrow(
+                () -> new ResourceNotFoundException("no such user in the database", ExceptionCode.USER_NOT_FOUND)));
         comment.setTravelStory(travelStoryRepository.findById(dto.getTravelStoryId())
-                .orElseThrow(() -> new EntityNotFoundException("no such travelStory in the database",
-                        "sorry,we have no such travelStory", TravelStory.class)));
+                .orElseThrow(() -> new ResourceNotFoundException("no such travelStory in the database",
+                        ExceptionCode.TRAVELSTORY_NOT_FOUND)));
         comment.setCreatedAt(LocalDateTime.now());
         return comment;
 
