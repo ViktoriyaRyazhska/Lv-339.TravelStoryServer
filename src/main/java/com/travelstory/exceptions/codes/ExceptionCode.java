@@ -17,8 +17,15 @@ public enum ExceptionCode {
      * ++-----------------------------------------------------------------------
      */
 
-    MISSING_SERVLET_REQUEST_PARAMETER(9991), UNSUPPORTED_MEDIA_TYPE(9992), JSON_IS_MALFORMED(
-            1993), NO_EXCEPTION_HANDLER(1994), UNEXPECTED_EXCEPTION(9999),
+    MISSING_SERVLET_REQUEST_PARAMETER(9991),
+
+    UNSUPPORTED_MEDIA_TYPE(9992),
+
+    JSON_IS_MALFORMED(1993),
+
+    NO_EXCEPTION_HANDLER(1994),
+
+    UNEXPECTED_EXCEPTION(9999),
 
     /*-
      * +----------------------------------------------------------------------

@@ -22,6 +22,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
@@ -40,7 +41,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @return the ResponseEntity
      */
     @ExceptionHandler(TravelStoryAppException.class)
-    protected ResponseEntity<Object> handleCustomRuntimeException(TravelStoryAppException ex, WebRequest request) {
+    protected ResponseEntity<HashMap<String, Object>> handleCustomRuntimeException(TravelStoryAppException ex,
+            WebRequest request) {
         ApiError apiError = new ApiError();
         ResponseStatus responseStatus = AnnotationUtils.findAnnotation(ex.getClass(), ResponseStatus.class);
         if (responseStatus != null) {
@@ -52,7 +54,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         apiError.setExceptionCode(ex.getExceptionCode());
         apiError.setTimestamp(LocalDateTime.now());
 
-        return buildResponseEntity(apiError);
+        HashMap<String, Object> jsonBody = new HashMap<String, Object>();
+        // jsonBody.put("debugMessage",apiError.getDebugMessage());
+        // jsonBody.put("timestamp",apiError.getTimestamp());
+        // jsonBody.put("status",apiError.getStatus());
+        jsonBody.put("error", apiError);
+        // return new ResponseEntity<ApiError>(jsonBody, apiError.getStatus());
+        return new ResponseEntity<HashMap<String, Object>>(jsonBody, apiError.getStatus());
+
     }
 
     /**
@@ -202,8 +211,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
-        ResponseEntity<Object> responseEntity = new ResponseEntity<Object>(apiError, apiError.getStatus());
-        return responseEntity;
+        return new ResponseEntity<Object>(apiError, apiError.getStatus());
     }
 
 }
