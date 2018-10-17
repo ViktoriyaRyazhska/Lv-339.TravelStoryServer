@@ -1,11 +1,10 @@
 package com.travelstory.services;
 
-
 import com.travelstory.dto.CommentDTO;
 import com.travelstory.dto.converter.CommentConverter;
 import com.travelstory.entity.Comment;
-import com.travelstory.entity.Media;
-import com.travelstory.exceptions.EntityNotFoundException;
+import com.travelstory.exceptions.ResourceNotFoundException;
+import com.travelstory.exceptions.codes.ExceptionCode;
 import com.travelstory.repositories.CommentRepository;
 import com.travelstory.repositories.MediaRepository;
 import com.travelstory.repositories.TravelStoryRepository;
@@ -76,13 +75,12 @@ public class CommentServiceImpl implements CommentService {
             commentDTO = commentConverter.convertToDto(commentRepository.save(comment));
         } else {
             comment.setMedia(mediaRepository.findById(commentDTO.getMediaId())
-                    .orElseThrow(() -> new EntityNotFoundException("no such media in the database",
-                            "sorry,we have no such user", Media.class)));
+                    .orElseThrow(() -> new ResourceNotFoundException("no such media in the database",
+                            ExceptionCode.MEDIA_NOT_FOUND)));
             commentDTO = commentConverter.convertToDto(commentRepository.save(comment));
         }
         return commentDTO;
     }
-
 
     @Override
     public Page<CommentDTO> getNext3Comments(Long travelStoryId, Long mediaId, int pageNumber) {

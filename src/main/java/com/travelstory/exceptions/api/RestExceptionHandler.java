@@ -33,8 +33,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     /**
      * Main exception handler for all expected exceptions in TravelStoryAPI
      *
-     * @param ex      exception
-     * @param request web request
+     * @param ex
+     *            exception
+     * @param request
+     *            web request
      * @return the ResponseEntity
      */
     @ExceptionHandler(TravelStoryAppException.class)
@@ -45,6 +47,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             apiError.setStatus(responseStatus.code());
         }
         log.error(ex.getMessage(), ex);
+
         apiError.setDebugMessage(ex.getMessage());
         apiError.setExceptionCode(ex.getExceptionCode());
         apiError.setTimestamp(LocalDateTime.now());
@@ -55,15 +58,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     /**
      * Handle MissingServletRequestParameterException. Triggered when a 'required' request parameter is missing.
      *
-     * @param ex      MissingServletRequestParameterException
-     * @param headers HttpHeaders
-     * @param status  HttpStatus
-     * @param request WebRequest
+     * @param ex
+     *            MissingServletRequestParameterException
+     * @param headers
+     *            HttpHeaders
+     * @param status
+     *            HttpStatus
+     * @param request
+     *            WebRequest
      * @return the ApiError object
      */
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
-                                                                          HttpHeaders headers, HttpStatus status, WebRequest request) {
+            HttpHeaders headers, HttpStatus status, WebRequest request) {
         String errorText = ex.getParameterName() + " parameter is missing";
         log.error(errorText);
         log.error(ex.getMessage());
@@ -74,15 +81,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     /**
      * Handle HttpMediaTypeNotSupportedException. This one triggers when JSON is invalid as well.
      *
-     * @param ex      HttpMediaTypeNotSupportedException
-     * @param headers HttpHeaders
-     * @param status  HttpStatus
-     * @param request WebRequest
+     * @param ex
+     *            HttpMediaTypeNotSupportedException
+     * @param headers
+     *            HttpHeaders
+     * @param status
+     *            HttpStatus
+     * @param request
+     *            WebRequest
      * @return the ApiError object
      */
     @Override
     protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex,
-                                                                     HttpHeaders headers, HttpStatus status, WebRequest request) {
+            HttpHeaders headers, HttpStatus status, WebRequest request) {
         StringBuilder builder = new StringBuilder();
         builder.append(ex.getContentType());
         builder.append(" media type is not supported. Supported media types are ");
@@ -99,15 +110,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     /**
      * Handle MethodArgumentNotValidException. Triggered when an object fails @Valid validation.
      *
-     * @param ex      the MethodArgumentNotValidException that is thrown when @Valid validation fails
-     * @param headers HttpHeaders
-     * @param status  HttpStatus
-     * @param request WebRequest
+     * @param ex
+     *            the MethodArgumentNotValidException that is thrown when @Valid validation fails
+     * @param headers
+     *            HttpHeaders
+     * @param status
+     *            HttpStatus
+     * @param request
+     *            WebRequest
      * @return the ApiError object
      */
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
+            HttpHeaders headers, HttpStatus status, WebRequest request) {
         ApiError apiError = new ApiError();
         apiError.setStatus(BAD_REQUEST);
         apiError.setDebugMessage("Validation error");
@@ -124,7 +139,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     /**
      * Handles javax.validation.ConstraintViolationException. Thrown when @Validated fails.
      *
-     * @param ex the ConstraintViolationException
+     * @param ex
+     *            the ConstraintViolationException
      * @return the ApiError object
      */
     @ExceptionHandler(javax.validation.ConstraintViolationException.class)
@@ -144,15 +160,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     /**
      * Handle HttpMessageNotReadableException. Happens when request JSON is malformed.
      *
-     * @param ex      HttpMessageNotReadableException
-     * @param headers HttpHeaders
-     * @param status  HttpStatus
-     * @param request WebRequest
+     * @param ex
+     *            HttpMessageNotReadableException
+     * @param headers
+     *            HttpHeaders
+     * @param status
+     *            HttpStatus
+     * @param request
+     *            WebRequest
      * @return the ApiError object
      */
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
+            HttpHeaders headers, HttpStatus status, WebRequest request) {
         ServletWebRequest servletWebRequest = (ServletWebRequest) request;
         String errorText = "Malformed JSON request";
         return buildResponseEntity(new ApiError(BAD_REQUEST, ExceptionCode.JSON_IS_MALFORMED, errorText));
@@ -161,15 +181,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     /**
      * Handle NoHandlerFoundException.
      *
-     * @param ex      NoHandlerFoundException
-     * @param headers HttpHeaders
-     * @param status  HttpStatus
-     * @param request WebRequest
+     * @param ex
+     *            NoHandlerFoundException
+     * @param headers
+     *            HttpHeaders
+     * @param status
+     *            HttpStatus
+     * @param request
+     *            WebRequest
      * @return the ApiError object
      */
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
-                                                                   HttpStatus status, WebRequest request) {
+            HttpStatus status, WebRequest request) {
 
         ApiError apiError = new ApiError(BAD_REQUEST, ExceptionCode.NO_EXCEPTION_HANDLER,
                 String.format("Could not find the %s method for URL %s", ex.getHttpMethod(), ex.getRequestURL()));
