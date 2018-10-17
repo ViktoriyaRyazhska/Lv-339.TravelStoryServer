@@ -31,14 +31,17 @@ import java.util.List;
 @Component
 public class User {
 
+    @Size(min = 2, max = 10)
     private String firstName;
 
+    @Size(min = 2, max = 10)
     private String lastName;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Email
+    @Size(min = 2, max = 25)
     private String email;
 
     @Size(min = 1, max = 25)

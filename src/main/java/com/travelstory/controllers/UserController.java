@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class UserController {
     }
 
     @PostMapping("/registrate")
-    public ResponseEntity registrateUser(@RequestBody RegistrationDTO registrationDTO) {
+    public ResponseEntity registrateUser(@Valid @RequestBody RegistrationDTO registrationDTO) {
         if (userService.getUserByEmail(registrationDTO.getEmail()) != null) {
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
         } else {
@@ -66,7 +67,7 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity login(@Valid @RequestBody LoginDTO loginDTO) {
         TokenModel token = null;
         if (userService.checkCredentials(loginDTO)) {
             token = userService.signIn(loginDTO);
