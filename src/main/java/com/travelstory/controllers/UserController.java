@@ -43,6 +43,18 @@ public class UserController {
         return userService.getUsersByTerm(term, page, size);
     }
 
+    @GetMapping("/users/followers/{userId}/{page}/{size}")
+    public Page<UserSearchDTO> getFollowers(@PathVariable(value = "userId") Long userId,
+            @PathVariable(value = "page") int page, @PathVariable(value = "size") int size) {
+        return userService.getFollowers(userId, page, size);
+    }
+    //
+    // @GetMapping("/users/following/{userId}/{page}/{size}")
+    // public Page<UserSearchDTO> getFollowing(@PathVariable(value = "userId") Long userId,@PathVariable(value = "page")
+    // int page, @PathVariable(value = "size") int size) {
+    // return userService.getFollowing(userId,page, size);
+    // }
+
     @PutMapping("/uploadProfilePic")
     User uploadProfilePicture(@RequestBody UserPicDTO dto) throws IOException {
         return userService.uploadProfilePicture(dto);

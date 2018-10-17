@@ -163,4 +163,10 @@ public class UserServiceImpl implements UserService {
         }
         return userPage.map(user -> userSearchConverter.convertToDto(user));
     }
+
+    @Override
+    public Page<UserSearchDTO> getFollowers(Long userId, int page, int size) {
+        return userRepository.findAllByParentUserId(userId, new PageRequest(page, size))
+                .map(user -> userSearchConverter.convertToDto(user));
+    }
 }

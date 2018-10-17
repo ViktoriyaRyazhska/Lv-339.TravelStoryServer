@@ -22,4 +22,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Page<User> findByFirstNameIsStartingWithAndLastNameIsStartingWith(String firstName, String lastName,
             Pageable pageable);
 
+    Page<User> findAllByParentUserId(Long userId, Pageable pageable);
+
 }

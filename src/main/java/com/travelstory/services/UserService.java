@@ -23,4 +23,6 @@ public interface UserService {
     public TokenModel signIn(LoginDTO loginDTO);
 
     Page<UserSearchDTO> getUsersByTerm(String term, int page, int size);
+
+    Page<UserSearchDTO> getFollowers(Long userId, int page, int size);
 }
