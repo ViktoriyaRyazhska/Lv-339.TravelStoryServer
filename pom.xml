@@ -7,7 +7,7 @@
     <groupId>com.travelstory</groupId>
     <artifactId>travelstory</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>Travel Story</name>
     <description>Travel Story project for SoftServe IT academy</description>
