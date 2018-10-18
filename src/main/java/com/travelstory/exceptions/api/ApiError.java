@@ -2,7 +2,6 @@ package com.travelstory.exceptions.api;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.travelstory.exceptions.codes.ExceptionCode;
 import lombok.*;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpStatus;
@@ -26,11 +25,11 @@ public class ApiError {
     private HttpStatus status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime timestamp;
-    private ExceptionCode exceptionCode;
+    private int exceptionCode;
     private String debugMessage;
     private List<ApiSubError> subErrors;
 
-    public ApiError(HttpStatus status, ExceptionCode exceptionCode, String debugMessage) {
+    public ApiError(HttpStatus status, int exceptionCode, String debugMessage) {
         this.status = status;
         this.exceptionCode = exceptionCode;
         this.debugMessage = debugMessage;
