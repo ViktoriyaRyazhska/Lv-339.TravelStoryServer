@@ -21,8 +21,8 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Component
-@ToString(exclude = { "comments", "likes", "userOwner" })
-@JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
+@ToString(exclude = {"comments", "likes", "userOwner"})
+@JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer"})
 public class TravelStory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,7 +52,7 @@ public class TravelStory {
     private List<Media> media;
 
     public TravelStory(User userOwner, String description, LocalDateTime createdDate, LocalDateTime updatedDate,
-            TravelStoryStatus travelStoryStatus) {
+                       TravelStoryStatus travelStoryStatus) {
         this.userOwner = userOwner;
         this.description = description;
         this.createdDate = createdDate;
@@ -64,52 +64,4 @@ public class TravelStory {
     @JsonBackReference
     @NotNull
     private User userOwner;
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public LocalDateTime getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(LocalDateTime updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-    public TravelStoryStatus getTravelStoryStatus() {
-        return travelStoryStatus;
-    }
-
-    public void setTravelStoryStatus(TravelStoryStatus travelStoryStatus) {
-        this.travelStoryStatus = travelStoryStatus;
-    }
-
-    public String getHead() {
-        return head;
-    }
-
-    public void setHead(String head) {
-        this.head = head;
-    }
-
-    public List<Media> getMedia() {
-        return media;
-    }
-
-    public void setMedia(List<Media> media) {
-        this.media = media;
-    }
 }
