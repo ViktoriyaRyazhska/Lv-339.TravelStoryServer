@@ -43,8 +43,8 @@ public class UserController {
         return userService.getUsersByTerm(term, page, size);
     }
 
-    @PutMapping("/uploadProfilePic")
-    User uploadProfilePicture(@RequestBody UserPicDTO dto) throws IOException {
+    @PostMapping("/uploadProfilePic")
+    public User uploadProfilePicture(@RequestBody UserPicDTO dto) throws IOException {
         return userService.uploadProfilePicture(dto);
     }
 
