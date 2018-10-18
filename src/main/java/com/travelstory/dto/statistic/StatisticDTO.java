@@ -29,8 +29,8 @@ public class StatisticDTO {
         ArrayList<Integer> list = new ArrayList<>();
         for (int i = 1; i < 13; i++) {
             LocalDate begin = LocalDate.of(2018, i, 1);
-            LocalDate end = LocalDate.of(2018, i, i == 2 ? 28 : 30);
-            list.add(travelStoryStatistic.countTravelStoriesByCreatedDateBetween(begin, end));
+            LocalDate end = LocalDate.of(2019, i, i == 2 ? 28 : 30);
+            list.add(travelStoryStatistic.countTravelStoriesCreatedDateBeetween(begin.toString(), end.toString()));
         }
         return list;
     }

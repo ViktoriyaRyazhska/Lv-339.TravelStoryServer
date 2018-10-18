@@ -38,8 +38,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private TravelStoryRepository travelStoryRepository;
     @Autowired
-    private FollowRepository followRepository;
-    @Autowired
     private TokenProvider tokenProvider;
 
     @Override
@@ -61,8 +59,9 @@ public class UserServiceImpl implements UserService {
     }
 
     public User uploadProfilePicture(UserPicDTO dto) throws IOException {
-        User user = userRepository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException("UserPicDTO not found",
-                "Dear customer, no such user in the database", UserServiceImpl.class));
+        User user = userRepository.findById(dto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("UserPicDTO not found",
+                        "Dear customer, no such user in the database", UserServiceImpl.class));
 
         String imgBase64 = dto.getProfilePic();
         String filteredImgBase64 = cleanBase64String(imgBase64);
@@ -86,16 +85,17 @@ public class UserServiceImpl implements UserService {
     public User resetProfilePic(long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("UserPicDTO not found",
                 "Dear customer, no such user in the database", UserServiceImpl.class));
-        user.setProfilePic
-                ("https://res.cloudinary.com/travelstory/image/upload/v1538575861/default/default_avatar.jpg");
+        user.setProfilePic(
+                "https://res.cloudinary.com/travelstory/image/upload/v1538575861/default/default_avatar.jpg");
         return userRepository.save(user);
     }
 
     @Override
     public UserDTO getUserById(long userId) {
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("UserPicDTO not found",
-                "Dear customer, no such user in the database", UserServiceImpl.class));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("UserPicDTO not found",
+                        "Dear customer, no such user in the database", UserServiceImpl.class));
         long countOfTrStories = travelStoryRepository.countTravelStoriesByUserOwner(user);
         List<Follow> follows = followRepository.getFollowByUserId(userId);
         List<Long> followsFiltered = new ArrayList<>();
