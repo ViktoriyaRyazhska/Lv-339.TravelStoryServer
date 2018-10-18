@@ -72,6 +72,7 @@ public class User {
     // @JsonBackReference
     private List<Chat> chats;
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "creator")
     private List<Chat> createdChats;
 

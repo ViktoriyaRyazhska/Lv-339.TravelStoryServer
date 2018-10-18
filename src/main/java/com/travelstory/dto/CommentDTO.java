@@ -1,10 +1,7 @@
 package com.travelstory.dto;
 
-import lombok.Data;
-
 import java.time.LocalDateTime;
 
-@Data
 public class CommentDTO extends BaseDTO {
     private Long id;
     private Long userId;
