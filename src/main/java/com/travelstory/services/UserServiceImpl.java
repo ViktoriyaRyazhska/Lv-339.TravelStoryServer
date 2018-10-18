@@ -12,7 +12,6 @@ import com.travelstory.repositories.FollowRepository;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
 import com.travelstory.security.TokenProvider;
-import com.travelstory.utils.MediaUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.travelstory.utils.MediaUtils.cleanBase64String;
 
 @Slf4j
 @Service
@@ -71,12 +68,7 @@ public class UserServiceImpl implements UserService {
     public User uploadProfilePicture(UserPicDTO dto) throws IOException {
         User user = userRepository.findById(dto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("UserPicDTO not found", ExceptionCode.USER_NOT_FOUND));
-
-        String imgBase64 = dto.getProfilePic();
-        String filteredImgBase64 = cleanBase64String(imgBase64);
-        String imgUrl = MediaUtils.uploadMediaOnCloud(filteredImgBase64, "profile_pic");
-        user.setProfilePic(imgUrl);
-
+        user.setProfilePic(dto.getProfilePic());
         return userRepository.save(user);
     }
 

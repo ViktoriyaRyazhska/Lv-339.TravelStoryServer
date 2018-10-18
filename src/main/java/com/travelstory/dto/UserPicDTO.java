@@ -7,4 +7,5 @@ public class UserPicDTO {
 
     private Long id;
     private String profilePic;
+
 }
