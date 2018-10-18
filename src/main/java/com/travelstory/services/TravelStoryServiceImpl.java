@@ -99,8 +99,10 @@ public class TravelStoryServiceImpl implements TravelStoryService {
         List<TravelStory> travelStories = travelStoryRepository.findByUserOwnerId(id);
         List<TravelStoryDTO> travelStoryDTOS = new ArrayList<>();
         for (TravelStory travelStory : travelStories) {
-            TravelStoryDTO map = modelMapper.map(travelStory, TravelStoryDTO.class);
-            travelStoryDTOS.add(map);
+            if (travelStory.getTravelStoryStatus().toString().equals("STATUS_ACTIVE")) {
+                TravelStoryDTO map = modelMapper.map(travelStory, TravelStoryDTO.class);
+                travelStoryDTOS.add(map);
+            }
         }
         return travelStoryDTOS;
     }

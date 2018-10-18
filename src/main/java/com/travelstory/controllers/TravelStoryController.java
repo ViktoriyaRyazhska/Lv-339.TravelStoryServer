@@ -3,6 +3,8 @@ package com.travelstory.controllers;
 import com.travelstory.dto.TravelStoryDTO;
 import com.travelstory.services.TravelStoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.travelstory.entity.TravelStory;
 
@@ -21,8 +23,9 @@ public class TravelStoryController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTravelStory(@PathVariable long id) {
+    public ResponseEntity<TravelStoryDTO> deleteTravelStory(@PathVariable long id) {
         tss.deleteTravelStory(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/byHead/{head}")
@@ -30,9 +33,9 @@ public class TravelStoryController {
         return (tss.getByHead(head));
     }
 
-    @PutMapping("/edit/{id}")
-    public TravelStoryDTO edit(@RequestBody TravelStoryDTO travelStory, @PathVariable long id) {
-        return (tss.editTravelStory(travelStory, id));
+    @PutMapping("/edit")
+    public TravelStoryDTO edit(@RequestBody TravelStoryDTO travelStory) {
+        return (tss.editTravelStory(travelStory, travelStory.getId()));
     }
 
     @GetMapping("/getAll")
@@ -45,7 +48,7 @@ public class TravelStoryController {
         return (tss.getById(id));
     }
 
-    @GetMapping("/byOwner/{id}")
+    @GetMapping("/byUser/{id}")
     public List<TravelStoryDTO> getUserStories(@PathVariable long id) {
         return (tss.getByUserOwner(id));
     }
