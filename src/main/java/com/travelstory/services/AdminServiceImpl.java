@@ -34,7 +34,6 @@ public class AdminServiceImpl implements AdminService {
     public boolean addUser(ProfileDTO userProfile) {
         boolean isSucceed;
         if (!userRepository.existsByEmail(userProfile.getEmail())) {
-            User user = updateData(userProfile);
             userRepository.save(updateData(userProfile));
             isSucceed = true;
         } else {
