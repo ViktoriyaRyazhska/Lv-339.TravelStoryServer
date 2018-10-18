@@ -14,4 +14,5 @@ public interface LikeService {
     void deleteLike(Long id);
 
     LikeDTO getUserLike(Long travelStoryId, Long mediaId, Long userId);
+
 }

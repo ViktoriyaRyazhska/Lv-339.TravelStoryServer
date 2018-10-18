@@ -36,6 +36,7 @@ public class TravelStory {
     @LastModifiedDate
     private LocalDateTime updatedDate;
 
+
     @Enumerated(EnumType.STRING)
     private TravelStoryStatus travelStoryStatus;
 

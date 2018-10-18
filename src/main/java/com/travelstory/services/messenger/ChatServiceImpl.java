@@ -6,7 +6,8 @@ import com.travelstory.dto.messenger.ChatDTO;
 import com.travelstory.dto.messenger.ChatDetailsDTO;
 import com.travelstory.entity.User;
 import com.travelstory.entity.messenger.Chat;
-import com.travelstory.exceptions.EntityNotFoundException;
+import com.travelstory.exceptions.ResourceNotFoundException;
+import com.travelstory.exceptions.codes.ExceptionCode;
 import com.travelstory.repositories.messenger.ChatRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +54,9 @@ public class ChatServiceImpl implements ChatService {
     public ChatDetailsDTO get(Long chatId) {
 
         Chat chat = Optional.of(chatRepository.getOne(chatId))
-                .orElseThrow(() -> new EntityNotFoundException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Chat entity is not found during getting it in chatService class",
-                        "Dear user, there is no such chat.", ChatServiceImpl.class));
+                        ExceptionCode.CHAT_NOT_FOUND));
         log.debug("Getting chat by id");
         return chatDetailsConverter.convertToDto(chat, chatId);
     }

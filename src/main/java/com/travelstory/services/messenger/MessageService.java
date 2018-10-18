@@ -5,7 +5,7 @@ import com.travelstory.dto.messenger.MessageDTO;
 import java.util.List;
 
 public interface MessageService {
-    public void save(MessageDTO messageDTO, Long chatId);
+    public long save(MessageDTO messageDTO, Long chatId);
 
     public void delete(MessageDTO messageDTO);
 

@@ -1,11 +1,9 @@
 package com.travelstory.services;
 
-import com.travelstory.dto.LoginDTO;
-import com.travelstory.dto.RegistrationDTO;
-import com.travelstory.dto.UserDTO;
-import com.travelstory.dto.UserPicDTO;
+import com.travelstory.dto.*;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
+import org.springframework.data.domain.Page;
 
 import java.io.IOException;
 
@@ -24,4 +22,5 @@ public interface UserService {
 
     public TokenModel signIn(LoginDTO loginDTO);
 
+    Page<UserSearchDTO> getUsersByTerm(String term, int page, int size);
 }
