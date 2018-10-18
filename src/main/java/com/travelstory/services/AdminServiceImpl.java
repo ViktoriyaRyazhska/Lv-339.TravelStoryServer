@@ -7,7 +7,14 @@ import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.travelstory.dto.ProfileDTO;
 
+import java.util.List;
+import java.time.LocalDateTime;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class AdminServiceImpl implements AdminService {
 
@@ -24,8 +31,37 @@ public class AdminServiceImpl implements AdminService {
     TravelStoryRepository travelStoryRepository;
 
     @Override
-    public void addUser(User user) {
-        userRepository.save(user);
+    public boolean addUser(ProfileDTO userProfile) {
+        boolean isSucceed;
+        if (!userRepository.existsByEmail(userProfile.getEmail())) {
+            User user = updateData(userProfile);
+            userRepository.save(updateData(userProfile));
+            isSucceed = true;
+        } else {
+            log.error("User with such email already exist!");
+            isSucceed = false;
+        }
+        return isSucceed;
+    }
+
+    @Override
+    public boolean editUser(ProfileDTO userProfile) {
+        boolean isSucceed;
+        if (userRepository.existsByEmailAndPassword(userProfile.getEmail(), userProfile.getPassword())) {
+            User user = updateData(userProfile);
+            user.setId(userProfile.getId());
+            userRepository.save(user);
+            isSucceed = true;
+        } else {
+            log.error("User with such credentials doesn`t exist!");
+            isSucceed = false;
+        }
+        return isSucceed;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.getAllBy();
     }
 
     @Override
@@ -81,5 +117,21 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void deleteTravelStory(long id) {
         travelStoryRepository.deleteById(id);
+    }
+
+    private User updateData(ProfileDTO userProfile) {
+        User user = new User();
+        user.setEmail(userProfile.getEmail());
+        user.setFirstName(userProfile.getFirstName());
+        user.setLastName(userProfile.getLastName());
+        user.setPassword(userProfile.getPassword());
+        user.setGender(userProfile.getGender());
+        user.setUserRole(userProfile.getRole());
+        user.setUserState(userProfile.getState());
+        user.setUserStatus(userProfile.getStatus());
+        user.setDateOfBirth(userProfile.getDateOfBirth());
+        user.setRegistrationDate(userProfile.getRegistrationDate());
+        user.setLastUpdateDate(LocalDateTime.now());
+        return user;
     }
 }
