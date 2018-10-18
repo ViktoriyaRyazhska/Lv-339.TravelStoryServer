@@ -15,6 +15,7 @@ import com.travelstory.security.TokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserSearchConverter userSearchConverter;
 
+    @Value("${default_profile_pic}")
+    private String defaultProfilePic;
+
+    @Value("${default_background_pic}")
+    private String defaultBackgroundPic;
+
     @Override
     public void registrateUser(RegistrationDTO registrationDTO) {
 
@@ -60,15 +67,15 @@ public class UserServiceImpl implements UserService {
             user.setPassword(registrationDTO.getPassword());
             user.setGender(registrationDTO.getGender());
             user.setUserRole(UserRole.ROLE_USER);
-            user.setProfilePic("https://res.cloudinary.com/travelstory/image/upload/v1538575861/default/default_avatar.jpg");
-            user.setBackgroundPic("https://www.bupaglobal.com/-/media/images/pages/travel/header.png");
+            user.setProfilePic(defaultProfilePic);
+            user.setBackgroundPic(defaultBackgroundPic);
             userRepository.save(user);
         }
     }
 
     public User uploadProfilePicture(UserPicDTO dto) {
         User user = userRepository.findById(dto.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("UserPicDTO not found", ExceptionCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND));
         user.setProfilePic(dto.getPic());
         return userRepository.save(user);
     }
@@ -86,17 +93,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User resetProfilePic(long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("UserPicDTO not found", ExceptionCode.USER_NOT_FOUND));
-        user.setProfilePic(
-                "https://res.cloudinary.com/travelstory/image/upload/v1538575861/default/default_avatar.jpg");
+                .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND));
+        user.setProfilePic(defaultProfilePic);
         return userRepository.save(user);
     }
 
     @Override
     public UserDTO getUserById(long userId) {
-
         User user = userRepository.findById(userId).orElseThrow(
-                () -> new ResourceNotFoundException("UserPicDTO not found", ExceptionCode.USER_PIC_NOT_FOUND));
+                () -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
         long countOfTrStories = travelStoryRepository.countTravelStoriesByUserOwner(user);
         List<Follow> follows = followRepository.getFollowByUserId(userId);
         List<Long> followsFiltered = new ArrayList<>();
@@ -156,7 +161,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User uploadBackgroundPicture(UserPicDTO dto) {
         User user = userRepository.findById(dto.getId()).orElseThrow(
-                () -> new ResourceNotFoundException("UserPicDTO not found", ExceptionCode.USER_PIC_NOT_FOUND));
+                () -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
         user.setBackgroundPic(dto.getPic());
         return userRepository.save(user);
     }
