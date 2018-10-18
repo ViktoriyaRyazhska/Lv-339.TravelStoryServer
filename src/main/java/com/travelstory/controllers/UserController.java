@@ -1,9 +1,6 @@
 package com.travelstory.controllers;
 
-import com.travelstory.dto.LoginDTO;
-import com.travelstory.dto.RegistrationDTO;
-import com.travelstory.dto.UserDTO;
-import com.travelstory.dto.UserPicDTO;
+import com.travelstory.dto.*;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
 import com.travelstory.repositories.UserRepository;
@@ -11,6 +8,7 @@ import com.travelstory.security.TokenProvider;
 import com.travelstory.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +37,12 @@ public class UserController {
         return userRepository.findAll();
     }
 
+    @GetMapping("/users/{term}/{page}/{size}")
+    public Page<UserSearchDTO> getUsersByTerm(@PathVariable(value = "term") String term,
+            @PathVariable(value = "page") int page, @PathVariable(value = "size") int size) {
+        return userService.getUsersByTerm(term, page, size);
+    }
+
     @PutMapping("/uploadProfilePic")
     User uploadProfilePicture(@RequestBody UserPicDTO dto) throws IOException {
         return userService.uploadProfilePicture(dto);
@@ -46,8 +50,12 @@ public class UserController {
 
     @PostMapping("/registrate")
     public ResponseEntity registrateUser(@RequestBody RegistrationDTO registrationDTO) {
-        userService.registrateUser(registrationDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if (userService.getUserByEmail(registrationDTO.getEmail()) != null) {
+            return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+        } else {
+            userService.registrateUser(registrationDTO);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 
     @GetMapping("/user/{id}")

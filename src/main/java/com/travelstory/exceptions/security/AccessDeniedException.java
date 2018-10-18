@@ -6,14 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * <h2>General exception for security</h2>
+ * <h2>Exception have to be thrown when it's unauthorized request</h2>
  * <p>
- * All security exception codes has next template <b>7***</b>
+ * All access denied exception codes has next template <b>73**</b>
  * </p>
  */
-@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
-public class SecurityException extends TravelStoryAppException {
-    public SecurityException(String message, ExceptionCode exceptionCode) {
+@ResponseStatus(value = HttpStatus.FORBIDDEN)
+public class AccessDeniedException extends TravelStoryAppException {
+    public AccessDeniedException(String message, ExceptionCode exceptionCode) {
         super(message, exceptionCode);
     }
 }

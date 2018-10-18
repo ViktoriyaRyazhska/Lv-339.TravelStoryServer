@@ -30,8 +30,6 @@ import java.util.List;
 @Table(name = "users")
 @Component
 public class User {
-    @OneToMany(mappedBy = "user")
-    List<Follow> follows;
 
     private String firstName;
 
@@ -75,16 +73,20 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
     // @JsonBackReference
     private List<Chat> chats;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "creator")
     private List<Chat> createdChats;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userOwner")
     private List<TravelStory> travelStories;
+
     @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private List<Like> likes;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     @JsonManagedReference
     private List<SocialNetwork> socialNetworks;
