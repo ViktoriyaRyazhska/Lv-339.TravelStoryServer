@@ -93,9 +93,6 @@ public class User {
 
     private String hobbies;
 
-    @OneToMany(mappedBy = "user")
-    private List<Follow> follows;
-
     @Enumerated(EnumType.STRING)
     private UserState userState;
 
