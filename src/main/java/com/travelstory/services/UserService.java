@@ -25,4 +25,5 @@ public interface UserService {
     Page<UserSearchDTO> getUsersByTerm(String term, int page, int size);
 
     public User uploadBackgroundPicture(UserPicDTO dto);
+
 }

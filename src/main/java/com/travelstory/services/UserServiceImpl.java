@@ -60,6 +60,8 @@ public class UserServiceImpl implements UserService {
             user.setPassword(registrationDTO.getPassword());
             user.setGender(registrationDTO.getGender());
             user.setUserRole(UserRole.ROLE_USER);
+            user.setProfilePic("https://res.cloudinary.com/travelstory/image/upload/v1538575861/default/default_avatar.jpg");
+            user.setBackgroundPic("https://www.bupaglobal.com/-/media/images/pages/travel/header.png");
             userRepository.save(user);
         }
     }
@@ -158,4 +160,5 @@ public class UserServiceImpl implements UserService {
         user.setBackgroundPic(dto.getPic());
         return userRepository.save(user);
     }
+
 }
