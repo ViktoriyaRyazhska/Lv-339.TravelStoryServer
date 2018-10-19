@@ -61,13 +61,14 @@ public class UserServiceImpl implements UserService {
             user.setPassword(registrationDTO.getPassword());
             user.setGender(registrationDTO.getGender());
             user.setUserRole(UserRole.ROLE_USER);
+            
             userRepository.save(user);
         }
     }
 
     public User uploadProfilePicture(UserPicDTO dto) throws IOException {
         User user = userRepository.findById(dto.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("UserPicDTO not found", ExceptionCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND));
         user.setProfilePic(dto.getProfilePic());
         return userRepository.save(user);
     }
@@ -85,7 +86,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User resetProfilePic(long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("UserPicDTO not found", ExceptionCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND));
         user.setProfilePic(
                 "https://res.cloudinary.com/travelstory/image/upload/v1538575861/default/default_avatar.jpg");
         return userRepository.save(user);
@@ -95,7 +96,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserById(long userId) {
 
         User user = userRepository.findById(userId).orElseThrow(
-                () -> new ResourceNotFoundException("UserPicDTO not found", ExceptionCode.USER_PIC_NOT_FOUND));
+                () -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
         long countOfTrStories = travelStoryRepository.countTravelStoriesByUserOwner(user);
         List<Follow> follows = followRepository.getFollowByUserId(userId);
         List<Long> followsFiltered = new ArrayList<>();
