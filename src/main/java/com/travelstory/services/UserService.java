@@ -24,4 +24,6 @@ public interface UserService {
 
     public TokenModel signIn(LoginDTO loginDTO);
 
+    public void sendNewPassword(String email);
+
 }

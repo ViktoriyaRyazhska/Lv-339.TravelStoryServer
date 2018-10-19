@@ -15,8 +15,11 @@ import com.travelstory.repositories.UserRepository;
 import com.travelstory.security.TokenProvider;
 import com.travelstory.utils.MediaUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -43,6 +46,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TokenProvider tokenProvider;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     @Override
     public void registrateUser(RegistrationDTO registrationDTO) {
@@ -122,4 +127,16 @@ public class UserServiceImpl implements UserService {
         return tokenModel;
     }
 
+    public void sendNewPassword(String email) {
+        User user = userRepository.findByEmail(email);
+        String randomPass = RandomStringUtils.randomAlphanumeric(10);
+        user.setPassword(randomPass);
+        user = userRepository.saveAndFlush(user);
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(user.getEmail());
+        simpleMailMessage.setFrom("kiiko.dmytro@gmail.com");
+        simpleMailMessage.setSubject("Password recovery");
+        simpleMailMessage.setText("Your new password is: " + user.getPassword());
+        javaMailSender.send(simpleMailMessage);
+    }
 }

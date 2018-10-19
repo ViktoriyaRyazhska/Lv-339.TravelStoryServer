@@ -72,4 +72,10 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
+
+    @GetMapping("/forgotPass/{email}")
+    public String sigUpSuccess(@PathVariable String email) {
+        userService.sendNotification(email);
+        return "Thank you for being with us";
+    }
 }
