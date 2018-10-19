@@ -4,6 +4,7 @@ import com.travelstory.dto.messenger.ChatDTO;
 import com.travelstory.dto.messenger.MessageDTO;
 import com.travelstory.dto.messenger.MessengerUserDTO;
 import com.travelstory.entity.messenger.Chat;
+import com.travelstory.entity.messenger.Message;
 import com.travelstory.repositories.messenger.MessageRepository;
 import com.travelstory.utils.modelmapper.ModelMapperDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,17 @@ public class ChatConverterImpl implements ChatConverter {
     public ChatDTO convertToDto(Chat chat, Long currUserId) {
         ChatDTO chatDTO = modelMapperDecorator.map(chat, ChatDTO.class);
 
-        chatDTO.setLastMessage(
-                modelMapperDecorator.map(messageRepository.findTopByChatOrderByCreatedAtDesc(chat), MessageDTO.class));
+        Message lastMessage = messageRepository.findTopByChatOrderByCreatedAtDesc(chat);
+        if (lastMessage == null) {
+            lastMessage = new Message();
+            lastMessage.setId(Long.MAX_VALUE);
+            lastMessage.setMessageContent("");
+        }
+        chatDTO.setLastMessage(modelMapperDecorator.map(lastMessage, MessageDTO.class));
 
-        setInterlocutor(chat, chatDTO, currUserId);
+        if (chat.getChatType() == Chat.ChatType.PRIVATE_MESSAGES) {
+            setInterlocutor(chat, chatDTO, currUserId);
+        }
         setChatName(chatDTO);
 
         return chatDTO;
@@ -65,14 +73,10 @@ public class ChatConverterImpl implements ChatConverter {
     }
 
     public void setInterlocutor(Chat chat, ChatDTO chatDTO, Long currUserId) {
-        if (chat.getChatType() == Chat.ChatType.PRIVATE_MESSAGES) {
-            if (chat.getConnectedUsers().get(0).getId().equals(currUserId)) {
-                chatDTO.setInterlocutor(
-                        modelMapperDecorator.map(chat.getConnectedUsers().get(1), MessengerUserDTO.class));
-            } else {
-                chatDTO.setInterlocutor(
-                        modelMapperDecorator.map(chat.getConnectedUsers().get(0), MessengerUserDTO.class));
-            }
+        if (chat.getConnectedUsers().get(0).getId().equals(currUserId)) {
+            chatDTO.setInterlocutor(modelMapperDecorator.map(chat.getConnectedUsers().get(1), MessengerUserDTO.class));
+        } else {
+            chatDTO.setInterlocutor(modelMapperDecorator.map(chat.getConnectedUsers().get(0), MessengerUserDTO.class));
         }
     }
 

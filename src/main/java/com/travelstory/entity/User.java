@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.travelstory.entity.messenger.Chat;
 import com.travelstory.entity.messenger.Message;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.stereotype.Component;
@@ -20,12 +17,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = { "connectedChats", "messages", "travelStories", "chats", "createdChats", "socialNetworks",
-        "likes" })
+// @ToString(exclude = { "connectedChats", "messages", "travelStories", "chats", "createdChats", "socialNetworks",
+// "likes", "" })
+@Getter
+@Setter
 // @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 @Component
