@@ -1,27 +1,57 @@
 package com.travelstory.services;
 
-import com.travelstory.repositories.TravelStoryRepository;
+import com.travelstory.dto.MediaDTO;
+import com.travelstory.dto.TravelStoryDTO;
+import com.travelstory.entity.Media;
 import com.travelstory.entity.TravelStory;
-import com.travelstory.entity.User;
+import com.travelstory.entity.TravelStoryStatus;
+import com.travelstory.exceptions.EntityNotFoundException;
+import com.travelstory.repositories.TravelStoryRepository;
+import com.travelstory.repositories.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TravelStoryServiceImpl implements TravelStoryService {
     @Autowired
     TravelStoryRepository travelStoryRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    ModelMapper modelMapper;
 
     @Override
-    public TravelStory addTravelStory(TravelStory travelStory) {
-        TravelStory travelStory1 = travelStoryRepository.saveAndFlush(travelStory);
-        return travelStory;
+    public TravelStoryDTO addTravelStory(TravelStoryDTO travelStoryDTO) {
+        TravelStory travelStoryBase = new TravelStory();
+        travelStoryBase.setHead(travelStoryDTO.getHead());
+        travelStoryBase.setDescription(travelStoryDTO.getDescription());
+        travelStoryBase.setUserOwner(userRepository.findUserById(travelStoryDTO.getUserId()));
+        travelStoryBase.setCreatedDate(LocalDateTime.now());
+        travelStoryBase.setTravelStoryStatus(TravelStoryStatus.STATUS_ACTIVE);
+        TravelStory travelStorySave = travelStoryRepository.saveAndFlush(travelStoryBase);
+        List<MediaDTO> mediaDTOS = travelStoryDTO.getMedia();
+        List<Media> mediaList = new ArrayList<>();
+        for (MediaDTO mediaDTO : mediaDTOS) {
+            Media media = modelMapper.map(mediaDTO, Media.class);
+            media.setTravelStory(travelStorySave);
+            mediaList.add(media);
+        }
+        travelStorySave.setMedia(mediaList);
+        TravelStory travelStoryResult = travelStoryRepository.saveAndFlush(travelStorySave);
+        travelStoryDTO.setId(travelStoryResult.getId());
+        return travelStoryDTO;
     }
 
     @Override
     public void deleteTravelStory(long id) {
-        travelStoryRepository.deleteById(id);
+        TravelStory travelStory = travelStoryRepository.findTravelStoryById(id);
+        travelStory.setTravelStoryStatus(TravelStoryStatus.STATUS_INACTIVE);
+        travelStoryRepository.saveAndFlush(travelStory);
     }
 
     @Override
@@ -30,8 +60,26 @@ public class TravelStoryServiceImpl implements TravelStoryService {
     }
 
     @Override
-    public TravelStory editTravelStory(TravelStory travelStory) {
-        return travelStoryRepository.saveAndFlush(travelStory);
+    public TravelStoryDTO editTravelStory(TravelStoryDTO travelStoryDTO, long id) {
+        TravelStory travelStoryBase = travelStoryRepository.findTravelStoryById(id);
+        travelStoryDTO.setId(id);
+        travelStoryBase.setHead(travelStoryDTO.getHead());
+        travelStoryBase.setDescription(travelStoryDTO.getDescription());
+        travelStoryBase.setUserOwner(userRepository.findUserById(travelStoryDTO.getUserId()));
+        travelStoryBase.setUpdatedDate(LocalDateTime.now());
+        travelStoryBase.setTravelStoryStatus(TravelStoryStatus.STATUS_ACTIVE);
+        TravelStory travelStorySave = travelStoryRepository.saveAndFlush(travelStoryBase);
+        List<MediaDTO> mediaDTOS = travelStoryDTO.getMedia();
+        List<Media> mediaList = new ArrayList<>();
+        for (MediaDTO mediaDTO : mediaDTOS) {
+            Media media = modelMapper.map(mediaDTO, Media.class);
+            media.setTravelStory(travelStorySave);
+            mediaList.add(media);
+        }
+        travelStorySave.setMedia(mediaList);
+        TravelStory travelStoryResult = travelStoryRepository.saveAndFlush(travelStorySave);
+        travelStoryDTO.setId(travelStoryResult.getId());
+        return travelStoryDTO;
     }
 
     @Override
@@ -41,13 +89,26 @@ public class TravelStoryServiceImpl implements TravelStoryService {
 
     @Override
     public TravelStory getById(long id) {
-        return null;
-        // return travelStoryDAO.findById(id).orElseThrow(() ->
-        // new EntityNotFoundException(String.format("TravelStory with id '%s' not found", id,"sdknfiosdv")));
+        return travelStoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Travel story not found",
+                        "Dear customer,no such user in the database", TravelStoryServiceImpl.class));
     }
 
     @Override
-    public List<TravelStory> getByUserOwner(User userOwner) {
-        return (List<TravelStory>) travelStoryRepository.findByUserOwner(userOwner);
+    public List<TravelStoryDTO> getByUserOwner(long id) {
+        List<TravelStory> travelStories = travelStoryRepository.findByUserOwnerId(id);
+        List<TravelStoryDTO> travelStoryDTOS = new ArrayList<>();
+        for (TravelStory travelStory : travelStories) {
+            if (travelStory.getTravelStoryStatus().toString().equals("STATUS_ACTIVE")) {
+                TravelStoryDTO map = modelMapper.map(travelStory, TravelStoryDTO.class);
+                travelStoryDTOS.add(map);
+            }
+        }
+        return travelStoryDTOS;
+    }
+
+    @Override
+    public void addMedia(long id) {
+
     }
 }

@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MediaRepository extends JpaRepository<Media, Long> {
     public Media[] findAllByUserIdAndMediaType(Long userId, Media.MediaType mediaType);
+
+    public Media[] findAllByTravelStoryId(long travelStoryId);
 }
