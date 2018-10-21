@@ -35,6 +35,10 @@ public class Media {
     @JsonManagedReference
     private User user;
 
+    @ManyToOne
+    @JsonManagedReference
+    private TravelStory travelStory;
+
     @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "media")
     private List<Like> likes;

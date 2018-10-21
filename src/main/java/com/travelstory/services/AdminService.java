@@ -2,13 +2,19 @@ package com.travelstory.services;
 
 import com.travelstory.entity.User;
 import org.springframework.stereotype.Service;
+import com.travelstory.dto.ProfileDTO;
+import java.util.List;
 
 @Service
 public interface AdminService {
 
-    public void addUser(User user);
+    public boolean addUser(ProfileDTO user);
+
+    public boolean editUser(ProfileDTO user);
 
     public User getUserById(long id);
+
+    public List<User> getAllUsers();
 
     public void deleteUser(long id);
 

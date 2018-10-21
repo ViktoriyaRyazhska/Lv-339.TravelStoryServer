@@ -38,18 +38,8 @@ public class Comment {
     private User user;
 
     @Column(nullable = false, updatable = false)
+
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public void setMedia(Media media) {
-        this.media = media;
-    }
-
-    public void setTravelStory(TravelStory travelStory) {
-        this.travelStory = travelStory;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

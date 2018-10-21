@@ -16,4 +16,5 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     Like findByMediaIdAndUserId(Long mediaId, Long userId);
 
     Like findByTravelStoryIdAndUserId(Long mediaId, Long userId);
+
 }

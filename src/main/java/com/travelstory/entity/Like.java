@@ -3,6 +3,7 @@ package com.travelstory.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,8 +26,6 @@ public class Like {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private boolean likeState;
-
     @ManyToOne
     @JsonManagedReference
     private Media media;
@@ -42,11 +41,4 @@ public class Like {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public boolean isLikeState() {
-        return likeState;
-    }
-
-    public void setLikeState(boolean likeState) {
-        this.likeState = likeState;
-    }
 }
