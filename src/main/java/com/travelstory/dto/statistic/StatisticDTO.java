@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Controller
@@ -17,7 +18,7 @@ public class StatisticDTO {
     @Autowired
     LikeStatistic likeStatistic;
 
-    ArrayList<Long> countAllUsersByRegisteredThisMouth() {
+    ArrayList<Long> countAllUsersByRegisteredThisYear() {
         ArrayList<Long> list = new ArrayList<>();
         for (int i = 1; i < 13; i++) {
             list.add(userStatistic.countUsersRegisteredAt(i));
@@ -29,8 +30,8 @@ public class StatisticDTO {
         ArrayList<Integer> list = new ArrayList<>();
         for (int i = 1; i < 13; i++) {
             LocalDate begin = LocalDate.of(2018, i, 1);
-            LocalDate end = LocalDate.of(2019, i, i == 2 ? 28 : 30);
-            list.add(travelStoryStatistic.countTravelStoriesCreatedDateBeetween(begin.toString(), end.toString()));
+            LocalDate end = LocalDate.of(2018, i, i == 2 ? 28 : 30);
+            list.add(travelStoryStatistic.countTravelStoriesCreatedDateBeetween(begin, end));
         }
         return list;
     }
@@ -38,7 +39,8 @@ public class StatisticDTO {
     ArrayList<Long> countAllCommentsCreatedThisMouth() {
         ArrayList<Long> list = new ArrayList<>();
         for (int i = 1; i < 13; i++) {
-            list.add(commentStatistic.countCommentsByCreatedAt(i));
+            list.add(commentStatistic.countCommentsByCreatedAtBetween(LocalDateTime.of(2018, 1, 1, 0, 0),
+                    LocalDateTime.of(2018, 12, 28, 0, 0)));
         }
         return list;
     }
@@ -51,11 +53,4 @@ public class StatisticDTO {
         return list;
     }
 
-    ArrayList<Integer> getUserRegistrationData() {
-        ArrayList<Integer> list = new ArrayList<>();
-        for (int i = 1; i < 13; i++) {
-            list.add(userStatistic.countUsersRegisteredAt(i).intValue());
-        }
-        return list;
-    }
 }

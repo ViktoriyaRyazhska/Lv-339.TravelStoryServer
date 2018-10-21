@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -29,9 +29,9 @@ public class TravelStory {
     private String head;
 
     private String description;
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 
-    private LocalDateTime updatedDate;
+    private LocalDate updatedDate;
 
     @Enumerated(EnumType.STRING)
     private TravelStoryStatus travelStoryStatus;
