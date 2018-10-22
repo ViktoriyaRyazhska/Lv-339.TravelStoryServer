@@ -25,4 +25,7 @@ public interface UserService {
     public void sendNewPassword(String email);
 
     Page<UserSearchDTO> getUsersByTerm(String term, int page, int size);
+
+    public User uploadBackgroundPicture(UserPicDTO dto);
+
 }

@@ -51,7 +51,6 @@ public class TravelStory {
     @JsonBackReference
     private List<Media> media;
 
-
     public TravelStory(User userOwner, String description, LocalDateTime createdDate, LocalDateTime updatedDate,
             TravelStoryStatus travelStoryStatus) {
         this.userOwner = userOwner;
