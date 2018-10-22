@@ -21,5 +21,4 @@ public class Follow {
     private User user;
     @OneToOne
     private User follows;
-
 }
