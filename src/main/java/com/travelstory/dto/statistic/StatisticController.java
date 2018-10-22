@@ -1,6 +1,6 @@
 package com.travelstory.dto.statistic;
 
-import com.travelstory.entity.TravelStory;
+import com.travelstory.entity.TravelStoryStatus;
 import com.travelstory.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ public class StatisticController {
         actualStatistic.put("today travelStories",
                 statistic.travelStoryStatistic.countTravelStoriesByCreatedDateAfter(LocalDate.now().minusDays(1)));
         actualStatistic.put("active travelStories", statistic.travelStoryStatistic
-                .countTravelStoriesByTravelStoryStatusEquals(TravelStory.TravelStoryStatus.STATUS_ACTIVE));
+                .countTravelStoriesByTravelStoryStatusEquals(TravelStoryStatus.STATUS_ACTIVE));
         return actualStatistic;
     }
 

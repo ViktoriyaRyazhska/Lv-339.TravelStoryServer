@@ -52,9 +52,6 @@ public class TravelStory {
     @JsonBackReference
     private List<Media> media;
 
-    public enum TravelStoryStatus {
-        STATUS_ACTIVE, STATUS_INACTIVE;
-    }
     public TravelStory(User userOwner, String description, LocalDateTime createdDate, LocalDateTime updatedDate,
                        TravelStoryStatus travelStoryStatus) {
         this.userOwner = userOwner;

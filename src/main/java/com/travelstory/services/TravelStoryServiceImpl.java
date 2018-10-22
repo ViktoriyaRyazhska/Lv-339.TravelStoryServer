@@ -5,7 +5,8 @@ import com.travelstory.dto.TravelStoryDTO;
 import com.travelstory.entity.Media;
 import com.travelstory.entity.TravelStory;
 import com.travelstory.entity.TravelStoryStatus;
-import com.travelstory.exceptions.EntityNotFoundException;
+import com.travelstory.exceptions.ResourceNotFoundException;
+import com.travelstory.exceptions.codes.ExceptionCode;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -90,8 +91,7 @@ public class TravelStoryServiceImpl implements TravelStoryService {
     @Override
     public TravelStory getById(long id) {
         return travelStoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Travel story not found",
-                        "Dear customer,no such user in the database", TravelStoryServiceImpl.class));
+                .orElseThrow(() -> new ResourceNotFoundException("Travel story not found", ExceptionCode.TRAVELSTORY_NOT_FOUND));
     }
 
     @Override
