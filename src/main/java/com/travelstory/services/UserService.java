@@ -18,7 +18,7 @@ public interface UserService {
 
     public User resetProfilePic(long id);
 
-    public UserDTO getUserById(long userId);
+    public UserDto getUserById(long userId);
 
     public TokenModel signIn(LoginDTO loginDTO);
 

@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserById(long userId) {
+    public UserDto getUserById(long userId) {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new ResourceNotFoundException("UserPicDTO not found", ExceptionCode.USER_PIC_NOT_FOUND));
         long countOfTrStories = travelStoryRepository.countTravelStoriesByUserOwner(user);
@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
         for (Follow follow : follows) {
             followsFiltered.add(follow.getId());
         }
-        UserDTO map = modelMapper.map(user, UserDTO.class);
+        UserDto map = modelMapper.map(user, UserDto.class);
         map.setUsersFollows(followsFiltered);
         map.setCountOfTravelStories(countOfTrStories);
         return map;

@@ -21,8 +21,8 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Component
-@ToString(exclude = {"comments", "likes", "userOwner"})
-@JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer"})
+@ToString(exclude = { "comments", "likes", "userOwner" })
+@JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
 public class TravelStory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,6 @@ public class TravelStory {
     private LocalDateTime createdDate;
     @LastModifiedDate
     private LocalDateTime updatedDate;
-
 
     @Enumerated(EnumType.STRING)
     private TravelStoryStatus travelStoryStatus;
@@ -52,11 +51,8 @@ public class TravelStory {
     @JsonBackReference
     private List<Media> media;
 
-    public enum TravelStoryStatus {
-        STATUS_ACTIVE, STATUS_INACTIVE;
-    }
     public TravelStory(User userOwner, String description, LocalDateTime createdDate, LocalDateTime updatedDate,
-                       TravelStoryStatus travelStoryStatus) {
+            TravelStoryStatus travelStoryStatus) {
         this.userOwner = userOwner;
         this.description = description;
         this.createdDate = createdDate;
