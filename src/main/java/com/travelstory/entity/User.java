@@ -61,10 +61,10 @@ public class User {
 
     private String profilePic;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User parentUser;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<User> following;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "parentUser")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "following")
     private List<User> followers;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
@@ -79,8 +79,8 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     // @JsonBackReference
     private List<Message> messages;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
     // @JsonBackReference
     private List<Chat> chats;
 
@@ -104,9 +104,6 @@ public class User {
     private String location;
 
     private String hobbies;
-
-    @OneToMany(mappedBy = "user")
-    private List<Follow> follows;
 
     @Enumerated(EnumType.STRING)
     private UserState userState;

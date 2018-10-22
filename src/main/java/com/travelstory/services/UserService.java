@@ -22,7 +22,9 @@ public interface UserService {
 
     public TokenModel signIn(LoginDTO loginDTO);
 
-    Page<UserSearchDTO> getUsersByTerm(String term, int page, int size);
+    public Page<UserSearchDTO> getUsersByTerm(String term, int page, int size);
 
-    Page<UserSearchDTO> getFollowers(Long userId, int page, int size);
+    public Page<UserSearchDTO> getFollowers(Long userId, int page, int size);
+
+    public Page<UserSearchDTO> getFollowing(Long userId, int page, int size);
 }
