@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
@@ -14,6 +16,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmailAndPassword(String email, String password);
 
     User findByEmail(String email);
+
+    User findUserById(Long id);
+
+    List<User> getAllBy();
 
     Page<User> findByFirstNameIsStartingWith(String firstName, Pageable pageable);
 
@@ -25,4 +31,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Page<User> findAllByFollowersId(Long userId, Pageable pageable);
 
     Page<User> findAllByFollowingId(Long userId, Pageable pageable);
+
 }

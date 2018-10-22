@@ -21,4 +21,5 @@ public class UserDTO {
     private User.Gender gender;
     private List<Long> usersFollows;
     private List<TravelStory> travelStories;
+
 }

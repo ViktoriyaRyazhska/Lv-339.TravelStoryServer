@@ -27,4 +27,7 @@ public interface UserService {
     public Page<UserSearchDTO> getFollowers(Long userId, int page, int size);
 
     public Page<UserSearchDTO> getFollowing(Long userId, int page, int size);
+
+    public User uploadBackgroundPicture(UserPicDTO dto);
+
 }

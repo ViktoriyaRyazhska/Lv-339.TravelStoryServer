@@ -54,16 +54,15 @@ public class UserController {
             @PathVariable(value = "page") int page, @PathVariable(value = "size") int size) {
         return userService.getFollowing(userId, page, size);
     }
-    //
-    // @GetMapping("/users/following/{userId}/{page}/{size}")
-    // public Page<UserSearchDTO> getFollowing(@PathVariable(value = "userId") Long userId,@PathVariable(value = "page")
-    // int page, @PathVariable(value = "size") int size) {
-    // return userService.getFollowing(userId,page, size);
-    // }
 
-    @PutMapping("/uploadProfilePic")
-    User uploadProfilePicture(@RequestBody UserPicDTO dto) throws IOException {
+    @PostMapping("/uploadProfilePic")
+    public User uploadProfilePicture(@RequestBody UserPicDTO dto) throws IOException {
         return userService.uploadProfilePicture(dto);
+    }
+
+    @PostMapping("/uploadBackgroundPic")
+    public User uploadBackgroundPicture(@RequestBody UserPicDTO dto) throws IOException {
+        return userService.uploadBackgroundPicture(dto);
     }
 
     @PostMapping("/registrate")
