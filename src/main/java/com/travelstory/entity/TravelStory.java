@@ -51,9 +51,6 @@ public class TravelStory {
     @JsonBackReference
     private List<Media> media;
 
-    // @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "travelStory")
-    // @JsonBackReference
-    // private List<User> members;
 
     public TravelStory(User userOwner, String description, LocalDateTime createdDate, LocalDateTime updatedDate,
             TravelStoryStatus travelStoryStatus) {

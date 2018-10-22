@@ -98,7 +98,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserById(long userId) {
-
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new ResourceNotFoundException("UserPicDTO not found", ExceptionCode.USER_PIC_NOT_FOUND));
         long countOfTrStories = travelStoryRepository.countTravelStoriesByUserOwner(user);
