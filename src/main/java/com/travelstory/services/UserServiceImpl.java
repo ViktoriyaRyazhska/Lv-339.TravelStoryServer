@@ -8,6 +8,7 @@ import com.travelstory.entity.User;
 import com.travelstory.entity.UserRole;
 import com.travelstory.exceptions.ResourceNotFoundException;
 import com.travelstory.exceptions.codes.ExceptionCode;
+import com.travelstory.exceptions.validation.IncorrectStringException;
 import com.travelstory.repositories.FollowRepository;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
@@ -133,7 +134,10 @@ public class UserServiceImpl implements UserService {
         while (matcher.find()) {
             enteredWordsCounter++;
         }
-
+        if (enteredWordsCounter == 0) {
+            throw new IncorrectStringException("inappropriate name for user search ",
+                    ExceptionCode.STRING_NOT_APPROPRIATE);
+        }
         if (enteredWordsCounter == 1) {
             matcher = pattern.matcher(term);
             String searchingTerm1 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : null;
