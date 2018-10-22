@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -22,9 +23,9 @@ public class StatisticController {
     Map<String, Integer> getActivityStatistic() {
         Map<String, Integer> actualStatistic = new LinkedHashMap<>();
         actualStatistic.put("users", (int) statistic.userStatistic.count());
-        actualStatistic.put("today users",
+        actualStatistic.put("todayUsers",
                 statistic.userStatistic.countUsersByLastUpdateDateAfter(LocalDateTime.now().minusDays(1)));
-        actualStatistic.put("today travelStories",
+        actualStatistic.put("todayTravelStories",
                 statistic.travelStoryStatistic.countTravelStoriesByCreatedDateAfter(LocalDate.now().minusDays(1)));
         actualStatistic.put("active travelStories", statistic.travelStoryStatistic
                 .countTravelStoriesByTravelStoryStatusEquals(TravelStoryStatus.STATUS_ACTIVE));
@@ -37,14 +38,14 @@ public class StatisticController {
         activityStatistic.put("likes", statistic.countAllLikesCreatedThisMouth());
         activityStatistic.put("comments", statistic.countAllCommentsCreatedThisMouth());
         activityStatistic.put("travelStories", statistic.countAllTravelStoriesCreatedThisYear());
-        activityStatistic.put("users", statistic.countAllUsersByRegisteredThisMouth());
+        activityStatistic.put("users", statistic.countAllUsersByRegisteredThisYear());
         return activityStatistic;
     }
 
     @RequestMapping("/registration")
     Map<String, ArrayList> getRegistrationStatistic() {
         Map<String, ArrayList> registrationStatistic = new LinkedHashMap<>();
-        registrationStatistic.put("year registration statistic", statistic.getUserRegistrationData());
+        registrationStatistic.put("yearRegistrationStatistic", statistic.countAllUsersByRegisteredThisYear());
         return registrationStatistic;
     }
 
@@ -53,19 +54,19 @@ public class StatisticController {
         Map<String, Integer> userStatistics = new LinkedHashMap<>();
         userStatistics.put("male", statistic.userStatistic.countUsersByGender(User.Gender.MALE));
         userStatistics.put("female", statistic.userStatistic.countUsersByGender(User.Gender.FEMALE));
-        userStatistics.put("active this week",
+        userStatistics.put("activeThisWeek",
                 statistic.userStatistic.countUsersByLastUpdateDateAfter(LocalDateTime.now().minusWeeks(1)));
-        userStatistics.put("user average age", statistic.userStatistic.countUsersAverageAge());
-        userStatistics.put("older 18 years", statistic.userStatistic.countUsersOlder(18));
+        userStatistics.put("userAverageAge", statistic.userStatistic.countUsersAverageAge());
+        userStatistics.put("older18Years", statistic.userStatistic.countUsersOlder(18));
         return userStatistics;
     }
 
     @RequestMapping("/travelStory")
     Map<String, ArrayList> getTravelStoryStatistic() {
         Map<String, ArrayList> travelStoryStatistic = new LinkedHashMap<>();
-        travelStoryStatistic.put("year travelStory statistic", statistic.countAllTravelStoriesCreatedThisYear());
-        travelStoryStatistic.put("since month", new ArrayList(
-                statistic.travelStoryStatistic.countTravelStoriesByCreatedDateAfter(LocalDate.now().minusMonths(1))));
+        travelStoryStatistic.put("yearTravelStoryStatistic", statistic.countAllTravelStoriesCreatedThisYear());
+        travelStoryStatistic.put("thisMonth", new ArrayList(
+                statistic.countAllTravelStoriesCreatedThisYear().get(Calendar.getInstance().get(Calendar.MONTH))));
         return travelStoryStatistic;
     }
 }
