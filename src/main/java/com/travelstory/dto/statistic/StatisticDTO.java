@@ -23,8 +23,8 @@ public class StatisticDTO {
     private ArrayList<LocalDate> getMarginDates(int numberOfMonth) {
         ArrayList<LocalDate> dates = new ArrayList<>();
         dates.add(LocalDate.of(LocalDate.now().getYear(), numberOfMonth, 1));
-        dates.add(LocalDate.of(LocalDate.now().getYear(), numberOfMonth, YearMonth.of(LocalDate.now().getYear(),
-                numberOfMonth).lengthOfMonth()));
+        dates.add(LocalDate.of(LocalDate.now().getYear(), numberOfMonth,
+                YearMonth.of(LocalDate.now().getYear(), numberOfMonth).lengthOfMonth()));
         return dates;
     }
 
@@ -49,7 +49,8 @@ public class StatisticDTO {
         ArrayList<Long> list = new ArrayList<>();
         for (int i = 1; i < 13; i++) {
             ArrayList<LocalDate> localDates = getMarginDates(i);
-            list.add(commentStatistic.countCommentsByCreatedAtBetween(LocalDateTime.of(localDates.get(0), LocalTime.MIDNIGHT),
+            list.add(commentStatistic.countCommentsByCreatedAtBetween(
+                    LocalDateTime.of(localDates.get(0), LocalTime.MIDNIGHT),
                     LocalDateTime.of(localDates.get(1), LocalTime.MIDNIGHT)));
         }
         return list;
