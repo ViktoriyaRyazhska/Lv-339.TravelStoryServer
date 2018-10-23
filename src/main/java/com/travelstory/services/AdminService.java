@@ -31,4 +31,6 @@ public interface AdminService {
     public void deleteComment(long id);
 
     public void deleteTravelStory(long id);
+
+    public List<User> getAllAdmins();
 }

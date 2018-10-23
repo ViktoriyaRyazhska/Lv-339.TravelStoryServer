@@ -70,6 +70,18 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public List<User> getAllAdmins() {
+        List<User> list = new LinkedList<>();
+        List<User> listDb = userRepository.getAllBy();
+        for (int i = 0; i < listDb.size(); i++) {
+            if(listDb.get(i).getUserRole()==UserRole.ROLE_ADMIN) {
+                list.add(listDb.get(i));
+            }
+        }
+        return list;
+    }
+
+    @Override
     public User getUserById(long id) {
         return userRepository.findById(id).get();
     }
