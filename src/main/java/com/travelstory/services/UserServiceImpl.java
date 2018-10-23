@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
         for (Follow follow : follows) {
             followsFiltered.add(follow.getId());
         }
-        UserDto map = modelMapper.map(user, UserDto.class);
+        UserDTO map = modelMapper.map(user, UserDTO.class);
         map.setUsersFollows(followsFiltered);
         map.setCountOfTravelStories(countOfTrStories);
         return map;
