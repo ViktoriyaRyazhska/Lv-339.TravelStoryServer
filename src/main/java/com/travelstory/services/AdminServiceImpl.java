@@ -74,7 +74,7 @@ public class AdminServiceImpl implements AdminService {
         List<User> list = new LinkedList<>();
         List<User> listDb = userRepository.getAllBy();
         for (int i = 0; i < listDb.size(); i++) {
-            if(listDb.get(i).getUserRole()==UserRole.ROLE_ADMIN) {
+            if (listDb.get(i).getUserRole() == UserRole.ROLE_ADMIN) {
                 list.add(listDb.get(i));
             }
         }

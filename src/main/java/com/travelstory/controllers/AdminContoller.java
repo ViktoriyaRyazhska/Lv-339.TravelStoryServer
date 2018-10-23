@@ -39,6 +39,11 @@ public class AdminContoller {
         return adminService.getAllUsers();
     }
 
+    @GetMapping("getAllAdmins")
+    public List<User> getAllAdmins() {
+        return adminService.getAllAdmins();
+    }
+
     @GetMapping("getUser/{id}")
     public User getUser(@PathVariable(value = "id") long id) {
         return adminService.getUserById(id);
