@@ -19,7 +19,6 @@ public interface UserStatistic extends JpaRepository<User, Long> {
     @Query(value = "select count(id) from users where month(registration_date)=?", nativeQuery = true)
     Long countUsersRegisteredAt(Integer numOfMonth);
 
-
     Integer countUsersByGender(User.Gender gender);
 
     Long countUsersByUserState(User.UserState userState);
