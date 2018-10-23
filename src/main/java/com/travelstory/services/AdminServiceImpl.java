@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.travelstory.dto.ProfileDTO;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.time.LocalDateTime;
 
@@ -60,7 +61,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.getAllBy();
+        List<User> list = new LinkedList<>();
+        List<User> listDb = userRepository.getAllBy();
+        for (int i = 0; i < 10; i++) {
+            list.add(listDb.get(i));
+        }
+        return list;
     }
 
     @Override
