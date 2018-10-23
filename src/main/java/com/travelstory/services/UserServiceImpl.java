@@ -168,8 +168,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateSettings(UserSettingsDTO dto) {
-        User user = userRepository.findById(dto.getId()).orElseThrow(
-                () -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
+        User user = userRepository.findById(dto.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
         user = modelMapper.map(dto, User.class);
         return userRepository.save(user);
     }

@@ -5,6 +5,7 @@ import com.travelstory.entity.UserRole;
 import lombok.Data;
 
 import java.time.LocalDate;
+
 @Data
 public class UserSettingsDTO {
     private Long id;
