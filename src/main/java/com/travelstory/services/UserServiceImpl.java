@@ -2,14 +2,12 @@ package com.travelstory.services;
 
 import com.travelstory.dto.*;
 import com.travelstory.dto.converter.UserSearchConverter;
-import com.travelstory.entity.Follow;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
 import com.travelstory.entity.UserRole;
 import com.travelstory.exceptions.ResourceNotFoundException;
 import com.travelstory.exceptions.codes.ExceptionCode;
 import com.travelstory.exceptions.validation.IncorrectStringException;
-import com.travelstory.repositories.FollowRepository;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
 import com.travelstory.security.TokenProvider;
@@ -29,9 +27,6 @@ import java.util.regex.Pattern;
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService {
-
-    @Autowired
-    FollowRepository followRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -104,13 +99,8 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
         long countOfTrStories = travelStoryRepository.countTravelStoriesByUserOwner(user);
-        List<Follow> follows = followRepository.getFollowByUserId(userId);
         List<Long> followsFiltered = new ArrayList<>();
-        for (Follow follow : follows) {
-            followsFiltered.add(follow.getId());
-        }
         UserDTO map = modelMapper.map(user, UserDTO.class);
-        map.setUsersFollows(followsFiltered);
         map.setCountOfTravelStories(countOfTrStories);
         return map;
     }
@@ -139,30 +129,36 @@ public class UserServiceImpl implements UserService {
                     ExceptionCode.STRING_NOT_APPROPRIATE);
         }
         if (enteredWordsCounter == 1) {
-            matcher = pattern.matcher(term);
+            matcher.reset();
             String searchingTerm1 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : null;
+            userPage = userRepository.findByFirstNameIsStartingWithOrLastNameIsStartingWith(searchingTerm1,
+                    searchingTerm1, PageRequest.of(page, size));
 
-            userPage = userRepository.findByFirstNameIsStartingWith(searchingTerm1, new PageRequest(page, size));
-            if (userPage.getContent().isEmpty()) {
-                userPage = userRepository.findByLastNameIsStartingWith(searchingTerm1, new PageRequest(page, size));
-            }
         }
         if (enteredWordsCounter >= 2) {
-            matcher = pattern.matcher(term);
+            matcher.reset();
             String searchingTerm1 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : null;
             String searchingTerm2 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : null;
 
-            userPage = userRepository.findByFirstNameIsStartingWithAndLastNameIsStartingWith(searchingTerm1,
-                    searchingTerm2, new PageRequest(page, size));
-            if (userPage.getContent().isEmpty()) {
-                userPage = userRepository.findByFirstNameIsStartingWithAndLastNameIsStartingWith(searchingTerm2,
-                        searchingTerm1, new PageRequest(page, size));
-            }
+            userPage = userRepository.findByFirstNameIsStartingWithOrLastNameIsStartingWith(searchingTerm1,
+                    searchingTerm2, PageRequest.of(page, size));
+
         }
         return userPage.map(user -> userSearchConverter.convertToDto(user));
     }
 
     @Override
+    public Page<UserSearchDTO> getFollowers(Long userId, int page, int size) {
+        return userRepository.findAllByFollowersId(userId, PageRequest.of(page, size))
+                .map(user -> userSearchConverter.convertToDto(user));
+    }
+
+    @Override
+    public Page<UserSearchDTO> getFollowing(Long userId, int page, int size) {
+        return userRepository.findAllByFollowingId(userId, PageRequest.of(page, size))
+                .map(user -> userSearchConverter.convertToDto(user));
+    }
+
     public User uploadBackgroundPicture(UserPicDTO dto) {
         User user = userRepository.findById(dto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
@@ -172,8 +168,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateSettings(UserSettingsDTO dto) {
-        User user = userRepository.findById(dto.getId()).orElseThrow(
-                () -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
+        User user = userRepository.findById(dto.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
         user = modelMapper.map(dto, User.class);
         return userRepository.save(user);
     }

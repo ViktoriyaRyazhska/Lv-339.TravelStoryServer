@@ -29,8 +29,6 @@ import java.util.List;
 @Table(name = "users")
 @Component
 public class User {
-    @OneToMany(mappedBy = "user")
-    List<Follow> follows;
 
     private String firstName;
 
@@ -61,16 +59,26 @@ public class User {
     private LocalDateTime lastUpdateDate;
 
     private String profilePic;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<User> following;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "following")
+    private List<User> followers;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     @JsonBackReference
     private List<Media> media;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
     private List<Chat> connectedChats;
+
     private String backgroundPic;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     // @JsonBackReference
     private List<Message> messages;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
     // @JsonBackReference
     private List<Chat> chats;
@@ -89,9 +97,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private List<SocialNetwork> socialNetworks;
+
     private String location;
 
     private String bio;
