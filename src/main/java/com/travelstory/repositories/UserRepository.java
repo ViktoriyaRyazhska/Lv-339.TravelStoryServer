@@ -11,26 +11,21 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    boolean existsByEmail(String email);
+    public boolean existsByEmail(String email);
 
-    boolean existsByEmailAndPassword(String email, String password);
+    public boolean existsByEmailAndPassword(String email, String password);
 
-    User findByEmail(String email);
+    public User findByEmail(String email);
 
-    User findUserById(Long id);
+    public User findUserById(Long id);
 
-    List<User> getAllBy();
+    public List<User> getAllBy();
 
-    Page<User> findByFirstNameIsStartingWithOrLastNameIsStartingWith(String firstName, String lastName,
-            Pageable pageable);
+    public Page<User> findByFirstNameIsStartingWithOrLastNameIsStartingWith(String firstName, String lastName,
+                                                                            Pageable pageable);
 
-    Page<User> findByLastNameIsStartingWith(String lastName, Pageable pageable);
+    public Page<User> findAllByFollowersId(Long userId, Pageable pageable);
 
-    Page<User> findByFirstNameIsStartingWithAndLastNameIsStartingWith(String firstName, String lastName,
-            Pageable pageable);
-
-    Page<User> findAllByFollowersId(Long userId, Pageable pageable);
-
-    Page<User> findAllByFollowingId(Long userId, Pageable pageable);
+    public Page<User> findAllByFollowingId(Long userId, Pageable pageable);
 
 }

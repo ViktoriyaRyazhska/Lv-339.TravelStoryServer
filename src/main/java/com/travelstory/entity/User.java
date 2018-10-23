@@ -23,9 +23,6 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-// @ToString(exclude = { "connectedChats", "messages", "travelStories", "chats", "createdChats", "socialNetworks",
-// "likes", "" })
-// @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 @Component
 public class User {
@@ -76,11 +73,10 @@ public class User {
     private String backgroundPic;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-    // @JsonBackReference
     private List<Message> messages;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
-    // @JsonBackReference
+
     private List<Chat> chats;
 
     @JsonManagedReference

@@ -97,9 +97,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUserById(long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND));
         long countOfTrStories = travelStoryRepository.countTravelStoriesByUserOwner(user);
-        List<Long> followsFiltered = new ArrayList<>();
         UserDTO map = modelMapper.map(user, UserDTO.class);
         map.setCountOfTravelStories(countOfTrStories);
         return map;
@@ -169,7 +168,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateSettings(UserSettingsDTO dto) {
         User user = userRepository.findById(dto.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException
+                        ("User not found", ExceptionCode.USER_NOT_FOUND));
         user = modelMapper.map(dto, User.class);
         return userRepository.save(user);
     }
