@@ -129,39 +129,33 @@ public class UserServiceImpl implements UserService {
                     ExceptionCode.STRING_NOT_APPROPRIATE);
         }
         if (enteredWordsCounter == 1) {
-            matcher = pattern.matcher(term);
+            matcher.reset();
             String searchingTerm1 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : null;
+            userPage = userRepository.findByFirstNameIsStartingWithOrLastNameIsStartingWith(searchingTerm1,
+                    searchingTerm1, PageRequest.of(page, size));
 
-            userPage = userRepository.findByFirstNameIsStartingWith(searchingTerm1, new PageRequest(page, size));
-            if (userPage.getContent().isEmpty()) {
-                userPage = userRepository.findByLastNameIsStartingWith(searchingTerm1, new PageRequest(page, size));
-            }
         }
         if (enteredWordsCounter >= 2) {
-            matcher = pattern.matcher(term);
+            matcher.reset();
             String searchingTerm1 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : null;
             String searchingTerm2 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : null;
 
-            userPage = userRepository.findByFirstNameIsStartingWithAndLastNameIsStartingWith(searchingTerm1,
-                    searchingTerm2, new PageRequest(page, size));
-            if (userPage.getContent().isEmpty()) {
-                userPage = userRepository.findByFirstNameIsStartingWithAndLastNameIsStartingWith(searchingTerm2,
-                        searchingTerm1, new PageRequest(page, size));
-            }
+            userPage = userRepository.findByFirstNameIsStartingWithOrLastNameIsStartingWith(searchingTerm1,
+                    searchingTerm2, PageRequest.of(page, size));
+
         }
         return userPage.map(user -> userSearchConverter.convertToDto(user));
     }
 
     @Override
-
     public Page<UserSearchDTO> getFollowers(Long userId, int page, int size) {
-        return userRepository.findAllByFollowersId(userId, new PageRequest(page, size))
+        return userRepository.findAllByFollowersId(userId, PageRequest.of(page, size))
                 .map(user -> userSearchConverter.convertToDto(user));
     }
 
     @Override
     public Page<UserSearchDTO> getFollowing(Long userId, int page, int size) {
-        return userRepository.findAllByFollowingId(userId, new PageRequest(page, size))
+        return userRepository.findAllByFollowingId(userId, PageRequest.of(page, size))
                 .map(user -> userSearchConverter.convertToDto(user));
     }
 
