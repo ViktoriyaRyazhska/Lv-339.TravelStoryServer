@@ -37,7 +37,7 @@ public class AdminServiceImpl implements AdminService {
             userRepository.save(updateData(userProfile));
             isSucceed = true;
         } else {
-            log.error("User with such email already exist!");
+            log.error("UserDTO with such email already exist!");
             isSucceed = false;
         }
         return isSucceed;
@@ -52,7 +52,7 @@ public class AdminServiceImpl implements AdminService {
             userRepository.save(user);
             isSucceed = true;
         } else {
-            log.error("User with such credentials doesn`t exist!");
+            log.error("UserDTO with such credentials doesn`t exist!");
             isSucceed = false;
         }
         return isSucceed;

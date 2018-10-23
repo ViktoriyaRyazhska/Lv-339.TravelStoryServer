@@ -22,8 +22,9 @@ public interface UserService {
 
     public TokenModel signIn(LoginDTO loginDTO);
 
-    Page<UserSearchDTO> getUsersByTerm(String term, int page, int size);
+    public Page<UserSearchDTO> getUsersByTerm(String term, int page, int size);
 
     public User uploadBackgroundPicture(UserPicDTO dto);
 
+    public User updateSettings(UserSettingsDTO dto);
 }

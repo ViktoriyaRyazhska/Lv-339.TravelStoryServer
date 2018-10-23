@@ -1,14 +1,12 @@
 package com.travelstory.dto;
 
-import com.travelstory.entity.TravelStory;
 import com.travelstory.entity.User;
+import com.travelstory.entity.UserRole;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.List;
-
 @Data
-public class UserDTO {
+public class UserSettingsDTO {
     private Long id;
     private String email;
     private String firstName;
@@ -16,10 +14,8 @@ public class UserDTO {
     private LocalDate dateOfBirth;
     private String profilePic;
     private String backgroundPic;
-    private Long countOfTravelStories;
     private String location;
     private String bio;
     private User.Gender gender;
-    private List<Long> usersFollows;
-    private List<TravelStory> travelStories;
+    private UserRole userRole;
 }

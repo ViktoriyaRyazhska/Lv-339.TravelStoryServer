@@ -94,7 +94,7 @@ public class User {
     private List<SocialNetwork> socialNetworks;
     private String location;
 
-    private String hobbies;
+    private String bio;
 
     @Enumerated(EnumType.STRING)
     private UserState userState;

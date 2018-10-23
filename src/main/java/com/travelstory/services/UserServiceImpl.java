@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<UserSearchDTO> getUsersByTerm(String term, int page, int size) {
-        Page<User> userPage = null;
+        Page<com.travelstory.entity.User> userPage = null;
         Integer enteredWordsCounter = 0;
         Pattern pattern = Pattern.compile("[a-zA-Z]+");
         Matcher matcher = pattern.matcher(term);
@@ -167,6 +167,14 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(dto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
         user.setBackgroundPic(dto.getPic());
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User updateSettings(UserSettingsDTO dto) {
+        User user = userRepository.findById(dto.getId()).orElseThrow(
+                () -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
+        user = modelMapper.map(dto, User.class);
         return userRepository.save(user);
     }
 

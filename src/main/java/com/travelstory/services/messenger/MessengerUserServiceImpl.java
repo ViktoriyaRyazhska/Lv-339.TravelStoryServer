@@ -32,7 +32,7 @@ public class MessengerUserServiceImpl implements MessengerUserService {
     public MessengerUserDetailsDTO getUserDetails(long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "User with id - " + userId
+                        "UserDTO with id - " + userId
                                 + " is not found in the db during getting it in MessengerUserService",
                         ExceptionCode.USER_NOT_FOUND));
 
