@@ -103,7 +103,7 @@ public class User {
 
     private String location;
 
-    private String hobbies;
+    private String bio;
 
     @Enumerated(EnumType.STRING)
     private UserState userState;

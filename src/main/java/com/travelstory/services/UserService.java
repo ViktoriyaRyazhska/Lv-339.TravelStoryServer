@@ -30,4 +30,5 @@ public interface UserService {
 
     public User uploadBackgroundPicture(UserPicDTO dto);
 
+    public User updateSettings(UserSettingsDTO dto);
 }
