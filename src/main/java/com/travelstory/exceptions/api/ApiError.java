@@ -15,10 +15,8 @@ import java.util.List;
 import java.util.Set;
 
 @Data
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.CUSTOM, property = "error", visible = true)
 public class ApiError {
 

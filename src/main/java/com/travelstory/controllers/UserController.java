@@ -34,10 +34,9 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping("/users/{term}/{page}/{size}")
-    public Page<UserSearchDTO> getUsersByTerm(@PathVariable(value = "term") String term,
-            @PathVariable(value = "page") int page, @PathVariable(value = "size") int size) {
-        return userService.getUsersByTerm(term, page, size);
+    @GetMapping("/user/{id}")
+    public UserDTO getUserById(@PathVariable long id) {
+        return userService.getUserById(id);
     }
 
     @PostMapping("/uploadProfilePic")
@@ -50,6 +49,22 @@ public class UserController {
         return userService.uploadBackgroundPicture(dto);
     }
 
+    @PutMapping("/updateSettings")
+    public User updateSettings(@RequestBody UserSettingsDTO dto) {
+        return userService.updateSettings(dto);
+    }
+
+    @PostMapping("/resetProfilePic")
+    public User resetProfilePic(@RequestBody long id) {
+        return userService.resetProfilePic(id);
+    }
+
+    @GetMapping("/users/{term}/{page}/{size}")
+    public Page<UserSearchDTO> getUsersByTerm(@PathVariable(value = "term") String term,
+                                              @PathVariable(value = "page") int page, @PathVariable(value = "size") int size) {
+        return userService.getUsersByTerm(term, page, size);
+    }
+
     @PostMapping("/registrate")
     public ResponseEntity registrateUser(@RequestBody RegistrationDTO registrationDTO) {
         if (userService.getUserByEmail(registrationDTO.getEmail()) != null) {
@@ -60,22 +75,6 @@ public class UserController {
         }
     }
 
-    @PutMapping("/updateSettings")
-    public User updateSettings(@RequestBody UserSettingsDTO dto) {
-        return userService.updateSettings(dto);
-    }
-
-    @GetMapping("/user/{id}")
-    public UserDTO getUserById(@PathVariable long id) {
-        return userService.getUserById(id);
-    }
-
-    @PostMapping("/resetProfilePic")
-    public User resetProfilePic(@RequestBody long id) {
-        return userService.resetProfilePic(id);
-    }
-
-    @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginDTO loginDTO) {
         TokenModel token = null;
