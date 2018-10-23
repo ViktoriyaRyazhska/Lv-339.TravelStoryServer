@@ -100,9 +100,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserById(long userId) {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
+    public UserDTO getUserById(long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
         long countOfTrStories = travelStoryRepository.countTravelStoriesByUserOwner(user);
         List<Follow> follows = followRepository.getFollowByUserId(userId);
         List<Long> followsFiltered = new ArrayList<>();
@@ -164,8 +164,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User uploadBackgroundPicture(UserPicDTO dto) {
-        User user = userRepository.findById(dto.getId()).orElseThrow(
-                () -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
+        User user = userRepository.findById(dto.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
         user.setBackgroundPic(dto.getPic());
         return userRepository.save(user);
     }

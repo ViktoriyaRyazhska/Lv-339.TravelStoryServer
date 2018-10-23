@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -65,8 +64,6 @@ public class StatisticController {
     Map<String, ArrayList> getTravelStoryStatistic() {
         Map<String, ArrayList> travelStoryStatistic = new LinkedHashMap<>();
         travelStoryStatistic.put("yearTravelStoryStatistic", statistic.countAllTravelStoriesCreatedThisYear());
-        travelStoryStatistic.put("thisMonth", new ArrayList(
-                statistic.countAllTravelStoriesCreatedThisYear().get(Calendar.getInstance().get(Calendar.MONTH))));
         return travelStoryStatistic;
     }
 }
