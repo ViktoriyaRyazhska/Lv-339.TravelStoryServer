@@ -24,8 +24,8 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString(exclude = { "connectedChats", "messages", "travelStories", "chats", "createdChats", "socialNetworks",
-//        "likes", "" })
+// @ToString(exclude = { "connectedChats", "messages", "travelStories", "chats", "createdChats", "socialNetworks",
+// "likes", "" })
 // @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 @Component

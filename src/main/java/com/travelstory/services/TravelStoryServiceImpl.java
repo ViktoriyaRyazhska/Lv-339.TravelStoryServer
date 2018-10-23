@@ -90,8 +90,8 @@ public class TravelStoryServiceImpl implements TravelStoryService {
 
     @Override
     public TravelStory getById(long id) {
-        return travelStoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Travel story not found", ExceptionCode.TRAVELSTORY_NOT_FOUND));
+        return travelStoryRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Travel story not found", ExceptionCode.TRAVELSTORY_NOT_FOUND));
     }
 
     @Override
