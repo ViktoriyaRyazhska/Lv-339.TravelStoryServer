@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.YearMonth;
 import java.util.ArrayList;
 
 @Controller
@@ -18,6 +20,14 @@ public class StatisticDTO {
     @Autowired
     LikeStatistic likeStatistic;
 
+    private ArrayList<LocalDate> getMarginDates(int numberOfMonth) {
+        ArrayList<LocalDate> dates = new ArrayList<>();
+        dates.add(LocalDate.of(LocalDate.now().getYear(), numberOfMonth, 1));
+        dates.add(LocalDate.of(LocalDate.now().getYear(), numberOfMonth,
+                YearMonth.of(LocalDate.now().getYear(), numberOfMonth).lengthOfMonth()));
+        return dates;
+    }
+
     ArrayList<Long> countAllUsersByRegisteredThisYear() {
         ArrayList<Long> list = new ArrayList<>();
         for (int i = 1; i < 13; i++) {
@@ -29,9 +39,8 @@ public class StatisticDTO {
     ArrayList<Integer> countAllTravelStoriesCreatedThisYear() {
         ArrayList<Integer> list = new ArrayList<>();
         for (int i = 1; i < 13; i++) {
-            LocalDate begin = LocalDate.of(2018, i, 1);
-            LocalDate end = LocalDate.of(2018, i, i == 2 ? 28 : 30);
-            list.add(travelStoryStatistic.countTravelStoriesCreatedDateBeetween(begin, end));
+            ArrayList<LocalDate> localDates = getMarginDates(i);
+            list.add(travelStoryStatistic.countTravelStoriesCreatedDateBeetween(localDates.get(0), localDates.get(1)));
         }
         return list;
     }
@@ -39,8 +48,10 @@ public class StatisticDTO {
     ArrayList<Long> countAllCommentsCreatedThisMouth() {
         ArrayList<Long> list = new ArrayList<>();
         for (int i = 1; i < 13; i++) {
-            list.add(commentStatistic.countCommentsByCreatedAtBetween(LocalDateTime.of(2018, 1, 1, 0, 0),
-                    LocalDateTime.of(2018, 12, 28, 0, 0)));
+            ArrayList<LocalDate> localDates = getMarginDates(i);
+            list.add(commentStatistic.countCommentsByCreatedAtBetween(
+                    LocalDateTime.of(localDates.get(0), LocalTime.MIDNIGHT),
+                    LocalDateTime.of(localDates.get(1), LocalTime.MIDNIGHT)));
         }
         return list;
     }
