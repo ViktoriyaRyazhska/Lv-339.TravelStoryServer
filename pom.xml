@@ -56,7 +56,11 @@
             <artifactId>jjwt</artifactId>
             <version>0.9.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-java8</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
         <!-- Spring boot with necessary modules -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -122,6 +126,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.0</version>
         </dependency>
         <!--LiquidBase-->
         <!--<dependency>-->

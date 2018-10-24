@@ -7,7 +7,6 @@ import com.travelstory.entity.messenger.Message;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.stereotype.Component;
@@ -24,9 +23,6 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = { "connectedChats", "messages", "travelStories", "chats", "createdChats", "socialNetworks",
-        "likes" })
-// @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 @Component
 public class User {
@@ -60,20 +56,30 @@ public class User {
     private LocalDateTime lastUpdateDate;
 
     private String profilePic;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<User> following;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "following")
+    private List<User> followers;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     @JsonBackReference
     private List<Media> media;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
     private List<Chat> connectedChats;
+
     private String backgroundPic;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-    // @JsonBackReference
     private List<Message> messages;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "connectedUsers")
-    // @JsonBackReference
+
     private List<Chat> chats;
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "creator")
     private List<Chat> createdChats;
 
@@ -87,15 +93,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private List<SocialNetwork> socialNetworks;
+
     private String location;
 
-    private String hobbies;
-
-    @OneToMany(mappedBy = "user")
-    private List<Follow> follows;
+    private String bio;
 
     @Enumerated(EnumType.STRING)
     private UserState userState;

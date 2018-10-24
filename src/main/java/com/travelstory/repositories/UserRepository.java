@@ -5,23 +5,27 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    boolean existsByEmail(String email);
+    public boolean existsByEmail(String email);
 
-    boolean existsByEmailAndPassword(String email, String password);
+    public boolean existsByEmailAndPassword(String email, String password);
 
-    User findByEmail(String email);
+    public User findByEmail(String email);
 
-    List<User> getAllBy();
+    public User findUserById(Long id);
 
-    Page<User> findByFirstNameIsStartingWith(String firstName, Pageable pageable);
+    public List<User> getAllBy();
 
-    Page<User> findByLastNameIsStartingWith(String lastName, Pageable pageable);
+    public Page<User> findByFirstNameIsStartingWithOrLastNameIsStartingWith(String firstName, String lastName,
+                                                                            Pageable pageable);
 
-    Page<User> findByFirstNameIsStartingWithAndLastNameIsStartingWith(String firstName, String lastName,
-            Pageable pageable);
+    public Page<User> findAllByFollowersId(Long userId, Pageable pageable);
+
+    public Page<User> findAllByFollowingId(Long userId, Pageable pageable);
+
 }
