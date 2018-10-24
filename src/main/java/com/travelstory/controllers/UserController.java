@@ -4,7 +4,6 @@ import com.travelstory.dto.*;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
 import com.travelstory.repositories.UserRepository;
-import com.travelstory.security.TokenProvider;
 import com.travelstory.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,24 +22,33 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
-    private final TokenProvider tokenProvider;
 
     @Autowired
-    public UserController(UserService userService, UserRepository userRepository, TokenProvider tokenProvider) {
+    public UserController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
-        this.tokenProvider = tokenProvider;
     }
 
     @GetMapping("/users")
-    List<User> getAllUsers() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    @GetMapping("/users/{term}/{page}/{size}")
-    public Page<UserSearchDTO> getUsersByTerm(@PathVariable(value = "term") String term,
+    @GetMapping("/user/{id}")
+    public UserDTO getUserById(@PathVariable long id) {
+        return userService.getUserById(id);
+    }
+
+    @GetMapping("/users/followers/{userId}/{page}/{size}")
+    public Page<UserSearchDTO> getFollowers(@PathVariable(value = "userId") Long userId,
             @PathVariable(value = "page") int page, @PathVariable(value = "size") int size) {
-        return userService.getUsersByTerm(term, page, size);
+        return userService.getFollowers(userId, page, size);
+    }
+
+    @GetMapping("/users/following/{userId}/{page}/{size}")
+    public Page<UserSearchDTO> getFollowing(@PathVariable(value = "userId") Long userId,
+            @PathVariable(value = "page") int page, @PathVariable(value = "size") int size) {
+        return userService.getFollowing(userId, page, size);
     }
 
     @PostMapping("/uploadProfilePic")
@@ -49,8 +57,24 @@ public class UserController {
     }
 
     @PostMapping("/uploadBackgroundPic")
-    public User uploadBackgroundPicture(@RequestBody UserPicDTO dto) throws IOException {
+    public User uploadBackgroundPicture(@RequestBody UserPicDTO dto) {
         return userService.uploadBackgroundPicture(dto);
+    }
+
+    @PutMapping("/updateSettings")
+    public User updateSettings(@RequestBody UserSettingsDTO dto) {
+        return userService.updateSettings(dto);
+    }
+
+    @PostMapping("/resetProfilePic")
+    public User resetProfilePic(@RequestBody long id) {
+        return userService.resetProfilePic(id);
+    }
+
+    @GetMapping("/users/{term}/{page}/{size}")
+    public Page<UserSearchDTO> getUsersByTerm(@PathVariable(value = "term") String term,
+            @PathVariable(value = "page") int page, @PathVariable(value = "size") int size) {
+        return userService.getUsersByTerm(term, page, size);
     }
 
     @PostMapping("/registrate")
@@ -63,17 +87,6 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/{id}")
-    public UserDTO getUserById(@PathVariable long id) {
-        return userService.getUserById(id);
-    }
-
-    @PostMapping("/resetProfilePic")
-    public com.travelstory.entity.User resetProfilePic(@RequestBody long id) {
-        return userService.resetProfilePic(id);
-    }
-
-    @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginDTO loginDTO) {
         TokenModel token = null;
