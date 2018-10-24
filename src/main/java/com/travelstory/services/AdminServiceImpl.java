@@ -33,10 +33,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public boolean addUser(ProfileDTO userProfile) {
-        boolean isSucceed;
+        boolean isSucceed = true;
         if (!userRepository.existsByEmail(userProfile.getEmail())) {
             userRepository.save(updateData(userProfile));
-            isSucceed = true;
         } else {
             log.error("User with such email already exist!");
             isSucceed = false;
@@ -46,12 +45,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public boolean editUser(ProfileDTO userProfile) {
-        boolean isSucceed;
+        boolean isSucceed = true;
         if (userRepository.existsByEmailAndPassword(userProfile.getEmail(), userProfile.getPassword())) {
             User user = updateData(userProfile);
             user.setId(userProfile.getId());
             userRepository.save(user);
-            isSucceed = true;
         } else {
             log.error("User with such credentials doesn`t exist!");
             isSucceed = false;
