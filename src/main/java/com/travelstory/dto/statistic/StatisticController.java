@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -25,19 +24,19 @@ public class StatisticController {
         actualStatistic.put("todayUsers",
                 statistic.userStatistic.countUsersByLastUpdateDateAfter(LocalDateTime.now().minusDays(1)));
         actualStatistic.put("todayTravelStories",
-                statistic.travelStoryStatistic.countTravelStoriesByCreatedDateAfter(LocalDate.now().minusDays(1)));
+                statistic.travelStoryStatistic.countTravelStoriesByCreatedDateAfter(LocalDateTime.now().minusDays(1)));
         actualStatistic.put("activeTravelStories", statistic.travelStoryStatistic
                 .countTravelStoriesByTravelStoryStatusEquals(TravelStoryStatus.STATUS_ACTIVE));
         return actualStatistic;
     }
 
     @RequestMapping("/activity")
-    Map<String, ArrayList> getActivenessStatistic() {
-        Map<String, ArrayList> activityStatistic = new LinkedHashMap<>();
-        activityStatistic.put("likes", statistic.countAllLikesCreatedThisMouth());
-        activityStatistic.put("comments", statistic.countAllCommentsCreatedThisMouth());
-        activityStatistic.put("travelStories", statistic.countAllTravelStoriesCreatedThisYear());
-        activityStatistic.put("users", statistic.countAllUsersByRegisteredThisYear());
+    Map<String, String> getActivenessStatistic() {
+        Map<String, String> activityStatistic = new LinkedHashMap<>();
+        activityStatistic.put("likes", statistic.countAllLikesCreatedThisMouth().toString());
+        activityStatistic.put("comments", statistic.countAllCommentsCreatedThisMouth().toString());
+        activityStatistic.put("travelStories", statistic.countAllTravelStoriesCreatedThisYear().toString());
+        activityStatistic.put("users", statistic.countAllUsersByRegisteredThisYear().toString());
         return activityStatistic;
     }
 
