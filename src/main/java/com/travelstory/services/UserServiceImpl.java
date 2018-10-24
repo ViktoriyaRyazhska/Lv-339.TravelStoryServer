@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setTo(user.getEmail());
         simpleMailMessage.setFrom("kiiko.dmytro@gmail.com");
-        simpleMailMessage.setSubject("Password recovery");
+        simpleMailMessage.setSubject("TravelStory password recovery");
         simpleMailMessage.setText("Your new password is: " + user.getPassword());
         javaMailSender.send(simpleMailMessage);
     }
