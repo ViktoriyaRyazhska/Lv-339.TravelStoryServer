@@ -2,6 +2,8 @@ package com.travelstory.services;
 
 import com.travelstory.entity.User;
 import com.travelstory.entity.UserRole;
+import com.travelstory.exceptions.ResourceNotFoundException;
+import com.travelstory.exceptions.codes.ExceptionCode;
 import com.travelstory.repositories.CommentRepository;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
@@ -81,7 +83,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public User getUserById(long id) {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND));
     }
 
     @Override
