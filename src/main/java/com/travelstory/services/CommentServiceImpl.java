@@ -89,7 +89,6 @@ public class CommentServiceImpl implements CommentService {
             Page<Comment> commentPage = commentRepository.findAllByTravelStoryIdOrderByCreatedAtDesc(travelStoryId,
                     PageRequest.of(pageNumber, 3));
             return commentPage.map(comment -> commentConverter.convertToDto(comment));
-
         } else {
             Page<Comment> commentPage = commentRepository.findAllByMediaIdOrderByCreatedAtAsc(mediaId,
                     PageRequest.of(pageNumber, 3));
