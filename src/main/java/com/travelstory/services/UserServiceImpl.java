@@ -19,8 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -123,22 +121,19 @@ public class UserServiceImpl implements UserService {
         while (matcher.find()) {
             enteredWordsCounter++;
         }
+        matcher.reset();
         if (enteredWordsCounter == 0) {
             throw new IncorrectStringException("inappropriate name for user search ",
                     ExceptionCode.STRING_NOT_APPROPRIATE);
         }
         if (enteredWordsCounter == 1) {
-            matcher.reset();
             String searchingTerm1 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : null;
             userPage = userRepository.findByFirstNameIsStartingWithOrLastNameIsStartingWith(searchingTerm1,
                     searchingTerm1, PageRequest.of(page, size));
-
         }
         if (enteredWordsCounter >= 2) {
-            matcher.reset();
             String searchingTerm1 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : null;
             String searchingTerm2 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : null;
-
             userPage = userRepository.findByFirstNameIsStartingWithOrLastNameIsStartingWith(searchingTerm1,
                     searchingTerm2, PageRequest.of(page, size));
 
@@ -148,12 +143,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<UserSearchDTO> getFollowers(Long userId, int page, int size) {
+        if (userRepository.existsById(userId) == false) {
+            throw new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND);
+        }
         return userRepository.findAllByFollowersId(userId, PageRequest.of(page, size))
                 .map(user -> userSearchConverter.convertToDto(user));
     }
 
     @Override
     public Page<UserSearchDTO> getFollowing(Long userId, int page, int size) {
+        if (userRepository.existsById(userId) == false) {
+            throw new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND);
+        }
         return userRepository.findAllByFollowingId(userId, PageRequest.of(page, size))
                 .map(user -> userSearchConverter.convertToDto(user));
     }
@@ -168,8 +169,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateSettings(UserSettingsDTO dto) {
         User user = userRepository.findById(dto.getId())
-                .orElseThrow(() -> new ResourceNotFoundException
-                        ("User not found", ExceptionCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND));
         user = modelMapper.map(dto, User.class);
         return userRepository.save(user);
     }
