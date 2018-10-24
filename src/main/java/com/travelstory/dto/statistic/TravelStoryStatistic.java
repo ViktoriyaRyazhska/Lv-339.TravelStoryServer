@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Repository
 public interface TravelStoryStatistic extends JpaRepository<TravelStory, Long> {
@@ -15,5 +16,5 @@ public interface TravelStoryStatistic extends JpaRepository<TravelStory, Long> {
 
     Integer countTravelStoriesByTravelStoryStatusEquals(TravelStoryStatus storyStatus);
 
-    Integer countTravelStoriesByCreatedDateAfter(LocalDate lastUpdateDate);
+    Integer countTravelStoriesByCreatedDateAfter(LocalDateTime lastUpdateDate);
 }
