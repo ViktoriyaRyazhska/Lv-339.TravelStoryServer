@@ -35,13 +35,13 @@ public class AdminContoller {
     }
 
     @GetMapping("getAllUsers")
-    public List<User> getAllUsers() {
-        return adminService.getAllUsers();
+    public List<User> getAllUsers(@PathVariable(value = "position") int position,@PathVariable(value = "quantity") int quantity) {
+        return adminService.getAllUsers(position, quantity);
     }
 
     @GetMapping("getAllAdmins")
-    public List<User> getAllAdmins() {
-        return adminService.getAllAdmins();
+    public List<User> getAllAdmins(@PathVariable(value = "position") int position,@PathVariable(value = "quantity") int quantity) {
+        return adminService.getAllAdmins(position, quantity);
     }
 
     @GetMapping("getUser/{id}")
