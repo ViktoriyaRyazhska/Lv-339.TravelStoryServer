@@ -19,8 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -168,8 +166,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateSettings(UserSettingsDTO dto) {
         User user = userRepository.findById(dto.getId())
-                .orElseThrow(() -> new ResourceNotFoundException
-                        ("User not found", ExceptionCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND));
         user = modelMapper.map(dto, User.class);
         return userRepository.save(user);
     }

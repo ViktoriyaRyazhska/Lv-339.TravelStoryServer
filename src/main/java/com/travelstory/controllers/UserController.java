@@ -73,7 +73,7 @@ public class UserController {
 
     @GetMapping("/users/{term}/{page}/{size}")
     public Page<UserSearchDTO> getUsersByTerm(@PathVariable(value = "term") String term,
-                                              @PathVariable(value = "page") int page, @PathVariable(value = "size") int size) {
+            @PathVariable(value = "page") int page, @PathVariable(value = "size") int size) {
         return userService.getUsersByTerm(term, page, size);
     }
 

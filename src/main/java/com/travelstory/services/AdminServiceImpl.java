@@ -7,6 +7,7 @@ import com.travelstory.exceptions.codes.ExceptionCode;
 import com.travelstory.repositories.CommentRepository;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
+import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.travelstory.dto.ProfileDTO;
@@ -60,23 +61,19 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<User> getAllUsers(int position, int quantity) {
         List<User> list = new LinkedList<>();
-        List<User> listDb = userRepository.getAllBy();
-        for (int i = 0; i < 10; i++) {
-            list.add(listDb.get(i));
+        for (int i = position; i < position+quantity; i++) {
+            list.add(userRepository.findUserById((long) i));
         }
         return list;
     }
 
     @Override
-    public List<User> getAllAdmins() {
+    public List<User> getAllAdmins(int position, int quantity) {
         List<User> list = new LinkedList<>();
-        List<User> listDb = userRepository.getAllBy();
-        for (int i = 0; i < listDb.size(); i++) {
-            if (listDb.get(i).getUserRole() == UserRole.ROLE_ADMIN) {
-                list.add(listDb.get(i));
-            }
+        for (int i = position; i < position+quantity; i++) {
+            list.add(userRepository.findUserById((long) i));
         }
         return list;
     }
@@ -89,52 +86,84 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void deleteUser(long id) {
-        userRepository.deleteById(id);
+        if(userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+        }else{
+            throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
+        }
     }
 
     @Override
     public void markAsDeleted(long id) {
-        user = userRepository.findById(id).get();
-        user.setUserStatus(User.UserStatus.DELETED);
-        userRepository.save(user);
+        if (userRepository.existsById(id)) {
+            user = userRepository.findById(id).get();
+            user.setUserStatus(User.UserStatus.DELETED);
+            userRepository.save(user);
+        } else {
+            throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
+        }
     }
 
     @Override
     public void markAsActive(long id) {
-        user = userRepository.findById(id).get();
-        user.setUserStatus(User.UserStatus.ACTIVE);
-        userRepository.save(user);
+        if(userRepository.existsById(id)) {
+            user = userRepository.findById(id).get();
+            user.setUserStatus(User.UserStatus.ACTIVE);
+            userRepository.save(user);
+        }else{
+            throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
+        }
     }
 
     @Override
     public void markAsBanned(long id) {
-        user = userRepository.findById(id).get();
-        user.setUserStatus(User.UserStatus.BANNED);
-        userRepository.save(user);
+        if(userRepository.existsById(id)) {
+            user = userRepository.findById(id).get();
+            user.setUserStatus(User.UserStatus.BANNED);
+            userRepository.save(user);
+        }else{
+            throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
+        }
     }
 
     @Override
     public void setAdminStatus(long id) {
-        user = userRepository.findById(id).get();
-        user.setUserRole(UserRole.ROLE_ADMIN);
-        userRepository.save(user);
+        if(userRepository.existsById(id)) {
+            user = userRepository.findById(id).get();
+            user.setUserRole(UserRole.ROLE_ADMIN);
+            userRepository.save(user);
+        }else{
+            throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
+        }
     }
 
     @Override
     public void setUserStatus(long id) {
-        user = userRepository.findById(id).get();
-        user.setUserRole(UserRole.ROLE_USER);
-        userRepository.save(user);
+        if(userRepository.existsById(id)) {
+            user = userRepository.findById(id).get();
+            user.setUserRole(UserRole.ROLE_USER);
+            userRepository.save(user);
+        }else{
+            throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
+        }
     }
 
     @Override
     public void deleteComment(long id) {
-        commentRepository.deleteById(id);
+        if(userRepository.existsById(id)) {
+            commentRepository.deleteById(id);
+        }else{
+            throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
+        }
     }
 
     @Override
     public void deleteTravelStory(long id) {
-        travelStoryRepository.deleteById(id);
+        if(userRepository.existsById(id)) {
+            travelStoryRepository.deleteById(id);
+        }else{
+            throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
+        }
     }
 
     private User updateData(ProfileDTO userProfile) {
