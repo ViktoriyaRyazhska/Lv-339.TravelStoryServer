@@ -33,7 +33,6 @@ public class CommentController {
     public Page<CommentDTO> getFirstComments(@PathVariable(value = "travelStoryId") Long travelStoryId,
             @RequestParam(value = "mediaId", required = false) Long mediaId,
             @RequestParam(value = "pageNumber") int pageNumber) {
-
         return commentService.getNext3Comments(travelStoryId, mediaId, pageNumber);
     }
 

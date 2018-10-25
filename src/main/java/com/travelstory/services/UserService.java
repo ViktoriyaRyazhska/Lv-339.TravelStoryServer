@@ -22,6 +22,8 @@ public interface UserService {
 
     public TokenModel signIn(LoginDTO loginDTO);
 
+    public void sendNewPassword(String email);
+
     public Page<UserSearchDTO> getUsersByTerm(String term, int page, int size);
 
     public Page<UserSearchDTO> getFollowers(Long userId, int page, int size);

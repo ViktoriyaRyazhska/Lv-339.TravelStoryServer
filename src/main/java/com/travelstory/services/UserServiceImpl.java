@@ -12,8 +12,11 @@ import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
 import com.travelstory.security.TokenProvider;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,6 +40,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TokenProvider tokenProvider;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     @Autowired
     private UserSearchConverter userSearchConverter;
@@ -112,6 +117,19 @@ public class UserServiceImpl implements UserService {
         return tokenModel;
     }
 
+    public void sendNewPassword(String email) {
+        User user = userRepository.findByEmail(email);
+        String randomPass = RandomStringUtils.randomAlphanumeric(10);
+        user.setPassword(randomPass);
+        user = userRepository.saveAndFlush(user);
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(user.getEmail());
+        simpleMailMessage.setFrom("kiiko.dmytro@gmail.com");
+        simpleMailMessage.setSubject("TravelStory password recovery");
+        simpleMailMessage.setText("Your new password is: " + user.getPassword());
+        javaMailSender.send(simpleMailMessage);
+    }
+
     @Override
     public Page<UserSearchDTO> getUsersByTerm(String term, int page, int size) {
         Page<com.travelstory.entity.User> userPage = null;
@@ -121,22 +139,19 @@ public class UserServiceImpl implements UserService {
         while (matcher.find()) {
             enteredWordsCounter++;
         }
+        matcher.reset();
         if (enteredWordsCounter == 0) {
             throw new IncorrectStringException("inappropriate name for user search ",
                     ExceptionCode.STRING_NOT_APPROPRIATE);
         }
         if (enteredWordsCounter == 1) {
-            matcher.reset();
             String searchingTerm1 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : null;
             userPage = userRepository.findByFirstNameIsStartingWithOrLastNameIsStartingWith(searchingTerm1,
                     searchingTerm1, PageRequest.of(page, size));
-
         }
         if (enteredWordsCounter >= 2) {
-            matcher.reset();
             String searchingTerm1 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : null;
             String searchingTerm2 = (matcher.find()) ? term.substring(matcher.start(), matcher.end()) : null;
-
             userPage = userRepository.findByFirstNameIsStartingWithOrLastNameIsStartingWith(searchingTerm1,
                     searchingTerm2, PageRequest.of(page, size));
 
@@ -146,12 +161,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<UserSearchDTO> getFollowers(Long userId, int page, int size) {
+        if (userRepository.existsById(userId) == false) {
+            throw new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND);
+        }
         return userRepository.findAllByFollowersId(userId, PageRequest.of(page, size))
                 .map(user -> userSearchConverter.convertToDto(user));
     }
 
     @Override
     public Page<UserSearchDTO> getFollowing(Long userId, int page, int size) {
+        if (userRepository.existsById(userId) == false) {
+            throw new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND);
+        }
         return userRepository.findAllByFollowingId(userId, PageRequest.of(page, size))
                 .map(user -> userSearchConverter.convertToDto(user));
     }
