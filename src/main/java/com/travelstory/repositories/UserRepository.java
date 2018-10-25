@@ -19,8 +19,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     public User findUserById(Long id);
 
-
-
     public List<User> getAllBy();
 
     public Page<User> findByFirstNameIsStartingWithOrLastNameIsStartingWith(String firstName, String lastName,

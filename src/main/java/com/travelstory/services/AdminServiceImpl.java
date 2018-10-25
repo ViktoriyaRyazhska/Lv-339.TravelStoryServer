@@ -7,7 +7,6 @@ import com.travelstory.exceptions.codes.ExceptionCode;
 import com.travelstory.repositories.CommentRepository;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
-import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.travelstory.dto.ProfileDTO;
@@ -63,7 +62,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<User> getAllUsers(int position, int quantity) {
         List<User> list = new LinkedList<>();
-        for (int i = position; i < position+quantity; i++) {
+        for (int i = position; i < position + quantity; i++) {
             list.add(userRepository.findUserById((long) i));
         }
         return list;
@@ -72,7 +71,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<User> getAllAdmins(int position, int quantity) {
         List<User> list = new LinkedList<>();
-        for (int i = position; i < position+quantity; i++) {
+        for (int i = position; i < position + quantity; i++) {
             list.add(userRepository.findUserById((long) i));
         }
         return list;
@@ -86,9 +85,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void deleteUser(long id) {
-        if(userRepository.existsById(id)) {
+        if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
-        }else{
+        } else {
             throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
         }
     }
@@ -106,62 +105,62 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void markAsActive(long id) {
-        if(userRepository.existsById(id)) {
+        if (userRepository.existsById(id)) {
             user = userRepository.findById(id).get();
             user.setUserStatus(User.UserStatus.ACTIVE);
             userRepository.save(user);
-        }else{
+        } else {
             throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
         }
     }
 
     @Override
     public void markAsBanned(long id) {
-        if(userRepository.existsById(id)) {
+        if (userRepository.existsById(id)) {
             user = userRepository.findById(id).get();
             user.setUserStatus(User.UserStatus.BANNED);
             userRepository.save(user);
-        }else{
+        } else {
             throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
         }
     }
 
     @Override
     public void setAdminStatus(long id) {
-        if(userRepository.existsById(id)) {
+        if (userRepository.existsById(id)) {
             user = userRepository.findById(id).get();
             user.setUserRole(UserRole.ROLE_ADMIN);
             userRepository.save(user);
-        }else{
+        } else {
             throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
         }
     }
 
     @Override
     public void setUserStatus(long id) {
-        if(userRepository.existsById(id)) {
+        if (userRepository.existsById(id)) {
             user = userRepository.findById(id).get();
             user.setUserRole(UserRole.ROLE_USER);
             userRepository.save(user);
-        }else{
+        } else {
             throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
         }
     }
 
     @Override
     public void deleteComment(long id) {
-        if(userRepository.existsById(id)) {
+        if (userRepository.existsById(id)) {
             commentRepository.deleteById(id);
-        }else{
+        } else {
             throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
         }
     }
 
     @Override
     public void deleteTravelStory(long id) {
-        if(userRepository.existsById(id)) {
+        if (userRepository.existsById(id)) {
             travelStoryRepository.deleteById(id);
-        }else{
+        } else {
             throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
         }
     }
