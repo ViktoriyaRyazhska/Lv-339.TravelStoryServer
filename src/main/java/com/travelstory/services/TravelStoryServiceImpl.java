@@ -44,7 +44,7 @@ public class TravelStoryServiceImpl implements TravelStoryService {
         }
         travelStorySave.setMedia(mediaList);
         TravelStory travelStoryResult = travelStoryRepository.saveAndFlush(travelStorySave);
-        travelStoryDTO.setId(travelStoryResult.getId());
+        travelStoryDTO.setId(travelStorySave.getId());
         return travelStoryDTO;
     }
 

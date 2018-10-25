@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "default_profile_pic",
+      "type": "java.lang.String",
+      "description": "Default profile picture after registration"
+  }
+] }

@@ -6,7 +6,6 @@ import lombok.Data;
 public class UserPicDTO {
 
     private Long id;
-
     private String pic;
 
 }
