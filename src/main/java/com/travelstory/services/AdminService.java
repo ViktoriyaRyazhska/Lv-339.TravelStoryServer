@@ -14,7 +14,9 @@ public interface AdminService {
 
     public User getUserById(long id);
 
-    public List<User> getAllUsers();
+    public List<User> getAllUsers(int position, int quantity);
+
+    public List<User> getAllAdmins(int position, int quantity);
 
     public void deleteUser(long id);
 
