@@ -9,14 +9,14 @@ import java.util.List;
 
 @Repository
 public interface TravelStoryRepository extends JpaRepository<TravelStory, Long> {
+
     TravelStory findByHead(String head);
 
-    List<TravelStory> findByUserOwnerId(long id);
+    public List<TravelStory> findByUserOwnerId(long id);
 
-    TravelStory findByUserOwner(User userOwner);
+    public TravelStory findByUserOwner(User userOwner);
 
-    TravelStory findTravelStoryById(long id);
+    public TravelStory findTravelStoryById(long id);
 
-    Long countTravelStoriesByUserOwner(User userOwner);
-
+    public  Long countTravelStoriesByUserOwner(User userOwner);
 }
