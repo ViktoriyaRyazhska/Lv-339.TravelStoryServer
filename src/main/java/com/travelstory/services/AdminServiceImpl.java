@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 import com.travelstory.dto.ProfileDTO;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.List;
 import java.time.LocalDateTime;
 
 import lombok.extern.slf4j.Slf4j;
@@ -69,7 +67,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Page<ProfileDTO> getAllAdmins(int page, int quantity) {
-        return userRepository.findUsersByUserRoleEquals(UserRole.ROLE_ADMIN, PageRequest.of(page, quantity)).map(user -> updateDataToProfile(user));
+        return userRepository.findUsersByUserRoleEquals(UserRole.ROLE_ADMIN, PageRequest.of(page, quantity))
+                .map(user -> updateDataToProfile(user));
 
     }
 

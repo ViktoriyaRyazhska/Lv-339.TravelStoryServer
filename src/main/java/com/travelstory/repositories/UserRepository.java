@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.travelstory.entity.UserRole.ROLE_ADMIN;
-
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
