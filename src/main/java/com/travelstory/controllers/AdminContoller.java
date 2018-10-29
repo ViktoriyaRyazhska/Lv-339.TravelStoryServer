@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.travelstory.dto.ProfileDTO;
+
 import java.util.List;
 
 @RestController
@@ -34,15 +35,15 @@ public class AdminContoller {
         }
     }
 
-    @GetMapping("getAllUsers")
+    @GetMapping("getAllUsers/{position}/{quantity}")
     public List<User> getAllUsers(@PathVariable(value = "position") int position,
-            @PathVariable(value = "quantity") int quantity) {
+                                  @PathVariable(value = "quantity") int quantity) {
         return adminService.getAllUsers(position, quantity);
     }
 
-    @GetMapping("getAllAdmins")
+    @GetMapping("getAllAdmins/{position}/{quantity}")
     public List<User> getAllAdmins(@PathVariable(value = "position") int position,
-            @PathVariable(value = "quantity") int quantity) {
+                                   @PathVariable(value = "quantity") int quantity) {
         return adminService.getAllAdmins(position, quantity);
     }
 
