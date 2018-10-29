@@ -4,7 +4,6 @@ import com.travelstory.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import com.travelstory.dto.ProfileDTO;
-import java.util.List;
 
 @Service
 public interface AdminService {
@@ -17,7 +16,7 @@ public interface AdminService {
 
     public Page<ProfileDTO> getAllUsers(int position, int quantity);
 
-    public List<User> getAllAdmins(int position, int quantity);
+    public Page<ProfileDTO> getAllAdmins(int position, int quantity);
 
     public void deleteUser(long id);
 

@@ -68,12 +68,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<User> getAllAdmins(int position, int quantity) {
-        List<User> list = new LinkedList<>();
-        for (int i = position; i < position + quantity; i++) {
-            list.add(userRepository.findUserById((long) i));
-        }
-        return list;
+    public Page<ProfileDTO> getAllAdmins(int page, int quantity) {
+        return userRepository.findUsersByUserRoleEquals(UserRole.ROLE_ADMIN, PageRequest.of(page, quantity)).map(user -> updateDataToProfile(user));
+
     }
 
     @Override

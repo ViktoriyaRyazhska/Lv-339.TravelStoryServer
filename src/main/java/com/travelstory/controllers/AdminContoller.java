@@ -43,7 +43,7 @@ public class AdminContoller {
     }
 
     @GetMapping("getAllAdmins/{position}/{quantity}")
-    public List<User> getAllAdmins(@PathVariable(value = "position") int position,
+    public Page<ProfileDTO> getAllAdmins(@PathVariable(value = "position") int position,
                                    @PathVariable(value = "quantity") int quantity) {
         return adminService.getAllAdmins(position, quantity);
     }
