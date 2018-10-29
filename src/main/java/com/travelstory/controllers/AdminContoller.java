@@ -3,6 +3,7 @@ package com.travelstory.controllers;
 import com.travelstory.entity.User;
 import com.travelstory.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,7 @@ public class AdminContoller {
     }
 
     @GetMapping("getAllUsers/{position}/{quantity}")
-    public List<User> getAllUsers(@PathVariable(value = "position") int position,
+    public Page<ProfileDTO> getAllUsers(@PathVariable(value = "position") int position,
                                   @PathVariable(value = "quantity") int quantity) {
         return adminService.getAllUsers(position, quantity);
     }

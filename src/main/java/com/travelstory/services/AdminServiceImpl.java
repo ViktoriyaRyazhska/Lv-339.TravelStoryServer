@@ -8,9 +8,12 @@ import com.travelstory.repositories.CommentRepository;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.travelstory.dto.ProfileDTO;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.time.LocalDateTime;
@@ -60,12 +63,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<User> getAllUsers(int position, int quantity) {
-        List<User> list = new LinkedList<>();
-        for (int i = position; i < position + quantity; i++) {
-            list.add(userRepository.findUserById((long) i));
-        }
-        return list;
+    public Page<ProfileDTO> getAllUsers(int page, int quantity) {
+        return userRepository.findAll(PageRequest.of(page, quantity)).map(user -> updateDataToProfile(user));
     }
 
     @Override
@@ -179,5 +178,21 @@ public class AdminServiceImpl implements AdminService {
         user.setRegistrationDate(userProfile.getRegistrationDate());
         user.setLastUpdateDate(LocalDateTime.now());
         return user;
+    }
+
+    private ProfileDTO updateDataToProfile(User user) {
+        ProfileDTO userProfile = new ProfileDTO();
+        userProfile.setEmail(user.getEmail());
+        userProfile.setFirstName(user.getFirstName());
+        userProfile.setLastName(user.getLastName());
+        userProfile.setPassword(user.getPassword());
+        userProfile.setGender(user.getGender());
+        userProfile.setRole(user.getUserRole());
+        userProfile.setState(user.getUserState());
+        userProfile.setStatus(user.getUserStatus());
+        userProfile.setDateOfBirth(user.getDateOfBirth());
+        userProfile.setRegistrationDate(user.getRegistrationDate());
+        userProfile.setLastUpdateDate(LocalDate.from(LocalDateTime.now()));
+        return userProfile;
     }
 }

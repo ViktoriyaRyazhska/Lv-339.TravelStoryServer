@@ -1,6 +1,7 @@
 package com.travelstory.services;
 
 import com.travelstory.entity.User;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import com.travelstory.dto.ProfileDTO;
 import java.util.List;
@@ -14,7 +15,7 @@ public interface AdminService {
 
     public User getUserById(long id);
 
-    public List<User> getAllUsers(int position, int quantity);
+    public Page<ProfileDTO> getAllUsers(int position, int quantity);
 
     public List<User> getAllAdmins(int position, int quantity);
 
