@@ -1,6 +1,5 @@
 package com.travelstory.services;
 
-import com.travelstory.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import com.travelstory.dto.ProfileDTO;
@@ -12,7 +11,7 @@ public interface AdminService {
 
     public boolean editUser(ProfileDTO user);
 
-    public User getUserById(long id);
+    public ProfileDTO getUserById(long id);
 
     public Page<ProfileDTO> getAllUsers(int position, int quantity);
 

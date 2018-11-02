@@ -38,7 +38,7 @@ public class AdminServiceImpl implements AdminService {
     public boolean addUser(ProfileDTO userProfile) {
         boolean isSucceed = true;
         if (!userRepository.existsByEmail(userProfile.getEmail())) {
-            userRepository.save(updateData(userProfile));
+            userRepository.save(convertProfileDtoToUser(userProfile));
         } else {
             log.error("UserDTO with such email already exist!");
             isSucceed = false;
@@ -50,7 +50,7 @@ public class AdminServiceImpl implements AdminService {
     public boolean editUser(ProfileDTO userProfile) {
         boolean isSucceed = true;
         if (userRepository.existsByEmailAndPassword(userProfile.getEmail(), userProfile.getPassword())) {
-            User user = updateData(userProfile);
+            User user = convertProfileDtoToUser(userProfile);
             user.setId(userProfile.getId());
             userRepository.save(user);
         } else {
@@ -62,20 +62,21 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Page<ProfileDTO> getAllUsers(int page, int quantity) {
-        return userRepository.findAll(PageRequest.of(page, quantity)).map(user -> updateDataToProfile(user));
+        return userRepository.findAll(PageRequest.of(page, quantity)).map(user -> convertUserToProfileDTO(user));
     }
 
     @Override
     public Page<ProfileDTO> getAllAdmins(int page, int quantity) {
         return userRepository.findUsersByUserRoleEquals(UserRole.ROLE_ADMIN, PageRequest.of(page, quantity))
-                .map(user -> updateDataToProfile(user));
+                .map(user -> convertUserToProfileDTO(user));
 
     }
 
     @Override
-    public User getUserById(long id) {
-        return userRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND));
+    public ProfileDTO getUserById(long id) {
+        return convertUserToProfileDTO(userRepository.findUserById(id));
+        // .orElseThrow(() -> new ResourceNotFoundException("User with such id not found",
+        // ExceptionCode.USER_NOT_FOUND));
     }
 
     @Override
@@ -160,7 +161,7 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    private User updateData(ProfileDTO userProfile) {
+    private User convertProfileDtoToUser(ProfileDTO userProfile) {
         User user = new User();
         user.setEmail(userProfile.getEmail());
         user.setFirstName(userProfile.getFirstName());
@@ -176,7 +177,7 @@ public class AdminServiceImpl implements AdminService {
         return user;
     }
 
-    private ProfileDTO updateDataToProfile(User user) {
+    private ProfileDTO convertUserToProfileDTO(User user) {
         ProfileDTO userProfile = new ProfileDTO();
         userProfile.setEmail(user.getEmail());
         userProfile.setFirstName(user.getFirstName());

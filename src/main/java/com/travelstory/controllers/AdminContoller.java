@@ -47,7 +47,7 @@ public class AdminContoller {
     }
 
     @GetMapping("getUser/{id}")
-    public User getUser(@PathVariable(value = "id") long id) {
+    public ProfileDTO getUser(@PathVariable(value = "id") long id) {
         return adminService.getUserById(id);
     }
 
