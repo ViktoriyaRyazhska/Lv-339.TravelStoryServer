@@ -31,12 +31,12 @@ public class StatisticController {
     }
 
     @RequestMapping("/activity")
-    Map<String, String> getActivenessStatistic() {
-        Map<String, String> activityStatistic = new LinkedHashMap<>();
-        activityStatistic.put("likes", statistic.countAllLikesCreatedThisMouth().toString());
-        activityStatistic.put("comments", statistic.countAllCommentsCreatedThisMouth().toString());
-        activityStatistic.put("travelStories", statistic.countAllTravelStoriesCreatedThisYear().toString());
-        activityStatistic.put("users", statistic.countAllUsersByRegisteredThisYear().toString());
+    Map<String, ArrayList> getActivenessStatistic() {
+        Map<String, ArrayList> activityStatistic = new LinkedHashMap<>();
+        activityStatistic.put("likes", statistic.countAllLikesCreatedThisMouth());
+        activityStatistic.put("comments", statistic.countAllCommentsCreatedThisMouth());
+        activityStatistic.put("travelStories", statistic.countAllTravelStoriesCreatedThisYear());
+        activityStatistic.put("users", statistic.countAllUsersByRegisteredThisYear());
         return activityStatistic;
     }
 
