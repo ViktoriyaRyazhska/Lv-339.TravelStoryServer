@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.travelstory.dto.ProfileDTO;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/admin")
 public class AdminContoller {
@@ -34,15 +36,17 @@ public class AdminContoller {
     }
 
     @GetMapping("getAllUsers/{position}/{quantity}")
-    public Page<ProfileDTO> getAllUsers(@PathVariable(value = "position") int position,
+    public List<ProfileDTO> getAllUsers(@PathVariable(value = "position") int position,
             @PathVariable(value = "quantity") int quantity) {
-        return adminService.getAllUsers(position, quantity);
+        List<ProfileDTO> list = adminService.getAllUsers(position, quantity).getContent();
+        return list;
     }
 
     @GetMapping("getAllAdmins/{position}/{quantity}")
-    public Page<ProfileDTO> getAllAdmins(@PathVariable(value = "position") int position,
+    public List<ProfileDTO> getAllAdmins(@PathVariable(value = "position") int position,
             @PathVariable(value = "quantity") int quantity) {
-        return adminService.getAllAdmins(position, quantity);
+        List<ProfileDTO> list = adminService.getAllAdmins(position, quantity).getContent();
+        return list;
     }
 
     @GetMapping("getUser/{id}")
