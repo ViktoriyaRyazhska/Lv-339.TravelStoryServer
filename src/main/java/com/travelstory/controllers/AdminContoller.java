@@ -1,6 +1,5 @@
 package com.travelstory.controllers;
 
-import com.travelstory.entity.User;
 import com.travelstory.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
