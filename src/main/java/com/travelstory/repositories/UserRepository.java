@@ -1,6 +1,7 @@
 package com.travelstory.repositories;
 
 import com.travelstory.entity.User;
+import com.travelstory.entity.UserRole;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,6 +24,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     public Page<User> findByFirstNameIsStartingWithOrLastNameIsStartingWith(String firstName, String lastName,
             Pageable pageable);
+
+    public Page<User> findAll(Pageable pageable);
+
+    public Page<User> findUsersByUserRoleEquals(UserRole role, Pageable pageable);
 
     public Page<User> findAllByFollowersId(Long userId, Pageable pageable);
 
