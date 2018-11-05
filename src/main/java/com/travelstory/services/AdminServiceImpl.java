@@ -179,11 +179,17 @@ public class AdminServiceImpl implements AdminService {
 
     private ProfileDTO convertUserToProfileDTO(User user) {
         ProfileDTO userProfile = new ProfileDTO();
+        userProfile.setId(user.getId());
+        userProfile.setProfilePic(user.getProfilePic());
+        userProfile.setBackgroundPic(user.getBackgroundPic());
+        userProfile.setHobbies(user.getBio());
+        userProfile.setCountOfTravelStories((long) user.getTravelStories().size());
         userProfile.setEmail(user.getEmail());
         userProfile.setFirstName(user.getFirstName());
         userProfile.setLastName(user.getLastName());
         userProfile.setPassword(user.getPassword());
         userProfile.setGender(user.getGender());
+        userProfile.setLocation(user.getLocation());
         userProfile.setRole(user.getUserRole());
         userProfile.setState(user.getUserState());
         userProfile.setStatus(user.getUserStatus());
