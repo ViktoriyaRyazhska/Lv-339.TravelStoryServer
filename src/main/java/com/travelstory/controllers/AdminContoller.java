@@ -1,12 +1,12 @@
 package com.travelstory.controllers;
 
-import com.travelstory.entity.User;
 import com.travelstory.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.travelstory.dto.ProfileDTO;
+
 import java.util.List;
 
 @RestController
@@ -34,20 +34,22 @@ public class AdminContoller {
         }
     }
 
-    @GetMapping("getAllUsers")
-    public List<User> getAllUsers(@PathVariable(value = "position") int position,
+    @GetMapping("getAllUsers/{position}/{quantity}")
+    public List<ProfileDTO> getAllUsers(@PathVariable(value = "position") int position,
             @PathVariable(value = "quantity") int quantity) {
-        return adminService.getAllUsers(position, quantity);
+        List<ProfileDTO> list = adminService.getAllUsers(position, quantity).getContent();
+        return list;
     }
 
-    @GetMapping("getAllAdmins")
-    public List<User> getAllAdmins(@PathVariable(value = "position") int position,
+    @GetMapping("getAllAdmins/{position}/{quantity}")
+    public List<ProfileDTO> getAllAdmins(@PathVariable(value = "position") int position,
             @PathVariable(value = "quantity") int quantity) {
-        return adminService.getAllAdmins(position, quantity);
+        List<ProfileDTO> list = adminService.getAllAdmins(position, quantity).getContent();
+        return list;
     }
 
     @GetMapping("getUser/{id}")
-    public User getUser(@PathVariable(value = "id") long id) {
+    public ProfileDTO getUser(@PathVariable(value = "id") long id) {
         return adminService.getUserById(id);
     }
 

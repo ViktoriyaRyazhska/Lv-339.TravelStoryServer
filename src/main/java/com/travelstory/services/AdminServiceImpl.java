@@ -8,11 +8,12 @@ import com.travelstory.repositories.CommentRepository;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.travelstory.dto.ProfileDTO;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,7 @@ public class AdminServiceImpl implements AdminService {
     public boolean addUser(ProfileDTO userProfile) {
         boolean isSucceed = true;
         if (!userRepository.existsByEmail(userProfile.getEmail())) {
-            userRepository.save(updateData(userProfile));
+            userRepository.save(convertProfileDtoToUser(userProfile));
         } else {
             log.error("UserDTO with such email already exist!");
             isSucceed = false;
@@ -49,7 +50,7 @@ public class AdminServiceImpl implements AdminService {
     public boolean editUser(ProfileDTO userProfile) {
         boolean isSucceed = true;
         if (userRepository.existsByEmailAndPassword(userProfile.getEmail(), userProfile.getPassword())) {
-            User user = updateData(userProfile);
+            User user = convertProfileDtoToUser(userProfile);
             user.setId(userProfile.getId());
             userRepository.save(user);
         } else {
@@ -60,27 +61,22 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<User> getAllUsers(int position, int quantity) {
-        List<User> list = new LinkedList<>();
-        for (int i = position; i < position + quantity; i++) {
-            list.add(userRepository.findUserById((long) i));
-        }
-        return list;
+    public Page<ProfileDTO> getAllUsers(int page, int quantity) {
+        return userRepository.findAll(PageRequest.of(page, quantity)).map(user -> convertUserToProfileDTO(user));
     }
 
     @Override
-    public List<User> getAllAdmins(int position, int quantity) {
-        List<User> list = new LinkedList<>();
-        for (int i = position; i < position + quantity; i++) {
-            list.add(userRepository.findUserById((long) i));
-        }
-        return list;
+    public Page<ProfileDTO> getAllAdmins(int page, int quantity) {
+        return userRepository.findUsersByUserRoleEquals(UserRole.ROLE_ADMIN, PageRequest.of(page, quantity))
+                .map(user -> convertUserToProfileDTO(user));
+
     }
 
     @Override
-    public User getUserById(long id) {
-        return userRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND));
+    public ProfileDTO getUserById(long id) {
+        return convertUserToProfileDTO(userRepository.findUserById(id));
+        // .orElseThrow(() -> new ResourceNotFoundException("User with such id not found",
+        // ExceptionCode.USER_NOT_FOUND));
     }
 
     @Override
@@ -165,7 +161,7 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    private User updateData(ProfileDTO userProfile) {
+    private User convertProfileDtoToUser(ProfileDTO userProfile) {
         User user = new User();
         user.setEmail(userProfile.getEmail());
         user.setFirstName(userProfile.getFirstName());
@@ -179,5 +175,27 @@ public class AdminServiceImpl implements AdminService {
         user.setRegistrationDate(userProfile.getRegistrationDate());
         user.setLastUpdateDate(LocalDateTime.now());
         return user;
+    }
+
+    private ProfileDTO convertUserToProfileDTO(User user) {
+        ProfileDTO userProfile = new ProfileDTO();
+        userProfile.setId(user.getId());
+        userProfile.setProfilePic(user.getProfilePic());
+        userProfile.setBackgroundPic(user.getBackgroundPic());
+        userProfile.setHobbies(user.getBio());
+        userProfile.setCountOfTravelStories((long) user.getTravelStories().size());
+        userProfile.setEmail(user.getEmail());
+        userProfile.setFirstName(user.getFirstName());
+        userProfile.setLastName(user.getLastName());
+        userProfile.setPassword(user.getPassword());
+        userProfile.setGender(user.getGender());
+        userProfile.setLocation(user.getLocation());
+        userProfile.setRole(user.getUserRole());
+        userProfile.setState(user.getUserState());
+        userProfile.setStatus(user.getUserStatus());
+        userProfile.setDateOfBirth(user.getDateOfBirth());
+        userProfile.setRegistrationDate(user.getRegistrationDate());
+        userProfile.setLastUpdateDate(LocalDate.from(LocalDateTime.now()));
+        return userProfile;
     }
 }
