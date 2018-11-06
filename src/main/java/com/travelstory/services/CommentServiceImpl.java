@@ -45,7 +45,7 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentDTO> getAllComments(Long contentId, String mediaType) {
         if (mediaType.equals("MEDIA")) {
             List<CommentDTO> commentDTOList = commentConverter
-                    .convertToDto(commentRepository.findAllByMediaIdOrderByCreatedAtDesc(contentId));
+                    .convertToDto(commentRepository.findAllByMediaIdOrderByCreatedAtAsc(contentId));
             return commentDTOList;
         }
         if (mediaType.equals("TRAVELSTORY")) {
@@ -94,7 +94,8 @@ public class CommentServiceImpl implements CommentService {
 
         }
         if (mediaType.equals("TRAVELSTORY")) {
-            { Page<Comment> commentPage =commentRepository.findAllByTravelStoryIdOrderByCreatedAtDesc(contentId, PageRequest.of(pageNumber, 3));
+            {
+                Page<Comment> commentPage =commentRepository.findAllByTravelStoryIdOrderByCreatedAtAsc(contentId, PageRequest.of(pageNumber, 3));
             Page<CommentDTO> commentDTOPage = commentPage.map(comment -> commentConverter.convertToDto(comment));
             return commentDTOPage;
 
