@@ -7,7 +7,7 @@ import lombok.Data;
 public class MediaDTO {
     private Long id;
     private String url;
-    private Media.MediaType mediaType;
+    private MediaType mediaType;
 
     public enum MediaType {
         IMAGE, VIDEO

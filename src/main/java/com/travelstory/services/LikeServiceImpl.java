@@ -35,40 +35,28 @@ public class LikeServiceImpl implements LikeService {
     LikeConverter likeConverter;
 
     @Override
-    public List<LikeDTO> getLikes(Long travelStoryId, Long mediaId) {
-        if (mediaId == null) {
-            return likeConverter.convertToDto(likeRepository.findAllByTravelStoryId(travelStoryId));
-        } else {
-            return likeConverter.convertToDto(likeRepository.findAllByMediaId(mediaId));
+    public List<LikeDTO> getLikes(Long contentId, String mediaType) {
+        if (mediaType.equals("MEDIA")) {
+            List<LikeDTO> likeDTOList = likeConverter
+                    .convertToDto(likeRepository.findAllByMediaId(contentId));
+            return likeDTOList;
         }
-
+        if (mediaType.equals("TRAVELSTORY")) {
+            {
+                List<LikeDTO> commentDTOList = likeConverter
+                        .convertToDto(likeRepository.findAllByTravelStoryId(contentId));
+                return commentDTOList;
+            }
+        } else {
+            throw new ResourceNotFoundException("Comment with that id is not present in database",
+                    ExceptionCode.UNSUPPORTED_MEDIA_TYPE);
+        }
     }
 
     @Override
     public LikeDTO add(LikeDTO likeDTO) {
-
         Like like = likeConverter.convertToEntity(likeDTO);
-
-        Optional<User> userOptional = userRepository.findById(likeDTO.getUserId());
-        Optional<TravelStory> travelStoryOptional = travelStoryRepository.findById(likeDTO.getTravelStoryId());
-        TravelStory travelStory = travelStoryOptional
-                .orElseThrow(() -> new ResourceNotFoundException("no such travel story in the database",
-                        ExceptionCode.TRAVELSTORY_NOT_FOUND));
-        User user = userOptional.orElseThrow(
-                () -> new ResourceNotFoundException("no such user in the database", ExceptionCode.USER_NOT_FOUND));
-        like.setUser(user);
-        like.setTravelStory(travelStory);
-        like.setCreatedAt(LocalDateTime.now());
-        if (likeDTO.getMediaId() == null) {
-            likeDTO = likeConverter.convertToDto(likeRepository.save(like));
-        } else {
-            Optional<Media> mediaOptional = mediaRepository.findById(likeDTO.getMediaId());
-            Media media = mediaOptional.orElseThrow(() -> new ResourceNotFoundException("no such media in the database",
-                    ExceptionCode.MEDIA_NOT_FOUND));
-            like.setMedia(media);
-            likeDTO = likeConverter.convertToDto(likeRepository.save(like));
-
-        }
+        likeRepository.save(like);
         return likeDTO;
     }
 

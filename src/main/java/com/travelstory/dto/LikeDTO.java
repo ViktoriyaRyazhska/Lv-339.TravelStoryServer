@@ -1,5 +1,6 @@
 package com.travelstory.dto;
 
+import com.travelstory.entity.MediaType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,11 +15,11 @@ import java.time.LocalDateTime;
 public class LikeDTO extends BaseDTO {
     private Long id;
 
-    private Long travelStoryId;
-
     private Long userId;
 
-    private Long mediaId;
+    private Long contentId;
+
+    private MediaType mediaType;
 
     private LocalDateTime createdAt;
 
