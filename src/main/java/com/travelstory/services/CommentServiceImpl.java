@@ -35,19 +35,28 @@ public class CommentServiceImpl implements CommentService {
     public CommentServiceImpl() {
     }
 
-    @Override
-    public Comment saveComment(Comment comment) {
-        commentRepository.save(comment);
-        return comment;
-    }
+//    @Override
+//    public Comment saveComment(Comment comment) {
+//        commentRepository.save(comment);
+//        return comment;
+//    }
 
     @Override
-    public List<CommentDTO> getAllComments(Long travelStoryId, Long mediaId) {
-        if (mediaId != null) {
-            return commentConverter.convertToDto(commentRepository.findAllByMediaIdOrderByCreatedAtDesc(mediaId));
+    public List<CommentDTO> getAllComments(Long contentId, String mediaType) {
+        if (mediaType.equals("MEDIA")) {
+            List<CommentDTO> commentDTOList = commentConverter
+                    .convertToDto(commentRepository.findAllByMediaIdOrderByCreatedAtAsc(contentId));
+            return commentDTOList;
+        }
+        if (mediaType.equals("TRAVELSTORY")) {
+            {
+                List<CommentDTO> commentDTOList = commentConverter
+                        .convertToDto(commentRepository.findAllByTravelStoryIdOrderByCreatedAt(contentId));
+                return commentDTOList;
+            }
         } else {
-            return commentConverter
-                    .convertToDto(commentRepository.findAllByTravelStoryIdOrderByCreatedAt(travelStoryId));
+            throw new ResourceNotFoundException("Comment with that id is not present in database",
+                    ExceptionCode.UNSUPPORTED_MEDIA_TYPE);
         }
     }
 
@@ -70,29 +79,31 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDTO add(CommentDTO commentDTO) {
-        Comment comment = commentConverter.convertToEntity(commentDTO);
-        if (commentDTO.getMediaId() == null) {
-            commentDTO = commentConverter.convertToDto(commentRepository.save(comment));
-        } else {
-            comment.setMedia(mediaRepository.findById(commentDTO.getMediaId())
-                    .orElseThrow(() -> new ResourceNotFoundException("no such media in the database",
-                            ExceptionCode.MEDIA_NOT_FOUND)));
-            commentDTO = commentConverter.convertToDto(commentRepository.save(comment));
-        }
+        Comment like = commentConverter.convertToEntity(commentDTO);
+        commentRepository.save(like);
         return commentDTO;
     }
 
     @Override
-    public Page<CommentDTO> getNext3Comments(Long travelStoryId, Long mediaId, int pageNumber) {
+    public Page<CommentDTO> getNext3Comments(Long contentId, String mediaType, int pageNumber) {
 
-        if (mediaId == null) {
-            Page<Comment> commentPage = commentRepository.findAllByTravelStoryIdOrderByCreatedAtDesc(travelStoryId,
-                    PageRequest.of(pageNumber, 3));
-            return commentPage.map(comment -> commentConverter.convertToDto(comment));
+        if (mediaType.equals("MEDIA")) {
+            Page<Comment> commentPage =commentRepository.findAllByMediaIdOrderByCreatedAtAsc(contentId, PageRequest.of(pageNumber, 3));
+            Page<CommentDTO> commentDTOPage = commentPage.map(comment -> commentConverter.convertToDto(comment));
+            return commentDTOPage;
+
+        }
+        if (mediaType.equals("TRAVELSTORY")) {
+            {
+                Page<Comment> commentPage =commentRepository.findAllByTravelStoryIdOrderByCreatedAtAsc(contentId, PageRequest.of(pageNumber, 3));
+            Page<CommentDTO> commentDTOPage = commentPage.map(comment -> commentConverter.convertToDto(comment));
+            return commentDTOPage;
+
+            }
+
         } else {
-            Page<Comment> commentPage = commentRepository.findAllByMediaIdOrderByCreatedAtAsc(mediaId,
-                    PageRequest.of(pageNumber, 3));
-            return commentPage.map(comment -> commentConverter.convertToDto(comment));
+            throw new ResourceNotFoundException("Unsuported media type",
+                    ExceptionCode.UNSUPPORTED_MEDIA_TYPE);
         }
     }
 }
