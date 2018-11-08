@@ -3,7 +3,6 @@ package com.travelstory.dto;
 import com.travelstory.entity.MediaType;
 import lombok.Data;
 
-import javax.mail.internet.ContentType;
 import java.time.LocalDateTime;
 
 @Data
@@ -22,4 +21,3 @@ public class CommentDTO extends BaseDTO {
         this.contentId = contentId;
     }
 }
-

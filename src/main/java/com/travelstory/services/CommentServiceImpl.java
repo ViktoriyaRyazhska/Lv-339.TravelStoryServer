@@ -35,11 +35,11 @@ public class CommentServiceImpl implements CommentService {
     public CommentServiceImpl() {
     }
 
-//    @Override
-//    public Comment saveComment(Comment comment) {
-//        commentRepository.save(comment);
-//        return comment;
-//    }
+    // @Override
+    // public Comment saveComment(Comment comment) {
+    // commentRepository.save(comment);
+    // return comment;
+    // }
 
     @Override
     public List<CommentDTO> getAllComments(Long contentId, String mediaType) {
@@ -88,22 +88,23 @@ public class CommentServiceImpl implements CommentService {
     public Page<CommentDTO> getNext3Comments(Long contentId, String mediaType, int pageNumber) {
 
         if (mediaType.equals("MEDIA")) {
-            Page<Comment> commentPage =commentRepository.findAllByMediaIdOrderByCreatedAtAsc(contentId, PageRequest.of(pageNumber, 3));
+            Page<Comment> commentPage = commentRepository.findAllByMediaIdOrderByCreatedAtAsc(contentId,
+                    PageRequest.of(pageNumber, 3));
             Page<CommentDTO> commentDTOPage = commentPage.map(comment -> commentConverter.convertToDto(comment));
             return commentDTOPage;
 
         }
         if (mediaType.equals("TRAVELSTORY")) {
             {
-                Page<Comment> commentPage =commentRepository.findAllByTravelStoryIdOrderByCreatedAtAsc(contentId, PageRequest.of(pageNumber, 3));
-            Page<CommentDTO> commentDTOPage = commentPage.map(comment -> commentConverter.convertToDto(comment));
-            return commentDTOPage;
+                Page<Comment> commentPage = commentRepository.findAllByTravelStoryIdOrderByCreatedAtAsc(contentId,
+                        PageRequest.of(pageNumber, 3));
+                Page<CommentDTO> commentDTOPage = commentPage.map(comment -> commentConverter.convertToDto(comment));
+                return commentDTOPage;
 
             }
 
         } else {
-            throw new ResourceNotFoundException("Unsuported media type",
-                    ExceptionCode.UNSUPPORTED_MEDIA_TYPE);
+            throw new ResourceNotFoundException("Unsuported media type", ExceptionCode.UNSUPPORTED_MEDIA_TYPE);
         }
     }
 }

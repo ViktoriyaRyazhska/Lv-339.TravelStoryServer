@@ -3,9 +3,6 @@ package com.travelstory.services;
 import com.travelstory.dto.LikeDTO;
 import com.travelstory.dto.converter.LikeConverter;
 import com.travelstory.entity.Like;
-import com.travelstory.entity.Media;
-import com.travelstory.entity.TravelStory;
-import com.travelstory.entity.User;
 import com.travelstory.exceptions.ResourceNotFoundException;
 import com.travelstory.exceptions.codes.ExceptionCode;
 import com.travelstory.repositories.LikeRepository;
@@ -15,9 +12,7 @@ import com.travelstory.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 
@@ -37,8 +32,7 @@ public class LikeServiceImpl implements LikeService {
     @Override
     public List<LikeDTO> getLikes(Long contentId, String mediaType) {
         if (mediaType.equals("MEDIA")) {
-            List<LikeDTO> likeDTOList = likeConverter
-                    .convertToDto(likeRepository.findAllByMediaId(contentId));
+            List<LikeDTO> likeDTOList = likeConverter.convertToDto(likeRepository.findAllByMediaId(contentId));
             return likeDTOList;
         }
         if (mediaType.equals("TRAVELSTORY")) {

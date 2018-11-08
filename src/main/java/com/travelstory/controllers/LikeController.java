@@ -18,7 +18,7 @@ public class LikeController {
 
     @GetMapping("likes")
     public List<LikeDTO> getLikes(@RequestParam(value = "contentId") Long contentId,
-                                  @RequestParam(value = "contentType") String contentType) {
+            @RequestParam(value = "contentType") String contentType) {
         return likeService.getLikes(contentId, contentType);
     }
 

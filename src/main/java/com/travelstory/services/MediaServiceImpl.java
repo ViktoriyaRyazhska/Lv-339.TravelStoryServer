@@ -3,9 +3,6 @@ package com.travelstory.services;
 import com.travelstory.dto.MediaDTO;
 import com.travelstory.entity.Media;
 import com.travelstory.entity.TravelStory;
-import com.travelstory.entity.User;
-import com.travelstory.exceptions.ResourceNotFoundException;
-import com.travelstory.exceptions.codes.ExceptionCode;
 import com.travelstory.repositories.MediaRepository;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
@@ -35,8 +32,8 @@ public class MediaServiceImpl implements MediaService {
     public Page<MediaDTO> getUserMedias(Long userId, int page, int size) {
         Page<Media> mediaPage = null;
         Page<MediaDTO> mediaPageDTO = null;
-//        userRepository.existsById(userId)
-//                .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND));
+        // userRepository.existsById(userId)
+        // .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND));
 
         List<TravelStory> travelStorySList = travelStoryRepository.findByUserOwnerId(userId);
         if (travelStorySList.isEmpty()) {

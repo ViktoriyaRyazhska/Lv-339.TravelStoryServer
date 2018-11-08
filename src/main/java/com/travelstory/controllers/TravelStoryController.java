@@ -1,12 +1,12 @@
 package com.travelstory.controllers;
 
 import com.travelstory.dto.TravelStoryDTO;
+import com.travelstory.entity.TravelStory;
 import com.travelstory.services.TravelStoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.travelstory.entity.TravelStory;
 
 import javax.validation.Valid;
 import java.util.List;

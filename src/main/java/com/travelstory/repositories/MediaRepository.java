@@ -16,5 +16,5 @@ public interface MediaRepository extends JpaRepository<Media, Long> {
 
     public Media[] findAllByTravelStoryId(long travelStoryId);
 
-    public Page<Media> findAllByTravelStoryIn( List<TravelStory> TravelStory, Pageable pageable);
+    public Page<Media> findAllByTravelStoryIn(List<TravelStory> travelStory, Pageable pageable);
 }

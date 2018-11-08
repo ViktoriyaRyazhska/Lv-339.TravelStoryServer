@@ -2,7 +2,6 @@ package com.travelstory.services;
 
 import com.travelstory.dto.CommentDTO;
 import com.travelstory.entity.Comment;
-import com.travelstory.entity.MediaType;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 

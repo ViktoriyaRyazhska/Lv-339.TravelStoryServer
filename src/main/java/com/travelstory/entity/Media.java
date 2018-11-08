@@ -50,5 +50,4 @@ public class Media {
     @OneToOne(mappedBy = "media")
     private Message message;
 
-
 }

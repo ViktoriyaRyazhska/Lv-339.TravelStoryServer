@@ -1,6 +1,5 @@
 package com.travelstory.dto;
 
-import com.travelstory.entity.Media;
 import lombok.Data;
 
 @Data

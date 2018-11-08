@@ -17,7 +17,7 @@ public class MediaController {
 
     @GetMapping("/media/{userId}/{page}/{size}")
     public Page<MediaDTO> getFollowing(@PathVariable(value = "userId") Long userId,
-                                       @PathVariable(value = "page") int page, @PathVariable(value = "size") int size) {
+            @PathVariable(value = "page") int page, @PathVariable(value = "size") int size) {
         return mediaService.getUserMedias(userId, page, size);
     }
 }

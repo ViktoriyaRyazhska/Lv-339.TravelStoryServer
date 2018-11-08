@@ -18,5 +18,5 @@ public interface TravelStoryRepository extends JpaRepository<TravelStory, Long> 
 
     public TravelStory findTravelStoryById(long id);
 
-    public  Long countTravelStoriesByUserOwner(User userOwner);
+    public Long countTravelStoriesByUserOwner(User userOwner);
 }
