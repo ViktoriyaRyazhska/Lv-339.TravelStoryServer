@@ -15,6 +15,7 @@ import com.travelstory.dto.ProfileDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -61,22 +62,27 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Page<ProfileDTO> getAllUsers(int page, int quantity) {
-        return userRepository.findAll(PageRequest.of(page, quantity)).map(user -> convertUserToProfileDTO(user));
+    public List<ProfileDTO> getAllUsers(int pageNumber, int quantity) {
+        Page<ProfileDTO> page = userRepository.findAll(PageRequest.of(pageNumber, quantity))
+                .map(user -> convertUserToProfileDTO(user));
+        return page.getContent();
     }
 
     @Override
-    public Page<ProfileDTO> getAllAdmins(int page, int quantity) {
-        return userRepository.findUsersByUserRoleEquals(UserRole.ROLE_ADMIN, PageRequest.of(page, quantity))
+    public List<ProfileDTO> getAllAdmins(int pageNumber, int quantity) {
+        Page<ProfileDTO> page = userRepository
+                .findUsersByUserRoleEquals(UserRole.ROLE_ADMIN, PageRequest.of(pageNumber, quantity))
                 .map(user -> convertUserToProfileDTO(user));
-
+        return page.getContent();
     }
 
     @Override
     public ProfileDTO getUserById(long id) {
-        return convertUserToProfileDTO(userRepository.findUserById(id));
-        // .orElseThrow(() -> new ResourceNotFoundException("User with such id not found",
-        // ExceptionCode.USER_NOT_FOUND));
+        if (userRepository.existsById(id)) {
+            return convertUserToProfileDTO(userRepository.findUserById(id));
+        } else {
+            throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
+        }
     }
 
     @Override
