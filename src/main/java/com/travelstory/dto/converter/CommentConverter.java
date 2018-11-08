@@ -2,8 +2,10 @@ package com.travelstory.dto.converter;
 
 import com.travelstory.dto.CommentDTO;
 import com.travelstory.entity.Comment;
+import com.travelstory.entity.MediaType;
 import com.travelstory.exceptions.ResourceNotFoundException;
 import com.travelstory.exceptions.codes.ExceptionCode;
+import com.travelstory.repositories.MediaRepository;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class CommentConverter implements GeneralConverter<CommentDTO, Comment> {
     UserRepository userRepository;
     @Autowired
     TravelStoryRepository travelStoryRepository;
+    @Autowired
+    MediaRepository mediaRepository;
 
     @Override
     public Comment convertToEntity(CommentDTO dto) {
@@ -26,9 +30,16 @@ public class CommentConverter implements GeneralConverter<CommentDTO, Comment> {
         comment.setCommentMassage(dto.getCommentMassage());
         comment.setUser(userRepository.findById(dto.getUserId()).orElseThrow(
                 () -> new ResourceNotFoundException("no such user in the database", ExceptionCode.USER_NOT_FOUND)));
-        comment.setTravelStory(travelStoryRepository.findById(dto.getTravelStoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("no such travelStory in the database",
-                        ExceptionCode.TRAVELSTORY_NOT_FOUND)));
+        if (dto.getMediaType().equals(MediaType.MEDIA)) {
+            comment.setMedia(mediaRepository.findById(dto.getContentId())
+                    .orElseThrow(() -> new ResourceNotFoundException("no such media in the database",
+                            ExceptionCode.MEDIA_NOT_FOUND)));
+        }
+        if (dto.getMediaType().equals(MediaType.TRAVELSTORY)) {
+            comment.setTravelStory(travelStoryRepository.findById(dto.getContentId())
+                    .orElseThrow(() -> new ResourceNotFoundException("no such travelStory in the database",
+                            ExceptionCode.TRAVELSTORY_NOT_FOUND)));
+        }
         comment.setCreatedAt(LocalDateTime.now());
         return comment;
 
@@ -39,8 +50,6 @@ public class CommentConverter implements GeneralConverter<CommentDTO, Comment> {
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setId(entity.getId());
         commentDTO.setUserId(entity.getUser().getId());
-        commentDTO.setTravelStoryId(entity.getTravelStory().getId());
-        commentDTO.setMediaId(entity.getMedia().getId());
         commentDTO.setUserFirstName(entity.getUser().getFirstName());
         commentDTO.setUserLastName(entity.getUser().getLastName());
         commentDTO.setUserProfilePic(entity.getUser().getProfilePic());
@@ -61,8 +70,6 @@ public class CommentConverter implements GeneralConverter<CommentDTO, Comment> {
             CommentDTO commentDTO = new CommentDTO();
             commentDTO.setId(entity.getId());
             commentDTO.setUserId(entity.getUser().getId());
-            commentDTO.setTravelStoryId(entity.getTravelStory().getId());
-            commentDTO.setMediaId(entity.getMedia().getId());
             commentDTO.setUserFirstName(entity.getUser().getFirstName());
             commentDTO.setUserLastName(entity.getUser().getLastName());
             commentDTO.setUserProfilePic(entity.getUser().getProfilePic());

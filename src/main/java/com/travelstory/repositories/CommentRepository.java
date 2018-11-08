@@ -23,20 +23,20 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
      * @param travelStoryId
      * @return List<Comment>
      */
-    public List<Comment> findAllByTravelStoryIdOrderByCreatedAtDesc(Long travelStoryId);
+    public List<Comment> findAllByTravelStoryIdOrderByCreatedAtAsc(Long travelStoryId);
 
     /**
      * @param pageable
      * @param travelStoryId
      * @return List<Comment>
      */
-    public Page<Comment> findAllByTravelStoryIdOrderByCreatedAtDesc(Long travelStoryId, Pageable pageable);
+    public Page<Comment> findAllByTravelStoryIdOrderByCreatedAtAsc(Long travelStoryId, Pageable pageable);
 
     /**
      * @param mediaId
      * @return List<Comment>
      */
-    public List<Comment> findAllByMediaIdOrderByCreatedAtDesc(Long mediaId);
+    public List<Comment> findAllByMediaIdOrderByCreatedAtAsc(Long mediaId);
 
     /**
      * @param pageable

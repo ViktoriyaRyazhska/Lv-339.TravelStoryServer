@@ -7,7 +7,7 @@ import java.util.List;
 
 @Service
 public interface LikeService {
-    List<LikeDTO> getLikes(Long travelStoryId, Long mediaId);
+    List<LikeDTO> getLikes(Long contentId, String mediaType);
 
     LikeDTO add(LikeDTO likeDTO);
 

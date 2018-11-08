@@ -17,9 +17,9 @@ public class LikeController {
     private LikeService likeService;
 
     @GetMapping("likes")
-    public List<LikeDTO> getLikes(@RequestParam(value = "travelStoryId") Long travelStoryId,
-            @RequestParam(value = "mediaId", required = false) Long mediaId) {
-        return likeService.getLikes(travelStoryId, mediaId);
+    public List<LikeDTO> getLikes(@RequestParam(value = "contentId") Long contentId,
+            @RequestParam(value = "contentType") String contentType) {
+        return likeService.getLikes(contentId, contentType);
     }
 
     @PostMapping("likes")
