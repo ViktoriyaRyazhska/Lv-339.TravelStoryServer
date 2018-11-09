@@ -4,6 +4,7 @@ import com.travelstory.dto.*;
 import com.travelstory.entity.TokenModel;
 import com.travelstory.entity.User;
 import com.travelstory.repositories.UserRepository;
+import com.travelstory.services.SendMailService;
 import com.travelstory.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,13 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
+    private final SendMailService sendMailService;
 
     @Autowired
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService, UserRepository userRepository, SendMailService sendMailService) {
         this.userService = userService;
         this.userRepository = userRepository;
+        this.sendMailService = sendMailService;
     }
 
     @GetMapping("/users")
@@ -101,7 +104,7 @@ public class UserController {
 
     @GetMapping("/forgotPass/{email}")
     public String sigUpSuccess(@PathVariable String email) {
-        userService.sendNewPassword(email);
+        sendMailService.sendNewPassword(email);
         return "Thank you for being with us";
     }
 }
