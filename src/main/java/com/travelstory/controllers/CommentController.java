@@ -39,7 +39,7 @@ public class CommentController {
     @DeleteMapping("comments/{id}")
     public ResponseEntity<CommentDTO> deleteLike(@PathVariable Long id) {
         commentService.deleteComment(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

@@ -19,15 +19,15 @@ import java.util.List;
 public class LikeServiceImpl implements LikeService {
 
     @Autowired
-    LikeRepository likeRepository;
+    private LikeRepository likeRepository;
     @Autowired
-    MediaRepository mediaRepository;
+    private MediaRepository mediaRepository;
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    TravelStoryRepository travelStoryRepository;
+    private TravelStoryRepository travelStoryRepository;
     @Autowired
-    LikeConverter likeConverter;
+    private LikeConverter likeConverter;
 
     @Override
     public List<LikeDTO> getLikes(Long contentId, String mediaType) {
