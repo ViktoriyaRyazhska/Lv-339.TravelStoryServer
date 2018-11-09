@@ -120,17 +120,22 @@ public class UserServiceImpl implements UserService {
         return tokenModel;
     }
 
+    public void messageSender(User user, String subject, String text) {
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(user.getEmail());
+        simpleMailMessage.setFrom(senderEmail);
+        simpleMailMessage.setSubject(subject);
+        simpleMailMessage.setText(text);
+        javaMailSender.send(simpleMailMessage);
+
+    }
+
     public void sendNewPassword(String email) {
         User user = userRepository.findByEmail(email);
         String randomPass = RandomStringUtils.randomAlphanumeric(10);
         user.setPassword(randomPass);
         user = userRepository.saveAndFlush(user);
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo(user.getEmail());
-        simpleMailMessage.setFrom(senderEmail);
-        simpleMailMessage.setSubject("TravelStory password recovery");
-        simpleMailMessage.setText("Your new password is: " + user.getPassword());
-        javaMailSender.send(simpleMailMessage);
+        messageSender(user, "TravelStory password recovery", "Your new password is: " + user.getPassword());
     }
 
     @Override
