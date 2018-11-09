@@ -18,22 +18,22 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping("comments")
-    public List<CommentDTO> getComments(@RequestParam(value = "travelStoryId") Long travelStoryId,
-            @RequestParam(value = "mediaId", required = false) Long mediaId) {
-        return commentService.getAllComments(travelStoryId, mediaId);
+    public List<CommentDTO> getComments(@RequestParam(value = "contentId") Long contentId,
+            @RequestParam(value = "contentType") String contentType) {
+        return commentService.getAllComments(contentId, contentType);
     }
 
     @PostMapping("comments")
-    public ResponseEntity<CommentDTO> addComment(@RequestBody CommentDTO commentDTO) {
-        CommentDTO addedComment = commentService.add(commentDTO);
+    public ResponseEntity<CommentDTO> addComment(@RequestBody CommentDTO dto) {
+        CommentDTO addedComment = commentService.add(dto);
         return new ResponseEntity<>(addedComment, HttpStatus.CREATED);
     }
 
-    @GetMapping("comments/{travelStoryId}")
-    public Page<CommentDTO> getFirstComments(@PathVariable(value = "travelStoryId") Long travelStoryId,
-            @RequestParam(value = "mediaId", required = false) Long mediaId,
+    @GetMapping("comments/{contentType}")
+    public Page<CommentDTO> getFirstComments(@RequestParam(value = "contentId") Long contentId,
+            @PathVariable(value = "contentType") String contentType,
             @RequestParam(value = "pageNumber") int pageNumber) {
-        return commentService.getNext3Comments(travelStoryId, mediaId, pageNumber);
+        return commentService.getNext3Comments(contentId, contentType, pageNumber);
     }
 
     @DeleteMapping("comments/{id}")

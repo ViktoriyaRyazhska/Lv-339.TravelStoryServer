@@ -15,6 +15,7 @@ import com.travelstory.dto.ProfileDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,7 +39,7 @@ public class AdminServiceImpl implements AdminService {
     public boolean addUser(ProfileDTO userProfile) {
         boolean isSucceed = true;
         if (!userRepository.existsByEmail(userProfile.getEmail())) {
-            userRepository.save(updateData(userProfile));
+            userRepository.save(convertProfileDtoToUser(userProfile));
         } else {
             log.error("UserDTO with such email already exist!");
             isSucceed = false;
@@ -50,7 +51,7 @@ public class AdminServiceImpl implements AdminService {
     public boolean editUser(ProfileDTO userProfile) {
         boolean isSucceed = true;
         if (userRepository.existsByEmailAndPassword(userProfile.getEmail(), userProfile.getPassword())) {
-            User user = updateData(userProfile);
+            User user = convertProfileDtoToUser(userProfile);
             user.setId(userProfile.getId());
             userRepository.save(user);
         } else {
@@ -61,21 +62,27 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Page<ProfileDTO> getAllUsers(int page, int quantity) {
-        return userRepository.findAll(PageRequest.of(page, quantity)).map(user -> updateDataToProfile(user));
+    public List<ProfileDTO> getAllUsers(int pageNumber, int quantity) {
+        Page<ProfileDTO> page = userRepository.findAll(PageRequest.of(pageNumber, quantity))
+                .map(user -> convertUserToProfileDTO(user));
+        return page.getContent();
     }
 
     @Override
-    public Page<ProfileDTO> getAllAdmins(int page, int quantity) {
-        return userRepository.findUsersByUserRoleEquals(UserRole.ROLE_ADMIN, PageRequest.of(page, quantity))
-                .map(user -> updateDataToProfile(user));
-
+    public List<ProfileDTO> getAllAdmins(int pageNumber, int quantity) {
+        Page<ProfileDTO> page = userRepository
+                .findUsersByUserRoleEquals(UserRole.ROLE_ADMIN, PageRequest.of(pageNumber, quantity))
+                .map(user -> convertUserToProfileDTO(user));
+        return page.getContent();
     }
 
     @Override
-    public User getUserById(long id) {
-        return userRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND));
+    public ProfileDTO getUserById(long id) {
+        if (userRepository.existsById(id)) {
+            return convertUserToProfileDTO(userRepository.findUserById(id));
+        } else {
+            throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
+        }
     }
 
     @Override
@@ -160,7 +167,7 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    private User updateData(ProfileDTO userProfile) {
+    private User convertProfileDtoToUser(ProfileDTO userProfile) {
         User user = new User();
         user.setEmail(userProfile.getEmail());
         user.setFirstName(userProfile.getFirstName());
@@ -176,13 +183,19 @@ public class AdminServiceImpl implements AdminService {
         return user;
     }
 
-    private ProfileDTO updateDataToProfile(User user) {
+    private ProfileDTO convertUserToProfileDTO(User user) {
         ProfileDTO userProfile = new ProfileDTO();
+        userProfile.setId(user.getId());
+        userProfile.setProfilePic(user.getProfilePic());
+        userProfile.setBackgroundPic(user.getBackgroundPic());
+        userProfile.setHobbies(user.getBio());
+        userProfile.setCountOfTravelStories((long) user.getTravelStories().size());
         userProfile.setEmail(user.getEmail());
         userProfile.setFirstName(user.getFirstName());
         userProfile.setLastName(user.getLastName());
         userProfile.setPassword(user.getPassword());
         userProfile.setGender(user.getGender());
+        userProfile.setLocation(user.getLocation());
         userProfile.setRole(user.getUserRole());
         userProfile.setState(user.getUserState());
         userProfile.setStatus(user.getUserStatus());

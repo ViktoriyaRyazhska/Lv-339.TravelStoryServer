@@ -50,7 +50,4 @@ public class Media {
     @OneToOne(mappedBy = "media")
     private Message message;
 
-    public enum MediaType {
-        IMAGE, VIDEO
-    }
 }
