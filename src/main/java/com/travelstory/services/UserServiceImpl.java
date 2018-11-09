@@ -12,14 +12,11 @@ import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
 import com.travelstory.security.TokenProvider;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Matcher;
@@ -40,8 +37,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TokenProvider tokenProvider;
-    @Autowired
-    private JavaMailSender javaMailSender;
 
     @Autowired
     private UserSearchConverter userSearchConverter;
@@ -51,9 +46,6 @@ public class UserServiceImpl implements UserService {
 
     @Value("${default_background_pic}")
     private String defaultBackgroundPic;
-
-    @Value("${spring.mail.username}")
-    private String senderEmail;
 
     @Override
     public void registrateUser(RegistrationDTO registrationDTO) {
@@ -118,19 +110,6 @@ public class UserServiceImpl implements UserService {
                 userRepository.findByEmail(email).getUserRole(), userRepository.findByEmail(email).getId()));
         tokenModel.setRefreshToken(tokenProvider.createRefreshToken(loginDTO.getEmail()));
         return tokenModel;
-    }
-
-    public void sendNewPassword(String email) {
-        User user = userRepository.findByEmail(email);
-        String randomPass = RandomStringUtils.randomAlphanumeric(10);
-        user.setPassword(randomPass);
-        user = userRepository.saveAndFlush(user);
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo(user.getEmail());
-        simpleMailMessage.setFrom(senderEmail);
-        simpleMailMessage.setSubject("TravelStory password recovery");
-        simpleMailMessage.setText("Your new password is: " + user.getPassword());
-        javaMailSender.send(simpleMailMessage);
     }
 
     @Override
