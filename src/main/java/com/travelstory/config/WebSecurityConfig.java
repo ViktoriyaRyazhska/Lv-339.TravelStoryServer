@@ -38,10 +38,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().cacheControl();
     }
 
-    /*
-     * @Bean public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(12); }
-     */
-
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();

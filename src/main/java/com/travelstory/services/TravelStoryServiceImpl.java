@@ -98,13 +98,12 @@ public class TravelStoryServiceImpl implements TravelStoryService {
 
     @Override
     public List<TravelStoryDTO> getByUserOwner(long id) {
-        List<TravelStory> travelStories = travelStoryRepository.findByUserOwnerId(id);
+        List<TravelStory> travelStories = travelStoryRepository.findAllByUserOwnerIdAndTravelStoryStatus(id,
+                TravelStoryStatus.STATUS_ACTIVE);
         List<TravelStoryDTO> travelStoryDTOS = new ArrayList<>();
         for (TravelStory travelStory : travelStories) {
-            if (travelStory.getTravelStoryStatus().toString().equals("STATUS_ACTIVE")) {
-                TravelStoryDTO map = modelMapper.map(travelStory, TravelStoryDTO.class);
-                travelStoryDTOS.add(map);
-            }
+            TravelStoryDTO map = modelMapper.map(travelStory, TravelStoryDTO.class);
+            travelStoryDTOS.add(map);
         }
         return travelStoryDTOS;
     }
