@@ -7,12 +7,12 @@ import java.util.List;
 
 @Service
 public interface LikeService {
-    List<LikeDTO> getLikes(Long contentId, String mediaType);
+    public List<LikeDTO> getLikes(Long contentId, String mediaType);
 
-    LikeDTO add(LikeDTO likeDTO);
+    public LikeDTO add(LikeDTO likeDTO);
 
-    void deleteLike(Long id);
+    public void deleteLike(Long id);
 
-    LikeDTO getUserLike(Long travelStoryId, Long mediaId, Long userId);
+    public LikeDTO getUserLike(Long travelStoryId, Long mediaId, Long userId);
 
 }
