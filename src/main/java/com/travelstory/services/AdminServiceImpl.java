@@ -24,16 +24,16 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminServiceImpl implements AdminService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    User user;
+    private User user;
 
     @Autowired
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
 
     @Autowired
-    TravelStoryRepository travelStoryRepository;
+    private TravelStoryRepository travelStoryRepository;
 
     @Override
     public boolean addUser(ProfileDTO userProfile) {
