@@ -49,8 +49,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TokenProvider tokenProvider;
-    @Autowired
-    private JavaMailSender javaMailSender;
 
     @Autowired
     private UserSearchConverter userSearchConverter;
@@ -64,26 +62,6 @@ public class UserServiceImpl implements UserService {
     @Value("${spring.mail.username}")
     private String senderEmail;
 
-//    @Override
-//    public void registrateUser(RegistrationDTO registrationDTO) {
-//
-//        if (userRepository.existsByEmail(registrationDTO.getEmail())) {
-//            log.error("There is a user with such email. Cannot register!");
-//
-//        } else {
-//            User user = new User();
-//            user.setEmail(registrationDTO.getEmail());
-//            user.setFirstName(registrationDTO.getFirstName());
-//            user.setLastName(registrationDTO.getLastName());
-//            user.setPassword(registrationDTO.getPassword());
-//            user.setGender(registrationDTO.getGender());
-//            user.setUserRole(UserRole.ROLE_USER);
-//            user.setProfilePic(defaultProfilePic);
-//            user.setBackgroundPic(defaultBackgroundPic);
-//            userRepository.save(user);
-//        }
-//    }
-
     @Override
     public void registrateUser(RegistrationDTO registrationDTO) /*throws EmailExistsException*/ {
         if (userRepository.existsByEmail(registrationDTO.getEmail())) {
@@ -96,9 +74,6 @@ public class UserServiceImpl implements UserService {
             user.setLastName(registrationDTO.getLastName());
             user.setGender(registrationDTO.getGender());
             user.setUserRole(UserRole.ROLE_USER);
-            // final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-            // LocalDateTime time = LocalDate.parse(LocalDateTime.from(LocalDate.now())).atStartOfDay();
-            //LocalDateTime.parse(LocalDateTime.from(LocalDate.now()), DateTimeFormatter.ofPattern("M/d/yy h:mm"));
             user.setRegistrationDate(LocalDateTime.now());
             user.setLastUpdateDate(LocalDateTime.now());
             user.setUserStatus(User.UserStatus.ACTIVE);
@@ -119,7 +94,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkCredentials(LoginDTO loginDTO) {
-        if (userRepository.existsByEmail(loginDTO.getEmail()) || passwordEncoder.matches(loginDTO.getPassword(), userRepository.findByEmail(loginDTO.getEmail()).getPassword())) {
+        if (userRepository.existsByEmail(loginDTO.getEmail()) && passwordEncoder.matches(loginDTO.getPassword(), userRepository.findByEmail(loginDTO.getEmail()).getPassword())) {
             return true;
         } else {
             return false;
@@ -159,19 +134,20 @@ public class UserServiceImpl implements UserService {
         return tokenModel;
     }
 
-    public void sendNewPassword(String email) {
-        User user = userRepository.findByEmail(email);
-        String randomPass = RandomStringUtils.randomAlphanumeric(10);
-        String encodedRandomPass = passwordEncoder.encode(randomPass);
-        user.setPassword(encodedRandomPass);
-        user = userRepository.saveAndFlush(user);
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo(user.getEmail());
-        simpleMailMessage.setFrom(senderEmail);
-        simpleMailMessage.setSubject("TravelStory password recovery");
-        simpleMailMessage.setText("Your new password is: " + randomPass);
-        javaMailSender.send(simpleMailMessage);
-    }
+//    public void sendNewPassword(String email) {
+//        User user = userRepository.findByEmail(email);
+//        String randomPass = RandomStringUtils.randomAlphanumeric(10);
+//        String encodedRandomPass = passwordEncoder.encode(randomPass);
+//        user.setPassword(encodedRandomPass);
+//        user = userRepository.saveAndFlush(user);
+//        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+//        simpleMailMessage.setTo(user.getEmail());
+//        simpleMailMessage.setFrom(senderEmail);
+//        simpleMailMessage.setSubject("TravelStory password recovery");
+//        simpleMailMessage.setText("Your new password is: " + randomPass);
+//        javaMailSender.send(simpleMailMessage);
+//
+//    }
 
     @Override
     public Page<UserSearchDTO> getUsersByTerm(String term, int page, int size) {
@@ -234,5 +210,4 @@ public class UserServiceImpl implements UserService {
         user = modelMapper.map(dto, User.class);
         return userRepository.save(user);
     }
-
 }

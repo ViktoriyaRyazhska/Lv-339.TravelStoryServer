@@ -18,7 +18,7 @@ import java.util.List;
 public class MediaServiceImpl implements MediaService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private MediaRepository mediaRepository;
@@ -43,5 +43,10 @@ public class MediaServiceImpl implements MediaService {
         mediaPage = mediaRepository.findAllByTravelStoryIn(travelStorySList, PageRequest.of(page, size));
         return mediaPage.map((media) -> modelMapper.map(media, MediaDTO.class));
 
+    }
+
+    @Override
+    public void deleteMedia(Long id) {
+        mediaRepository.deleteById(id);
     }
 }

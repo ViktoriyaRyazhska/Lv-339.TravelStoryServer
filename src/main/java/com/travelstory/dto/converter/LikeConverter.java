@@ -18,16 +18,16 @@ import java.util.List;
 @Component
 public class LikeConverter implements GeneralConverter<LikeDTO, Like> {
     @Autowired
-    LikeDTO likeDTO;
+    private LikeDTO likeDTO;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    TravelStoryRepository travelStoryRepository;
+    private TravelStoryRepository travelStoryRepository;
 
     @Autowired
-    MediaRepository mediaRepository;
+    private MediaRepository mediaRepository;
 
     @Override
     public Like convertToEntity(LikeDTO dto) {

@@ -5,4 +5,6 @@ import org.springframework.data.domain.Page;
 
 public interface MediaService {
     public Page<MediaDTO> getUserMedias(Long userId, int page, int size);
+
+    void deleteMedia(Long id);
 }

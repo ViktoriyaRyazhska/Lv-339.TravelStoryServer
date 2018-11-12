@@ -18,11 +18,11 @@ import java.util.List;
 @Component
 public class CommentConverter implements GeneralConverter<CommentDTO, Comment> {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    TravelStoryRepository travelStoryRepository;
+    private TravelStoryRepository travelStoryRepository;
     @Autowired
-    MediaRepository mediaRepository;
+    private MediaRepository mediaRepository;
 
     @Override
     public Comment convertToEntity(CommentDTO dto) {

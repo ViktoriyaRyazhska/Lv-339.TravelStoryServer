@@ -22,15 +22,15 @@ import java.util.Optional;
 @Service
 public class CommentServiceImpl implements CommentService {
     @Autowired
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    TravelStoryRepository travelStoryRepository;
+    private TravelStoryRepository travelStoryRepository;
     @Autowired
-    MediaRepository mediaRepository;
+    private MediaRepository mediaRepository;
     @Autowired
-    CommentConverter commentConverter;
+    private CommentConverter commentConverter;
 
     public CommentServiceImpl() {
     }

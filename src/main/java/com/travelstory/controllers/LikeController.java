@@ -31,7 +31,7 @@ public class LikeController {
     @DeleteMapping("likes/{id}")
     public ResponseEntity<LikeDTO> deleteLike(@PathVariable Long id) {
         likeService.deleteLike(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
