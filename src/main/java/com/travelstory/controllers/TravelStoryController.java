@@ -25,7 +25,7 @@ public class TravelStoryController {
     @DeleteMapping("/{id}")
     public ResponseEntity<TravelStoryDTO> deleteTravelStory(@PathVariable long id) {
         tss.deleteTravelStory(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/byHead/{head}")

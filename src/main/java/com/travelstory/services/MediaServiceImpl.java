@@ -3,6 +3,8 @@ package com.travelstory.services;
 import com.travelstory.dto.MediaDTO;
 import com.travelstory.entity.Media;
 import com.travelstory.entity.TravelStory;
+import com.travelstory.exceptions.ResourceNotFoundException;
+import com.travelstory.exceptions.codes.ExceptionCode;
 import com.travelstory.repositories.MediaRepository;
 import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
@@ -18,7 +20,7 @@ import java.util.List;
 public class MediaServiceImpl implements MediaService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private MediaRepository mediaRepository;
@@ -29,12 +31,10 @@ public class MediaServiceImpl implements MediaService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public Page<MediaDTO> getUserMedias(Long userId, int page, int size) {
+    public Page<MediaDTO> getTravelStoryMedias(Long userId, int page, int size) {
         Page<Media> mediaPage = null;
         Page<MediaDTO> mediaPageDTO = null;
-        // userRepository.existsById(userId)
-        // .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND));
-
+        userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND));
         List<TravelStory> travelStorySList = travelStoryRepository.findByUserOwnerId(userId);
         if (travelStorySList.isEmpty()) {
             return mediaPageDTO;
@@ -43,5 +43,19 @@ public class MediaServiceImpl implements MediaService {
         mediaPage = mediaRepository.findAllByTravelStoryIn(travelStorySList, PageRequest.of(page, size));
         return mediaPage.map((media) -> modelMapper.map(media, MediaDTO.class));
 
+    }
+
+    @Override
+    public Page<MediaDTO> getUserMedias(Long userId, int page, int size) {
+        Page<Media> mediaPage = null;
+        userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND));
+        mediaPage = mediaRepository.findAllByUserId(userId, PageRequest.of(page, size));
+        return mediaPage.map((media) -> modelMapper.map(media, MediaDTO.class));
+    }
+
+    @Override
+    public void deleteMedia(Long id) {
+        mediaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Media not found", ExceptionCode.MEDIA_NOT_FOUND));
+        mediaRepository.deleteById(id);
     }
 }

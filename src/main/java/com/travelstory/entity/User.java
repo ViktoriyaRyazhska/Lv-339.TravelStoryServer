@@ -39,7 +39,7 @@ public class User {
     @Email
     private String email;
 
-    @Size(min = 1, max = 25)
+    @Size(min = 1, max = 60)
     private String password;
 
     private LocalDate dateOfBirth;

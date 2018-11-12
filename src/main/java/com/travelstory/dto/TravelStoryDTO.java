@@ -4,7 +4,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class TravelStoryDTO {
+public class TravelStoryDTO extends BaseDTO {
 
     private long id;
     private String head;

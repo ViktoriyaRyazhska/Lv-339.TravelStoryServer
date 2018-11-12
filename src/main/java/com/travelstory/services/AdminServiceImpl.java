@@ -24,16 +24,16 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminServiceImpl implements AdminService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    User user;
+    private User user;
 
     @Autowired
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
 
     @Autowired
-    TravelStoryRepository travelStoryRepository;
+    private TravelStoryRepository travelStoryRepository;
 
     @Override
     public boolean addUser(ProfileDTO userProfile) {
@@ -71,7 +71,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<ProfileDTO> getAllAdmins(int pageNumber, int quantity) {
         Page<ProfileDTO> page = userRepository
-                .findUsersByUserRoleEquals(UserRole.ROLE_ADMIN, PageRequest.of(pageNumber, quantity))
+                .findUsersByUserRoleEquals(UserRole.ADMIN, PageRequest.of(pageNumber, quantity))
                 .map(user -> convertUserToProfileDTO(user));
         return page.getContent();
     }
@@ -131,7 +131,7 @@ public class AdminServiceImpl implements AdminService {
     public void setAdminStatus(long id) {
         if (userRepository.existsById(id)) {
             user = userRepository.findById(id).get();
-            user.setUserRole(UserRole.ROLE_ADMIN);
+            user.setUserRole(UserRole.ADMIN);
             userRepository.save(user);
         } else {
             throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
@@ -142,7 +142,7 @@ public class AdminServiceImpl implements AdminService {
     public void setUserStatus(long id) {
         if (userRepository.existsById(id)) {
             user = userRepository.findById(id).get();
-            user.setUserRole(UserRole.ROLE_USER);
+            user.setUserRole(UserRole.USER);
             userRepository.save(user);
         } else {
             throw new ResourceNotFoundException("User with such id not found", ExceptionCode.USER_NOT_FOUND);
