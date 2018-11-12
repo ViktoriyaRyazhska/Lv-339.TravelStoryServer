@@ -103,8 +103,8 @@ public class UserController {
     }
 
     @GetMapping("/forgotPass/{email}")
-    public String sigUpSuccess(@PathVariable String email) {
+    public ResponseEntity sigUpSuccess(@PathVariable String email) {
         sendMailService.sendNewPassword(email);
-        return "Thank you for being with us";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
