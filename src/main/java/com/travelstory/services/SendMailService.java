@@ -36,6 +36,6 @@ public class SendMailService {
         String encodedRandomPass = passwordEncoder.encode(randomPass);
         user.setPassword(encodedRandomPass);
         user = userRepository.saveAndFlush(user);
-        messageSender(user, "TravelStory password recovery", "Your new password is: " + user.getPassword());
+        messageSender(user, "TravelStory password recovery", "Your new password is: " + randomPass);
     }
 }

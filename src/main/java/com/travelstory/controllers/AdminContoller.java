@@ -36,13 +36,13 @@ public class AdminContoller {
 
     @GetMapping("getAllUsers/{position}/{quantity}")
     public List<ProfileDTO> getAllUsers(@PathVariable(value = "position") int position,
-                                        @PathVariable(value = "quantity") int quantity) {
+            @PathVariable(value = "quantity") int quantity) {
         return adminService.getAllUsers(position, quantity);
     }
 
     @GetMapping("getAllAdmins/{position}/{quantity}")
     public List<ProfileDTO> getAllAdmins(@PathVariable(value = "position") int position,
-                                         @PathVariable(value = "quantity") int quantity) {
+            @PathVariable(value = "quantity") int quantity) {
         return adminService.getAllAdmins(position, quantity);
     }
 
