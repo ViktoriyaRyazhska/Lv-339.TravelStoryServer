@@ -12,22 +12,15 @@ import com.travelstory.repositories.TravelStoryRepository;
 import com.travelstory.repositories.UserRepository;
 import com.travelstory.security.TokenProvider;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.tomcat.jni.Local;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,9 +56,10 @@ public class UserServiceImpl implements UserService {
     private String senderEmail;
 
     @Override
-    public void registrateUser(RegistrationDTO registrationDTO) /*throws EmailExistsException*/ {
+    public void registrateUser(RegistrationDTO registrationDTO) /* throws EmailExistsException */ {
         if (userRepository.existsByEmail(registrationDTO.getEmail())) {
-            //throw new EmailExistsException("There is an account with that email adress:" + registrationDTO.getEmail());
+            // throw new EmailExistsException("There is an account with that email adress:" +
+            // registrationDTO.getEmail());
             log.error("There is a user with such email. Cannot register!");
         } else {
             User user = new User();
@@ -73,7 +67,7 @@ public class UserServiceImpl implements UserService {
             user.setFirstName(registrationDTO.getFirstName());
             user.setLastName(registrationDTO.getLastName());
             user.setGender(registrationDTO.getGender());
-            user.setUserRole(UserRole.ROLE_USER);
+            user.setUserRole(UserRole.USER);
             user.setRegistrationDate(LocalDateTime.now());
             user.setLastUpdateDate(LocalDateTime.now());
             user.setUserStatus(User.UserStatus.ACTIVE);
@@ -94,7 +88,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkCredentials(LoginDTO loginDTO) {
-        if (userRepository.existsByEmail(loginDTO.getEmail()) && passwordEncoder.matches(loginDTO.getPassword(), userRepository.findByEmail(loginDTO.getEmail()).getPassword())) {
+        if (userRepository.existsByEmail(loginDTO.getEmail()) && passwordEncoder.matches(loginDTO.getPassword(),
+                userRepository.findByEmail(loginDTO.getEmail()).getPassword())) {
             return true;
         } else {
             return false;
@@ -133,21 +128,6 @@ public class UserServiceImpl implements UserService {
         tokenModel.setRefreshToken(tokenProvider.createRefreshToken(loginDTO.getEmail()));
         return tokenModel;
     }
-
-//    public void sendNewPassword(String email) {
-//        User user = userRepository.findByEmail(email);
-//        String randomPass = RandomStringUtils.randomAlphanumeric(10);
-//        String encodedRandomPass = passwordEncoder.encode(randomPass);
-//        user.setPassword(encodedRandomPass);
-//        user = userRepository.saveAndFlush(user);
-//        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-//        simpleMailMessage.setTo(user.getEmail());
-//        simpleMailMessage.setFrom(senderEmail);
-//        simpleMailMessage.setSubject("TravelStory password recovery");
-//        simpleMailMessage.setText("Your new password is: " + randomPass);
-//        javaMailSender.send(simpleMailMessage);
-//
-//    }
 
     @Override
     public Page<UserSearchDTO> getUsersByTerm(String term, int page, int size) {

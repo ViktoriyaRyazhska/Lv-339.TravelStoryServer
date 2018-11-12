@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -43,15 +40,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //
         // http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         //
-        // http.authorizeRequests()
-        //
-        // .antMatchers("/user/**").permitAll().antMatchers(HttpMethod.OPTIONS, "/**").permitAll().anyRequest()
-        // .authenticated();
+        // http.authorizeRequests().antMatchers("http://localhost:8080/user/**").permitAll().antMatchers(HttpMethod.OPTIONS,
+        // "/**").permitAll().anyRequest().authenticated();
         //
         // http.apply(new TokenFilterConfigurer(tokenProviderokenProvider, userDAO));
 
         http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.headers().cacheControl();
+        // http.authorizeRequests()
+        // .antMatchers("/admin/**").access("hasRole('ADMIN')").antMatchers(HttpMethod.OPTIONS,
+        // "/**").permitAll().anyRequest().authenticated();
+        // http.authorizeRequests().antMatchers("/**").permitAll().antMatchers(HttpMethod.OPTIONS,
+        // "/**").permitAll().anyRequest().authenticated();
     }
 
     @Bean
