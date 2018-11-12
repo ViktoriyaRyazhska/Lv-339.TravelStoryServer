@@ -19,6 +19,4 @@ public interface TravelStoryService {
     TravelStory getById(long id);
 
     List<TravelStoryDTO> getByUserOwner(long id);
-
-    void addMedia(long id);
 }

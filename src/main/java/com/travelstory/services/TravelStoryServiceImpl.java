@@ -20,11 +20,11 @@ import java.util.List;
 @Service
 public class TravelStoryServiceImpl implements TravelStoryService {
     @Autowired
-    TravelStoryRepository travelStoryRepository;
+    private TravelStoryRepository travelStoryRepository;
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @Override
     public TravelStoryDTO addTravelStory(TravelStoryDTO travelStoryDTO) {
@@ -105,10 +105,5 @@ public class TravelStoryServiceImpl implements TravelStoryService {
             }
         }
         return travelStoryDTOS;
-    }
-
-    @Override
-    public void addMedia(long id) {
-
     }
 }
