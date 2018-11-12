@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/travelStory")
 public class TravelStoryController {
     @Autowired
-    TravelStoryService tss;
+    private TravelStoryService tss;
 
     @PutMapping("/add")
     public TravelStoryDTO addTravelStory(@Valid @RequestBody TravelStoryDTO travelStory) {

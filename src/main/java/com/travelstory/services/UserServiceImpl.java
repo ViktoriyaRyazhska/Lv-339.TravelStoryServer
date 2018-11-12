@@ -47,10 +47,10 @@ public class UserServiceImpl implements UserService {
     private UserSearchConverter userSearchConverter;
 
     @Value("${default_profile_pic}")
-    private String defaultProfilePic;
+    private String defaultProfileUserPicture;
 
     @Value("${default_background_pic}")
-    private String defaultBackgroundPic;
+    private String defaultBackgroundPicture;
 
     @Value("${spring.mail.username}")
     private String senderEmail;
@@ -67,13 +67,13 @@ public class UserServiceImpl implements UserService {
             user.setFirstName(registrationDTO.getFirstName());
             user.setLastName(registrationDTO.getLastName());
             user.setGender(registrationDTO.getGender());
+            user.setProfilePic(defaultProfileUserPicture);
+            user.setBackgroundPic(defaultBackgroundPicture);
             user.setUserRole(UserRole.USER);
             user.setRegistrationDate(LocalDateTime.now());
             user.setLastUpdateDate(LocalDateTime.now());
             user.setUserStatus(User.UserStatus.ACTIVE);
             user.setUserState(User.UserState.ONLINE);
-            user.setProfilePic(defaultProfilePic);
-            user.setBackgroundPic(defaultBackgroundPic);
             user.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
             userRepository.save(user);
         }
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
     public User uploadProfilePicture(UserPicDTO dto) {
         User user = userRepository.findById(dto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND));
-        user.setProfilePic(dto.getPic());
+        user.setProfilePic(dto.getPictureUrl());
         return userRepository.save(user);
     }
 
@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
     public User resetProfilePic(long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_NOT_FOUND));
-        user.setProfilePic(defaultProfilePic);
+        user.setProfilePic(defaultProfileUserPicture);
         return userRepository.save(user);
     }
 
@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService {
     public User uploadBackgroundPicture(UserPicDTO dto) {
         User user = userRepository.findById(dto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found", ExceptionCode.USER_PIC_NOT_FOUND));
-        user.setBackgroundPic(dto.getPic());
+        user.setBackgroundPic(dto.getPictureUrl());
         return userRepository.save(user);
     }
 
